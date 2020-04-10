@@ -6,3 +6,5 @@ const Index = () => (
     <p>A list of open GraphQL jobs.</p>
   </div>
 )
+
+export default Index;
