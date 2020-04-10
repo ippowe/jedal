@@ -2,6 +2,9 @@ import React from "react"
 import App from "next/app"
 import Head from "next/head"
 import { ThemeProvider, createGlobalStyle } from "styled-components"
+import { ApolloProvider } from '@apollo/react-hooks';
+import withApollo from '../hooks/withApollo';
+import {ApolloClient, NormalizedCacheObject} from 'apollo-boost';
 
 export interface ITheme {
   niceBlack: string;
@@ -21,10 +24,13 @@ const GlobalStyle = createGlobalStyle<IThemeWrapper>`
     color: ${props => props.theme.niceBlack}; 
   }
 `
+interface IPops {
+  apollo: ApolloClient<NormalizedCacheObject>;
+}
 
-export default class MyApp extends App {
+class MyApp extends App<IPops> {
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps, apollo } = this.props
 
     return (
       <React.Fragment>
@@ -32,11 +38,15 @@ export default class MyApp extends App {
           <title>GraphQL Job Board</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <ApolloProvider client={apollo}>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </ApolloProvider>
       </React.Fragment>
     )
   }
 }
+
+export default withApollo(MyApp);
