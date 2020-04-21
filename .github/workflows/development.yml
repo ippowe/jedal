@@ -1,0 +1,42 @@
+name: development
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step_deploy.outputs.preview-url }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: deploy
+        id: step_deploy
+        uses: amondnet/now-deployment@v2
+        with:
+          working-directory: ./jedal-fe
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          zeit-token: ${{ secrets.ZEIT_TOKEN }}
+          now-org-id: ${{ secrets.ORG_ID}}
+          now-project-id: ${{ secrets.PROJECT_ID}}
+
+  notification:
+    needs: [deploy]
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Notification production
+        uses: 8398a7/action-slack@v3
+        with:
+          text: ${{ needs.deploy.outputs.output1}}
+          status: ${{ job.status }}
+          fields: repo,message
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
