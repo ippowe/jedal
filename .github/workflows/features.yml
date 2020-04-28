@@ -20,7 +20,6 @@ jobs:
         id: step_deploy
         uses: amondnet/now-deployment@v2
         with:
-          working-directory: ./jedal-fe
           github-token: ${{ secrets.GITHUB_TOKEN }}
           zeit-token: ${{ secrets.ZEIT_TOKEN }}
           now-org-id: ${{ secrets.ORG_ID}}
