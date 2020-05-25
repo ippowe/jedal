@@ -1,13 +1,13 @@
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "../modules";
 import { useState } from "react";
-import { addTodo, toggleTodo } from "../modules/todo";
+import { addNote, toggleNote } from "../modules/note";
 
 export type TodoPageProps = {};
 
 function TodoPage(props: TodoPageProps) {
   const dispatch = useDispatch();
-  const todoList = useSelector((state: RootState) => state.todo, shallowEqual);
+  const todoList = useSelector((state: RootState) => state.note, shallowEqual);
 
   return (
     <div>
@@ -17,7 +17,7 @@ function TodoPage(props: TodoPageProps) {
         {todoList.map(todo => (
           <li
             key={todo.id}
-            onClick={() => dispatch(toggleTodo(todo.id))}
+            onClick={() => dispatch(toggleNote(todo.id))}
             style={{
               textDecoration: todo.completed ? 'line-through' : 'none'
             }}
@@ -45,7 +45,7 @@ const ToDoInput = () => {
           if (!todoText.trim()) {
             return;
           }
-          dispatch(addTodo(todoText));
+          dispatch(addNote(todoText));
           setTodoText("");
         }}
       >

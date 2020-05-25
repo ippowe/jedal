@@ -9,7 +9,7 @@
 /coverage
 
 # production
-/.next
+.next
 
 # misc
 .DS_Store
@@ -24,4 +24,4 @@ yarn-error.log*
 
 .idea/*
 
-.now
+.now 

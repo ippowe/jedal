@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface ITodoState {
+export interface INoteState {
   id: number;
   desc: string;
   completed: boolean;
 }
 
-const initialState: ITodoState[] = [{
+const initialState: INoteState[] = [{
   id: 1,
   desc: "운동 하기",
   completed: false
@@ -18,12 +18,12 @@ const initialState: ITodoState[] = [{
 
 let nextTodoId = initialState.length + 1;
 
-const todo = createSlice({
-  name: "todo",
+const note = createSlice({
+  name: "note",
   initialState,
   reducers: {
-    addTodo: {
-      reducer(state, action: PayloadAction<ITodoState>) {
+    addNote: {
+      reducer(state, action: PayloadAction<INoteState>) {
         const { id, desc, completed } = action.payload;
         state.push({ id: id, desc: desc, completed });
       },
@@ -32,7 +32,7 @@ const todo = createSlice({
         return { payload: { id: nextTodoId++, desc, completed: false } };
       }
     },
-    toggleTodo(state, action) {
+    toggleNote(state, action) {
       console.log(action);
       const todo = state.find(todo => todo.id === action.payload);
       if (todo) {
@@ -42,6 +42,6 @@ const todo = createSlice({
   }
 });
 
-export const { addTodo, toggleTodo } = todo.actions;
+export const { addNote, toggleNote } = note.actions;
 
-export default todo;
+export default note;

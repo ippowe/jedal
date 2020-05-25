@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import todo, { ITodoState } from "./todo";
+import note, { INoteState } from "./note";
 
 export type RootState = {
-  todo: ITodoState[];
+  note: INoteState[];
 };
 
 const rootReducer = combineReducers({
-  todo: todo.reducer,
+  note: note.reducer,
 });
 
 export default rootReducer;
