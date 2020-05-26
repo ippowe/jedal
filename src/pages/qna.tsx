@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import QnAHeader from '../components/QnAHeader';
+import Question from '../components/Question';
 
 interface QnAProps {
     className?: string;
@@ -11,6 +12,10 @@ const Wrapper = styled.div``;
 
 const Header = styled(QnAHeader)`
     margin-bottom: 42px;
+`;
+
+const StyledQuestion = styled(Question)`
+    margin: 0 auto;
 `;
 
 const DUMMY_QUESTION = {
@@ -36,6 +41,7 @@ const qna: React.FC<QnAProps> = (props) => {
     return (
         <Wrapper className={className}>
             <Header />
+            <StyledQuestion question={question.phrase} emphasis={question.empasis} />
         </Wrapper>
     );
 };
