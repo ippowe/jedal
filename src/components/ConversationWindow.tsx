@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useRef } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { useRouter } from 'next/router';
 import Ink from 'react-ink';
 
@@ -11,6 +11,9 @@ interface Props {
 }
 
 const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     position: relative;
     z-index: 1;
     padding: 35px 27px 22px 35px;
@@ -54,29 +57,54 @@ const Footer = styled.div`
     justify-content: flex-end;
 `;
 
-const NextButton = styled.button`
+const blinker = keyframes`
+  50% {
+    opacity: 0;
+  }
+`;
+const NextButton = styled.button<{ content: string }>`
     position: relative;
     font-size: 12px;
     font-weight: bold;
     line-height: 1.75;
     color: #333740;
     background: none;
+    animation: ${blinker} 1.3s linear infinite;
+    animation-delay: ${(props) => `${props.content.length * 50 + 1500}ms`};
 `;
+
+const ContentWrapper = styled.div``;
 
 const ConversationWindow: React.FC<Props> = ({ name, description, content, stage }) => {
     const router = useRouter();
+    const contentRef = useRef<HTMLDivElement>();
     const onClickNextButton = () => {
         router.push(`/guide${stage + 1}`);
     };
+
+    useEffect(() => {
+        let i = 0;
+        const typeWriter = () => {
+            if (i < content.length) {
+                contentRef.current.innerHTML += content.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        };
+        setTimeout(typeWriter, 1500);
+    }, []);
+
     return (
         <Container>
-            <Header>
-                <Name>{name}</Name>
-                <Description>{description}</Description>
-            </Header>
-            <Content>{content}</Content>
+            <ContentWrapper>
+                <Header>
+                    <Name>{name}</Name>
+                    <Description>{description}</Description>
+                </Header>
+                <Content ref={contentRef} />
+            </ContentWrapper>
             <Footer>
-                <NextButton onClick={onClickNextButton}>
+                <NextButton onClick={onClickNextButton} content={content}>
                     {'다음으로 >'}
                     <Ink />
                 </NextButton>
