@@ -55,7 +55,8 @@ const Guide1: React.FC<{}> = () => {
             <ConversationWindow
                 name="나"
                 description="배가 고픈 나그네"
-                content={'아니, 수랏간 최고상궁을 지낸 이가\n 이런 곳에서 가게를 하고 있단 말인가?\n들어가보자.'}
+                content={'쉴 새 없이 걸었더니 배가 고프구나.\n어허, 그런데 무엇을 먹어야 할지\n영 고민되는군.'}
+                stage={1}
             />
         </>
     );

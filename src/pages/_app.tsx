@@ -45,6 +45,7 @@ const GlobalStyle = createGlobalStyle<IThemeWrapper>`
   }
   button {
     font-family : inherit;
+    border: none;
   }
 `;
 
