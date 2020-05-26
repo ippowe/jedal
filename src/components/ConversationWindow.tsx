@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import Ink from 'react-ink';
 
 interface Props {
     name: string;
@@ -54,6 +55,7 @@ const Footer = styled.div`
 `;
 
 const NextButton = styled.button`
+    position: relative;
     font-size: 12px;
     font-weight: bold;
     line-height: 1.75;
@@ -74,7 +76,10 @@ const ConversationWindow: React.FC<Props> = ({ name, description, content, stage
             </Header>
             <Content>{content}</Content>
             <Footer>
-                <NextButton onClick={onClickNextButton}>{'다음으로 >'}</NextButton>
+                <NextButton onClick={onClickNextButton}>
+                    {'다음으로 >'}
+                    <Ink />
+                </NextButton>
             </Footer>
         </Container>
     );
