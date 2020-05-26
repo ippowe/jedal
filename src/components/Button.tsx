@@ -7,11 +7,13 @@ interface Props {
     variant?: Variant;
     children: React.ReactNode;
     buttonCss?: CSSProp;
+    width?: string;
+    size?: 'big';
 }
 
-const Container = styled.button<{ variant: Variant; css: CSSProp }>`
-    width: 245px;
-    height: 40px;
+const Container = styled.button<{ variant: Variant; css: CSSProp; width?: string; size?: 'big' }>`
+    width: ${({ width }) => (width ? width : '100%')};
+    height: ${({ size }) => (size === 'big' ? '48px' : '40px')};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,10 +33,12 @@ const Button: React.FC<Props & React.HTMLAttributes<HTMLButtonElement>> = ({
     children,
     variant = 'standard',
     buttonCss,
+    width,
+    size,
     ...otherProps
 }) => {
     return (
-        <Container variant={variant} css={buttonCss} {...otherProps}>
+        <Container variant={variant} css={buttonCss} width={width} size={size} {...otherProps}>
             {children}
         </Container>
     );
