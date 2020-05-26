@@ -85,7 +85,7 @@ const ConversationWindow: React.FC<Props> = ({ name, description, content, stage
     useEffect(() => {
         let i = 0;
         const typeWriter = () => {
-            if (i < content.length) {
+            if (i < content.length && contentRef.current) {
                 contentRef.current.innerHTML += content.charAt(i);
                 i++;
                 setTimeout(typeWriter, 50);
