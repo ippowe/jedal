@@ -5,6 +5,7 @@ import QnAHeader from '../components/QnAHeader';
 import Question from '../components/Question';
 import SelectButton from '../components/SelectButton';
 import SelectContainer from '../components/SelectContainer';
+import ProgressBar from '../components/ProgressBar';
 
 import compareArrays from '../utils/compareArrays';
 
@@ -32,30 +33,100 @@ const Info = styled.div`
 const Container = styled(SelectContainer)`
     padding: 0 20px;
     margin-top: 20px;
+    margin-bottom: 42px;
 `;
 
-const DUMMY_QUESTION = {
-    question: {
-        phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
-        empasis: ['음식 종류', '드시고 싶은 것'],
+const BarContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3px;
+    margin: 0 22px;
+    margin-bottom: 13px;
+`;
+
+const Bar = styled(ProgressBar)`
+    height: 3px;
+    width: 100%;
+    margin-right: 7px;
+
+    &:last-child {
+        margin-right: 0;
+    }
+`;
+
+const DUMMY_QUESTION = [
+    {
+        question: {
+            phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
+            empasis: ['음식 종류', '드시고 싶은 것'],
+        },
+        isMultiple: true,
+        options: [
+            '밥',
+            '국 / 찌개',
+            '조림 / 찜',
+            '구이 / 볶음 / 부침 / 튀김',
+            '샐러드 / 밑반찬',
+            '만두 / 면류 / 그라탕',
+            '간식',
+        ],
     },
-    isMultiple: true,
-    options: [
-        '밥',
-        '국 / 찌개',
-        '조림 / 찜',
-        '구이 / 볶음 / 부침 / 튀김',
-        '샐러드 / 밑반찬',
-        '만두 / 면류 / 그라탕',
-        '간식',
-    ],
-};
+    {
+        question: {
+            phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
+            empasis: ['음식 종류', '드시고 싶은 것'],
+        },
+        isMultiple: true,
+        options: [
+            '밥',
+            '국 / 찌개',
+            '조림 / 찜',
+            '구이 / 볶음 / 부침 / 튀김',
+            '샐러드 / 밑반찬',
+            '만두 / 면류 / 그라탕',
+            '간식',
+        ],
+    },
+    {
+        question: {
+            phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
+            empasis: ['음식 종류', '드시고 싶은 것'],
+        },
+        isMultiple: true,
+        options: [
+            '밥',
+            '국 / 찌개',
+            '조림 / 찜',
+            '구이 / 볶음 / 부침 / 튀김',
+            '샐러드 / 밑반찬',
+            '만두 / 면류 / 그라탕',
+            '간식',
+        ],
+    },
+    {
+        question: {
+            phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
+            empasis: ['음식 종류', '드시고 싶은 것'],
+        },
+        isMultiple: true,
+        options: [
+            '밥',
+            '국 / 찌개',
+            '조림 / 찜',
+            '구이 / 볶음 / 부침 / 튀김',
+            '샐러드 / 밑반찬',
+            '만두 / 면류 / 그라탕',
+            '간식',
+        ],
+    },
+];
 
 const qna: React.FC<QnAProps> = (props) => {
     const { className } = props;
     const [answer, setAnswer] = useState<string | string[]>('');
     const [isAllSelect, setIsAllSelect] = useState(false);
-    const { question, isMultiple, options } = DUMMY_QUESTION;
+    const { question, isMultiple, options } = DUMMY_QUESTION[0];
 
     useEffect(() => {
         if (!isMultiple) return;
@@ -89,6 +160,7 @@ const qna: React.FC<QnAProps> = (props) => {
         }
     };
 
+    console.log(new Array(DUMMY_QUESTION.length));
     return (
         <Wrapper className={className}>
             <Header />
@@ -109,6 +181,11 @@ const qna: React.FC<QnAProps> = (props) => {
                     </SelectButton>
                 ) : null}
             </Container>
+            <BarContainer>
+                {new Array(DUMMY_QUESTION.length).fill(1).map((el, index) => (
+                    <Bar key={`bar_key_${index}`} percent={100} />
+                ))}
+            </BarContainer>
         </Wrapper>
     );
 };
