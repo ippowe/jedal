@@ -98,7 +98,11 @@ const qna: React.FC<QnAProps> = (props) => {
             }
             setAnswer(newAnswer);
         } else {
-            setAnswer(option);
+            if (option === answer) {
+                setAnswer('');
+            } else {
+                setAnswer(option);
+            }
         }
     };
 
