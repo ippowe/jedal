@@ -9,6 +9,8 @@ import ProgressBar from '../components/ProgressBar';
 
 import compareArrays from '../utils/compareArrays';
 
+import Questions from '../assets/questions.json';
+
 interface QnAProps {
     className?: string;
 }
@@ -55,80 +57,19 @@ const Bar = styled(ProgressBar)`
     }
 `;
 
-const DUMMY_QUESTION = [
-    {
-        question: {
-            phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
-            empasis: ['음식 종류', '드시고 싶은 것'],
-        },
-        isMultiple: true,
-        options: [
-            '밥',
-            '국 / 찌개',
-            '조림 / 찜',
-            '구이 / 볶음 / 부침 / 튀김',
-            '샐러드 / 밑반찬',
-            '만두 / 면류 / 그라탕',
-            '간식',
-        ],
-    },
-    {
-        question: {
-            phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
-            empasis: ['음식 종류', '드시고 싶은 것'],
-        },
-        isMultiple: true,
-        options: [
-            '밥',
-            '국 / 찌개',
-            '조림 / 찜',
-            '구이 / 볶음 / 부침 / 튀김',
-            '샐러드 / 밑반찬',
-            '만두 / 면류 / 그라탕',
-            '간식',
-        ],
-    },
-    {
-        question: {
-            phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
-            empasis: ['음식 종류', '드시고 싶은 것'],
-        },
-        isMultiple: true,
-        options: [
-            '밥',
-            '국 / 찌개',
-            '조림 / 찜',
-            '구이 / 볶음 / 부침 / 튀김',
-            '샐러드 / 밑반찬',
-            '만두 / 면류 / 그라탕',
-            '간식',
-        ],
-    },
-    {
-        question: {
-            phrase: '특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?',
-            empasis: ['음식 종류', '드시고 싶은 것'],
-        },
-        isMultiple: true,
-        options: [
-            '밥',
-            '국 / 찌개',
-            '조림 / 찜',
-            '구이 / 볶음 / 부침 / 튀김',
-            '샐러드 / 밑반찬',
-            '만두 / 면류 / 그라탕',
-            '간식',
-        ],
-    },
-];
-
 const qna: React.FC<QnAProps> = (props) => {
     const { className } = props;
     const [answer, setAnswer] = useState<string | string[]>('');
     const [isAllSelect, setIsAllSelect] = useState(false);
-    const { question, isMultiple, options } = DUMMY_QUESTION[0];
+    const [currentStep, setCurrentStep] = useState(0);
+    const [question, setQuestion] = useState(Questions[currentStep]);
 
     useEffect(() => {
+        setQuestion(Questions[currentStep]);
+    }, [currentStep]);
+
+    useEffect(() => {
+        const { isMultiple, options } = question;
         if (!isMultiple) return;
         if (answer instanceof Array) {
             const isAllSelect = compareArrays([...answer].sort(), [...options].sort());
@@ -136,9 +77,10 @@ const qna: React.FC<QnAProps> = (props) => {
         } else {
             setIsAllSelect(false);
         }
-    }, [answer]);
+    }, [answer, question]);
 
     const handleClickOption = (option: string): void => {
+        const { isMultiple, options } = question;
         if (isMultiple) {
             let newAnswer;
             if (option === '모두 선택') {
@@ -160,30 +102,55 @@ const qna: React.FC<QnAProps> = (props) => {
         }
     };
 
-    console.log(new Array(DUMMY_QUESTION.length));
+    const handleClickNext = (): void => {
+        const endIndex = Questions.length - 1;
+        const next = currentStep + 1;
+        if (next <= endIndex) {
+            setCurrentStep(next);
+        } else {
+            //Todo 상세 페이지로 라우팅 시켜야됨
+            setCurrentStep(0);
+        }
+    };
+
+    const handleClickPrev = (): void => {
+        const startIndex = 0;
+        const prev = currentStep - 1;
+        if (prev >= startIndex) {
+            setCurrentStep(prev);
+        } else {
+            return;
+        }
+    };
+
     return (
         <Wrapper className={className}>
-            <Header />
-            <StyledQuestion question={question.phrase} emphasis={question.empasis} />
-            {isMultiple ? <Info>복수 선택이 가능합니다.</Info> : null}
+            <Header
+                canGoPrev={currentStep > 0}
+                canGoNext={true}
+                onClickNext={handleClickNext}
+                onClickPrev={handleClickPrev}
+            />
+            <StyledQuestion question={question.question.phrase} emphasis={question.question.empasis} />
+            {question.isMultiple ? <Info>복수 선택이 가능합니다.</Info> : null}
             <Container>
-                {options.map((option) => (
+                {question.options.map((option) => (
                     <SelectButton
                         option={option}
                         key={option}
                         onClick={handleClickOption}
-                        isSelect={isMultiple ? answer.includes(option) : answer === option}
+                        isSelect={question.isMultiple ? answer.includes(option) : answer === option}
                     />
                 ))}
-                {isMultiple ? (
+                {question.isMultiple ? (
                     <SelectButton option="모두 선택" onClick={handleClickOption} isSelect={isAllSelect}>
                         모두 선택
                     </SelectButton>
                 ) : null}
             </Container>
             <BarContainer>
-                {new Array(DUMMY_QUESTION.length).fill(1).map((el, index) => (
-                    <Bar key={`bar_key_${index}`} percent={100} />
+                {new Array(Questions.length).fill(1).map((el, index) => (
+                    <Bar key={`bar_key_${index}`} percent={index < currentStep ? 100 : 0} />
                 ))}
             </BarContainer>
         </Wrapper>

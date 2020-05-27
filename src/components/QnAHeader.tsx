@@ -6,6 +6,8 @@ interface QnAHeaderProps {
     className?: string;
     onClickNext?: (e: MouseEvent) => void;
     onClickPrev?: (e: MouseEvent) => void;
+    canGoNext?: boolean;
+    canGoPrev?: boolean;
 }
 
 const Wrapper = styled.div`
@@ -25,6 +27,7 @@ const Button = styled.button`
     font-size: 16px;
     padding: 0;
     cursor: pointer;
+    margin-left: auto;
 
     &:focus {
         outline: none;
@@ -37,14 +40,17 @@ const Button = styled.button`
 
 const PrevButton = styled(Button)`
     color: #aaaaaa;
+    margin-left: 0;
 `;
 
 const QnAHeader: React.FC<QnAHeaderProps> = (props) => {
-    const { className, onClickPrev, onClickNext } = props;
+    const { className, onClickPrev, onClickNext, canGoNext, canGoPrev } = props;
     return (
         <Wrapper className={className}>
-            <PrevButton onClick={onClickPrev}>이전</PrevButton>
-            <Button onClick={onClickNext}>선택 완료</Button>
+            {canGoPrev ? <PrevButton onClick={onClickPrev}>이전</PrevButton> : null}
+            <Button onClick={onClickNext} disabled={!canGoNext}>
+                선택 완료
+            </Button>
         </Wrapper>
     );
 };
