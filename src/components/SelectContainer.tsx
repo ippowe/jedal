@@ -10,6 +10,7 @@ const Wrapper = styled.div<{ numberOfChildren: number }>`
     box-sizing: border-box;
     grid-auto-columns: 1fr;
     grid-auto-rows: 82px;
+    grid-gap: 7px;
     width: 100%;
 
     ${({ numberOfChildren }): string => {
