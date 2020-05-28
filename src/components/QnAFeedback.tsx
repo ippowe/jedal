@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import Woman from '../../public/images/womanMini.svg';
-
 interface IQnAFeedback {
     className?: string;
     onCloseFeedback?: () => void;
@@ -39,20 +37,18 @@ const DescriptionWindow = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    @media screen and (max-width: 540px) {
-        left: 0;
-    }
 `;
 
 const Description = styled.div`
-    width: calc(100% - 94px);
+    width: 100%;
     text-align: center;
     word-break: keep-all;
-`;
-
-const StyledWoman = styled(Woman)`
     position: absolute;
+    top: 50%;
+    font-size: 18px;
+    padding: 0 68px;
+    line-height: 26px;
+    box-sizing: border-box;
 `;
 
 const QnAFeedback: React.FC<IQnAFeedback> = (props) => {
@@ -70,9 +66,8 @@ const QnAFeedback: React.FC<IQnAFeedback> = (props) => {
 
     return (
         <Wrapper className={className}>
-            <DescriptionWindow>
-                <Description>맛있는 식사가 절로 기대되는 정말 좋은 선택이십니다.</Description>
-            </DescriptionWindow>
+            <DescriptionWindow />
+            <Description>맛있는 식사가 절로 기대되는 정말 좋은 선택이십니다.</Description>
         </Wrapper>
     );
 };
