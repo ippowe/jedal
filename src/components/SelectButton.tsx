@@ -19,6 +19,7 @@ const Wrapper = styled.button`
 
     &.select-button__selected {
         background-color: #303b57;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
         > p {
             color: #ffffff;
         }

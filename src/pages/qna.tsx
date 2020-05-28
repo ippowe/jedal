@@ -193,7 +193,7 @@ const qna: React.FC<QnAProps> = (props) => {
                     <Bar key={`bar_key_${index}`} percent={index < currentStep ? 100 : 0} />
                 ))}
             </BarContainer>
-            {!isShowFeedback ? (
+            {isShowFeedback ? (
                 <QnAFeedback value={answer} onCloseFeedback={(): void => setIsShowFeedback(false)} />
             ) : null}
         </Wrapper>
