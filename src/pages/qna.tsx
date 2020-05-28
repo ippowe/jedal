@@ -137,6 +137,7 @@ const qna: React.FC<QnAProps> = (props) => {
         const next = currentStep + 1;
         if (next <= endIndex) {
             setCurrentStep(next);
+            setAnswer('');
         } else {
             //Todo 상세 페이지로 라우팅 시켜야됨
             setCurrentStep(0);
@@ -157,7 +158,7 @@ const qna: React.FC<QnAProps> = (props) => {
         <Wrapper className={className}>
             <QnAHeader
                 canGoPrev={currentStep > 0}
-                canGoNext={true}
+                canGoNext={answer && answer.length >= 1}
                 onClickNext={handleClickNext}
                 onClickPrev={handleClickPrev}
             />
