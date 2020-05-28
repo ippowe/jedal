@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import QnAHeader from '../components/QnAHeader';
+import QnAFeedback from '../components/QnAFeedback';
 import Question from '../components/Question';
 import SelectButton, { OptionType } from '../components/SelectButton';
 import SelectContainer from '../components/SelectContainer';
@@ -82,6 +83,7 @@ const qna: React.FC<QnAProps> = (props) => {
     const [isAllSelect, setIsAllSelect] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
     const [values, setValues] = useState<string[]>([]);
+    const [isShowFeedback, setIsShowFeedback] = useState(false);
     const [question, setQuestion] = useState(Questions[currentStep]);
 
     useEffect(() => {
@@ -137,9 +139,10 @@ const qna: React.FC<QnAProps> = (props) => {
         const next = currentStep + 1;
         if (next <= endIndex) {
             setCurrentStep(next);
+            setIsShowFeedback(true);
             setAnswer('');
         } else {
-            //Todo 상세 페이지로 라우팅 시켜야됨
+            //Todo 상세 페이지로 라우팅
             setCurrentStep(0);
         }
     };
@@ -190,6 +193,9 @@ const qna: React.FC<QnAProps> = (props) => {
                     <Bar key={`bar_key_${index}`} percent={index < currentStep ? 100 : 0} />
                 ))}
             </BarContainer>
+            {!isShowFeedback ? (
+                <QnAFeedback value={answer} onCloseFeedback={(): void => setIsShowFeedback(false)} />
+            ) : null}
         </Wrapper>
     );
 };
