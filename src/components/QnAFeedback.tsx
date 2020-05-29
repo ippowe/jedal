@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import DecoratedPhrase from './DecoratedPhrase';
 
+import FEEDBACKS from '../assets/feedbacks.json';
+import formatString from '../utils/formatString';
 interface IQnAFeedback {
     className?: string;
     onCloseFeedback?: () => void;
-    value: string | string[];
+    answer: string | string[];
+    step: number;
 }
 
 const Wrapper = styled.div`
@@ -53,23 +56,74 @@ const Description = styled(DecoratedPhrase)`
     box-sizing: border-box;
 `;
 
+const ONE = 'one';
+const MANY = 'many';
+const ALL = 'all';
+const FISH = '어류/패류';
+
+const getFeedback = (step: number, answer: string | string[]): string => {
+    switch (step) {
+        case 0: {
+            return formatString(FEEDBACKS[0] as string, answer as string);
+        }
+        case 1: {
+            return FEEDBACKS[1][answer as string];
+        }
+        case 2: {
+            const numberOfValues = (answer as string[]).length;
+            if (numberOfValues === 1) {
+                return FEEDBACKS[2][ONE];
+            } else if (numberOfValues < 7 && numberOfValues > 1) {
+                return FEEDBACKS[2][MANY];
+            } else if (numberOfValues === 7) {
+                return FEEDBACKS[2][ALL];
+            } else {
+                throw new Error(`Invalid answer: ${answer}`);
+            }
+        }
+        case 3: {
+            const numberOfValues = (answer as string[]).length;
+            if (numberOfValues === 1) {
+                return answer[0] === FISH ? FEEDBACKS[3][FISH] : formatString(FEEDBACKS[3][ONE], answer[0]);
+            } else if (numberOfValues < 4 && numberOfValues > 1) {
+                return FEEDBACKS[3][MANY];
+            } else if (numberOfValues === 4) {
+                return FEEDBACKS[3][ALL];
+            } else {
+                throw new Error(`Invalid answer: ${answer}`);
+            }
+        }
+        default: {
+            throw new Error(`Invalid step ${step}`);
+        }
+    }
+};
+
 const QnAFeedback: React.FC<IQnAFeedback> = (props) => {
-    const { className, onCloseFeedback, value } = props;
+    const { className, onCloseFeedback, answer, step } = props;
+    const [feedback, setFeedback] = useState('');
 
     useEffect(() => {
         window.addEventListener('click', onCloseFeedback);
-        setTimeout((): void => {
+        const timeId = setTimeout((): void => {
             onCloseFeedback();
         }, 1500);
         return (): void => {
             window.removeEventListener('click', onCloseFeedback);
+            clearTimeout(timeId);
         };
     }, []);
+
+    useEffect(() => {
+        if (!answer) return;
+        const feedback = getFeedback(step, answer);
+        setFeedback(feedback);
+    }, [step, answer]);
 
     return (
         <Wrapper className={className}>
             <DescriptionWindow />
-            <Description phrase={'맛있는 식사가 절로 기대되는 정말 좋은 선택이십니다.'} />
+            <Description phrase={feedback} />
         </Wrapper>
     );
 };
