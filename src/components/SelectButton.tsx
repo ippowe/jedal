@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import DecoratedPhrase from './DecoratedPhrase';
 
 interface ISelectButton {
     className?: string;
@@ -15,12 +16,13 @@ const Wrapper = styled.button`
     border-radius: 10px;
     background-color: #ffffff;
     border: 1px solid #e1e4eb;
+    cursor: pointer;
     transition: background-color 100ms ease;
 
     &.select-button__selected {
         background-color: #303b57;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-        > p {
+        > div {
             color: #ffffff;
         }
     }
@@ -30,14 +32,14 @@ const Wrapper = styled.button`
     }
 `;
 
-const Label = styled.p`
+const Label = styled(DecoratedPhrase)`
     color: #707070;
     transition: color 100ms ease;
     font-size: 16px;
     line-height: 22px;
     word-break: keep-all;
 
-    > strong {
+    > b {
         display: block;
         font-weight: normal;
         font-size: 18px;
@@ -46,14 +48,14 @@ const Label = styled.p`
 
 const parseOptionArray = (prev, value, index, option: string[]): React.ReactNode => {
     if (index < option.length - 1) {
-        prev.push(value, <br key={value} />);
+        prev.push(value, <br key={value + '-line-break'} />);
     } else {
         prev.push(value);
     }
     return prev;
 };
 
-const renderLabel = (option: OptionType): string => {
+const parseLabel = (option: OptionType): string => {
     if (typeof option === 'string') {
         return option;
     } else if (option instanceof Array) {
@@ -70,7 +72,7 @@ const SelectButton: React.FC<ISelectButton> = (props) => {
             className={isSelect ? 'select-button__selected ' + className : className}
             onClick={(): void => onClick(value)}
         >
-            <Label>{renderLabel(option)}</Label>
+            <Label phrase={parseLabel(option)} />
         </Wrapper>
     );
 };
