@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import QnAHeader from '../components/QnAHeader';
 import QnAFeedback from '../components/QnAFeedback';
-import Question from '../components/Question';
+import DecoratedPhrase from '../components/DecoratedPhrase';
 import SelectButton, { OptionType } from '../components/SelectButton';
 import SelectContainer from '../components/SelectContainer';
 import ProgressBar from '../components/ProgressBar';
@@ -24,7 +24,14 @@ const Wrapper = styled.div`
     height: 100vh;
 `;
 
-const StyledQuestion = styled(Question)`
+const Question = styled(DecoratedPhrase)`
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+    word-break: keep-all;
+    width: 100%;
+    /* Todo 디자인에서 Width가 확정되면 수정 */
+    max-width: 274px;
     margin: 0 auto;
     margin-bottom: 5px;
 `;
@@ -65,7 +72,7 @@ const parseOptionToString = (option: OptionType): string => {
     if (typeof option === 'string') {
         return option;
     } else if (option instanceof Array) {
-        return option.join(' ');
+        return option.join('').replace(' ', '');
     } else if (typeof option === 'object' && option !== null) {
         return Object.keys(option)
             .map((key) => option[key])
@@ -165,7 +172,7 @@ const qna: React.FC<QnAProps> = (props) => {
                 onClickNext={handleClickNext}
                 onClickPrev={handleClickPrev}
             />
-            <StyledQuestion question={question.question.phrase} emphasis={question.question.empasis} />
+            <Question phrase={question.question} />
             {question.isMultiple ? <Info>복수 선택이 가능합니다.</Info> : null}
             <ButtonsContainer>
                 {(question.options as OptionType[]).map((option, index) => (

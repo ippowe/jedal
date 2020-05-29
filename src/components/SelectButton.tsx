@@ -9,7 +9,7 @@ interface ISelectButton {
     isSelect?: boolean;
 }
 
-export type OptionType = string | string[] | { default: string; emphasis: string };
+export type OptionType = string | string[] | { label: string; value: string };
 
 const Wrapper = styled.button`
     border-radius: 10px;
@@ -44,39 +44,22 @@ const Label = styled.p`
     }
 `;
 
-const parseArrayOption = (prev, value, index, option): React.ReactNode => {
-    if (option.length - 1 === index) {
-        prev.push(value);
+const parseOptionArray = (prev, value, index, option: string[]): React.ReactNode => {
+    if (index < option.length - 1) {
+        prev.push(value, <br key={value} />);
     } else {
-        prev.push(value, <br key={value + index} />);
+        prev.push(value);
     }
     return prev;
 };
 
-const parseObjectOption = (option): React.ReactNode => {
-    const keys = Object.keys(option);
-    return keys.map((key) => {
-        switch (key) {
-            case 'normal': {
-                return option[key];
-            }
-            case 'emphasis': {
-                return <strong key={key + option[key]}>{option[key]}</strong>;
-            }
-            default: {
-                throw new Error('Invalid Option Type');
-            }
-        }
-    });
-};
-
-const parseOption = (option: OptionType): React.ReactNode => {
+const renderLabel = (option: OptionType): string => {
     if (typeof option === 'string') {
         return option;
     } else if (option instanceof Array) {
-        return option.reduce(parseArrayOption, []);
-    } else {
-        return parseObjectOption(option);
+        return option.reduce(parseOptionArray, []);
+    } else if (!!option?.label) {
+        return option.label;
     }
 };
 
@@ -87,7 +70,7 @@ const SelectButton: React.FC<ISelectButton> = (props) => {
             className={isSelect ? 'select-button__selected ' + className : className}
             onClick={(): void => onClick(value)}
         >
-            <Label>{parseOption(option)}</Label>
+            <Label>{renderLabel(option)}</Label>
         </Wrapper>
     );
 };

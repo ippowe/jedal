@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
+import DecoratedPhrase from './DecoratedPhrase';
+
 interface IQnAFeedback {
     className?: string;
     onCloseFeedback?: () => void;
@@ -39,7 +41,7 @@ const DescriptionWindow = styled.div`
     align-items: center;
 `;
 
-const Description = styled.div`
+const Description = styled(DecoratedPhrase)`
     width: 100%;
     text-align: center;
     word-break: keep-all;
@@ -67,7 +69,7 @@ const QnAFeedback: React.FC<IQnAFeedback> = (props) => {
     return (
         <Wrapper className={className}>
             <DescriptionWindow />
-            <Description>맛있는 식사가 절로 기대되는 정말 좋은 선택이십니다.</Description>
+            <Description phrase={'맛있는 식사가 절로 기대되는 정말 좋은 선택이십니다.'} />
         </Wrapper>
     );
 };

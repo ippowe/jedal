@@ -1,52 +1,42 @@
 [
   {
-    "question": {
-      "phrase": "어떤 계절의 음식을 찾고 계십니까?",
-      "empasis": [
-        "계절"
-      ]
-    },
+    "question": "어떤 <계절>의 음식을 찾고 계십니까?",
     "isMultiple": false,
     "options": [
       {
-        "normal": "따스한 햇살 가득한",
-        "emphasis": "봄"
+        "label": "따스한 햇살 가득한 <봄>",
+        "value": "봄"
       },
       {
-        "normal": "화끈한 기운의",
-        "emphasis": "여름"
+        "label": "화끈한 기운의 <여름>",
+        "value": "여름"
       },
       {
-        "normal": "선선한 바람의",
-        "emphasis": "가을"
+        "label": "선선한 바람의 <가을>",
+        "value": "가을"
       },
       {
-        "normal": "쌀쌀한 기운의",
-        "emphasis": "겨울"
+        "label": "쌀쌀한 기운의 <겨울>",
+        "value": "겨울"
       }
     ]
   },
   {
-    "question": {
-      "phrase": "그럼 나리의 요리실력을 소인이 어느정도로 알면 되겠습니까?",
-      "empasis": [
-        "요리실력"
-      ]
-    },
+    "question": "그럼 나리의 <요리실력>을 소인이 어느정도로 알면 되겠습니까?",
     "isMultiple": false,
     "options": [
-      "다소 미흡한 실력",
-      "능숙한 요리 솜씨"
+      {
+        "label": "다소 미흡한 실력",
+        "value": "쉬움"
+      },
+      {
+        "label": "능숙한 요리 솜씨",
+        "value": "보통어려움"
+      }
     ]
   },
   {
-    "question": {
-      "phrase": "특별히 좋아하는 음식 종류나 드시고 싶은 것이 있으십니까?",
-      "empasis": [
-        "음식 종류",
-        "드시고 싶은 것"
-      ]
-    },
+    "question": "특별히 좋아하는 <음식 종류>나 <드시고 싶은 것>이 있으십니까?",
     "isMultiple": true,
     "options": [
       "밥",
@@ -65,12 +55,7 @@
     ]
   },
   {
-    "question": {
-      "phrase": "싫어하거나 먹을 수 없는 재료가 있다면 제게 알려주시지요.",
-      "empasis": [
-        "싫어하거나 먹을 수 없는"
-      ]
-    },
+    "question": "<싫어하거나 먹을 수 없는> 재료가 있다면 제게 알려주시지요.",
     "isMultiple": true,
     "options": [
       "어류 / 패류",
