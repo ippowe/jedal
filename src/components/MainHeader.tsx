@@ -9,7 +9,7 @@ const Container = styled.div`
     padding: 0 27px;
 `;
 
-const Logo = styled.img`
+const Logo = styled.image`
     width: 110px;
     height: 24px;
 `;
