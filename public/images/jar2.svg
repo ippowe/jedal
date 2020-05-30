@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240.033" height="50.683" viewBox="0 0 240.033 50.683">
+  <defs>
+    <style>
+      .jar2-1 {
+        fill: #996f46;
+      }
+
+      .jar2-1, .jar2-2 {
+        stroke: #231815;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .jar2-2 {
+        fill: #d19658;
+      }
+    </style>
+  </defs>
+  <g id="jar2" transform="translate(1.561 1.5)">
+    <g id="그룹_121" data-name="그룹 121" transform="translate(0 6.132)">
+      <g id="그룹_120" data-name="그룹 120" transform="translate(0 0)">
+        <g id="그룹_117" data-name="그룹 117" transform="translate(0 9.582)">
+          <path id="패스_119" data-name="패스 119" class="jar2-1" d="M633.071,923.783h0c-2.247-6.157-6.3-6.157-6.3-6.157H615.018s-4.053,0-6.3,6.157a.653.653,0,0,0,.424.828h23.51A.644.644,0,0,0,633.071,923.783Z" transform="translate(-604.978 -917.626)"/>
+          <path id="패스_120" data-name="패스 120" class="jar2-2" d="M630.815,927.826H607.556c-11.577,13.879,3.976,24.984,3.976,24.984H626.84S642.4,941.705,630.815,927.826Z" transform="translate(-603.271 -920.842)"/>
+        </g>
+        <g id="그룹_118" data-name="그룹 118" transform="translate(205.082 9.582)">
+          <path id="패스_121" data-name="패스 121" class="jar2-1" d="M745.627,923.783h0c-2.25-6.157-6.3-6.157-6.3-6.157H727.571s-4.048,0-6.3,6.157a.653.653,0,0,0,.424.828h23.51A.647.647,0,0,0,745.627,923.783Z" transform="translate(-717.534 -917.626)"/>
+          <path id="패스_122" data-name="패스 122" class="jar2-2" d="M743.373,927.826H720.114c-11.582,13.879,3.974,24.984,3.974,24.984H739.4S754.951,941.705,743.373,927.826Z" transform="translate(-715.828 -920.842)"/>
+        </g>
+        <g id="그룹_119" data-name="그룹 119" transform="translate(37.427 -6.132)">
+          <path id="패스_123" data-name="패스 123" class="jar2-1" d="M695.028,912.81h0c-3.354-9.178-9.395-9.178-9.395-9.178H668.094s-6.041,0-9.4,9.178a.975.975,0,0,0,.63,1.234H694.4A.962.962,0,0,0,695.028,912.81Z" transform="translate(-653.12 -903.632)"/>
+          <path id="패스_124" data-name="패스 124" class="jar2-2" d="M692.7,916.883h-34.7c-17.273,20.7,5.93,37.271,5.93,37.271h22.836S709.98,937.585,692.7,916.883Z" transform="translate(-651.613 -906.47)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
