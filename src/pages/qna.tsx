@@ -160,7 +160,6 @@ const qna: React.FC<QnAProps> = (props) => {
         if (next <= endIndex) {
             setCurrentStep(questionKeys[next]);
         } else {
-            //Todo 상세 페이지로 라우팅
             router.push('/result');
         }
     };
