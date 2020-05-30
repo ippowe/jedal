@@ -8,8 +8,6 @@ import SelectButton, { OptionType } from '../components/SelectButton';
 import SelectContainer from '../components/SelectContainer';
 import ProgressBar from '../components/ProgressBar';
 
-import compareArrays from '../utils/compareArrays';
-
 import Questions from '../assets/questions.json';
 
 interface QnAProps {
@@ -163,7 +161,7 @@ const qna: React.FC<QnAProps> = (props) => {
             <ButtonsContainer>
                 {(question.options as OptionType[]).map((option, index) => {
                     const value = values[index];
-                    const isSelect = question.isMultiple ? answer.includes(value) : answer === value;
+                    const isSelect = question.isMultiple ? answer.includes(values[index]) : answer === values[index];
                     return (
                         <SelectButton
                             option={option}
