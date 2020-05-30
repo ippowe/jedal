@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import QnAHeader from '../components/QnAHeader';
 import QnAFeedback from '../components/QnAFeedback';
@@ -100,6 +101,7 @@ const qna: React.FC<QnAProps> = (props) => {
     const [question, setQuestion] = useState(QUESTIONS[currentStep]);
     const answer = useSelector(({ answer }: RootState) => answer[currentStep]);
     const dispatch = useDispatch();
+    const router = useRouter();
 
     useEffect(() => {
         setQuestion(QUESTIONS[currentStep]);
@@ -159,7 +161,7 @@ const qna: React.FC<QnAProps> = (props) => {
             setCurrentStep(questionKeys[next]);
         } else {
             //Todo 상세 페이지로 라우팅
-            setCurrentStep(questionKeys[0]);
+            router.push('/result');
         }
     };
 

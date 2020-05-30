@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+
+import MainHeader from '../components/MainHeader';
 import ProgressBar from '../components/ProgressBar';
 import EmptyResult from '../components/EmptyResult';
 
@@ -28,10 +32,22 @@ const LoadingBar = styled(ProgressBar)`
 
 const result: React.FC<Iresult> = (props) => {
     const { className } = props;
-    //Todo 실제 데이터를 Fetching 할때 Loading으로 사용
-    const isLoading = true;
-    const percent = 50;
-    const recipes = [];
+    const [isLoading, setIsLoading] = useState(false);
+    const [percent, setPercent] = useState(0);
+    const recipes = useSelector(({}) => null);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (isLoading) {
+            return;
+        } else {
+            if (!!recipes && recipes.length > 0) {
+                router.push('/recipes');
+            } else {
+                return;
+            }
+        }
+    }, [isLoading, recipes]);
 
     return (
         <Wrapper className={className}>
@@ -40,7 +56,10 @@ const result: React.FC<Iresult> = (props) => {
                     <LoadingBar percent={percent} />
                 </LoadingContainer>
             ) : !recipes || recipes.length === 0 ? (
-                <EmptyResult />
+                <>
+                    <MainHeader />
+                    <EmptyResult />
+                </>
             ) : null}
         </Wrapper>
     );
