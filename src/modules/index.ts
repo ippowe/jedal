@@ -1,12 +1,15 @@
 import { combineReducers } from 'redux';
-import note, { INoteState } from "./note";
+import note, { INoteState } from './note';
+import answer, { IAnswerState } from './answer';
 
 export type RootState = {
-  note: INoteState[];
+    note: INoteState[];
+    answer: IAnswerState;
 };
 
 const rootReducer = combineReducers({
-  note: note.reducer,
+    note: note.reducer,
+    answer: answer.reducer,
 });
 
 export default rootReducer;
