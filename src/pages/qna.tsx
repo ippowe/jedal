@@ -131,7 +131,7 @@ const qna: React.FC<QnAProps> = (props) => {
         }
     };
 
-    const fowardToNextStep = (): void => {
+    const forwardToNextStep = (): void => {
         setAnswer('');
         const endIndex = Questions.length - 1;
         const next = currentStep + 1;
@@ -144,7 +144,7 @@ const qna: React.FC<QnAProps> = (props) => {
     };
 
     const handleCloseFeedback = (): void => {
-        fowardToNextStep();
+        forwardToNextStep();
         setIsShowFeedback(false);
     };
 

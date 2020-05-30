@@ -19,8 +19,8 @@ const parsePhrase = (phrase: React.ReactNode): React.ReactNode => {
             while (tokens.length !== 0) {
                 const token = tokens.shift();
                 const words = tempPhrase.split(token);
-                const empasis = <b key={token}>{token.replace(/<|>/g, '')}</b>;
-                result.push(words[0], empasis);
+                const emphasis = <b key={token}>{token.replace(/<|>/g, '')}</b>;
+                result.push(words[0], emphasis);
                 tempPhrase = words[1];
             }
             result.push(tempPhrase);
