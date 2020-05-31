@@ -93,6 +93,17 @@ const getCurrentStepIndex = (currentStep: string): number => {
     }
 };
 
+const checkFillBar = (index: number, currentStep: string, isShowFeedback: boolean): boolean => {
+    const currentIndex = questionKeys.findIndex((key) => key === currentStep);
+    if (index === currentIndex) {
+        return isShowFeedback;
+    } else if (index < currentIndex) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 const qna: React.FC<QnAProps> = (props) => {
     const { className } = props;
     const [currentStep, setCurrentStep] = useState(questionKeys[0]);
@@ -206,7 +217,11 @@ const qna: React.FC<QnAProps> = (props) => {
             </ButtonsContainer>
             <BarContainer>
                 {questionKeys.map((el, index) => (
-                    <Bar key={`bar_key_${index}`} percent={index < getCurrentStepIndex(currentStep) ? 100 : 0} />
+                    <Bar
+                        key={`bar_key_${index}`}
+                        percent={checkFillBar(index, currentStep, isShowFeedback) ? 100 : 0}
+                        duration={0}
+                    />
                 ))}
             </BarContainer>
             {isShowFeedback ? (
