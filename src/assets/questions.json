@@ -54,7 +54,7 @@
       "간식"
     ]
   },
-  "excludes": {
+  "hateIngredients": {
     "question": "<싫어하거나 먹을 수 없는> 재료가 있다면 제게 알려주시지요.",
     "isMultiple": true,
     "options": [

@@ -4,7 +4,7 @@ export interface IAnswerState {
     season?: string;
     level?: string;
     catetories?: string[];
-    excludes?: string[];
+    hateIngredients?: string[];
 }
 
 const initialState: IAnswerState = {};
