@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 
@@ -10,6 +10,7 @@ import ProgressBar from '../components/ProgressBar';
 import EmptyResult from '../components/EmptyResult';
 
 import { RootState } from '../modules/index';
+import { setSuggestion } from '../modules/suggestion';
 
 interface Iresult {
     className?: string;
@@ -69,13 +70,14 @@ const GET_SUGGESTIONS = gql`
 
 const result: React.FC<Iresult> = (props) => {
     const { className } = props;
+    const dispatch = useDispatch();
     const [isAnimationProgress, setIsAnimationProgress] = useState(true);
     const answer = useSelector(({ answer }: RootState) => answer);
     const { loading, error, data } = useQuery(GET_SUGGESTIONS, {
         variables: {
             ...answer,
         },
-        onCompleted: (data) => console.log(data),
+        onCompleted: (data) => dispatch(setSuggestion(data.trimmedRecipes)),
     });
     const [percent, setPercent] = useState(100);
     const router = useRouter();
