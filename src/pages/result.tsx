@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { gql } from 'apollo-boost';
+import { useQuery } from '@apollo/react-hooks';
 
 import MainHeader from '../components/MainHeader';
 import ProgressBar from '../components/ProgressBar';
 import EmptyResult from '../components/EmptyResult';
+
+import { RootState } from '../modules/index';
 
 interface Iresult {
     className?: string;
@@ -32,39 +36,75 @@ const LoadingBar = styled(ProgressBar)`
     }
 `;
 
+const GET_SUGGESTIONS = gql`
+    query getSuggestions($season: String, $categories: [String!], $level: String, $hateIngredients: [String!]) {
+        trimmedRecipes(categories: $categories, level: $level, hateIngredients: $hateIngredients) {
+            recipeName
+            cookingTime
+            ingredientCategory
+            recipe {
+                detailRecipes {
+                    recipeId
+                    tip
+                    step
+                    text
+                }
+            }
+            seasonIngredients(season: $season) {
+                category
+                name
+                month
+                cookingTip
+                purchaseTip
+            }
+            # ingredients {
+            #     step
+            #     name
+            #     amount
+            #     type
+            # }
+        }
+    }
+`;
+
 const result: React.FC<Iresult> = (props) => {
     const { className } = props;
-    const [isLoading, setIsLoading] = useState(true);
+    const [isAnimationProgress, setIsAnimationProgress] = useState(true);
+    const answer = useSelector(({ answer }: RootState) => answer);
+    const { loading, error, data } = useQuery(GET_SUGGESTIONS, {
+        variables: {
+            ...answer,
+        },
+        onCompleted: (data) => console.log(data),
+    });
     const [percent, setPercent] = useState(100);
-    const recipes = useSelector(({}) => null);
     const router = useRouter();
 
     useEffect(() => {
-        if (isLoading) {
+        if (loading || !data) {
             return;
         } else {
+            const { trimmedRecipes: recipes } = data;
             if (!!recipes && recipes.length > 0) {
                 router.push('/suggestion');
             } else {
                 return;
             }
         }
-    }, [isLoading, recipes]);
+    }, [loading, data]);
 
-    const handleRestLoading = (ds: Partial<{ width: string }>): void => {
-        const { width } = ds;
-        if (!!width && width === '100%') {
-            setIsLoading(false);
-        } else return;
+    const handleRestLoading = (): void => {
+        if (loading) return;
+        setIsAnimationProgress(false);
     };
 
     return (
         <Wrapper className={className}>
-            {isLoading ? (
+            {isAnimationProgress ? (
                 <LoadingContainer>
-                    <LoadingBar percent={percent} onRest={handleRestLoading} duration={1000} />
+                    <LoadingBar percent={percent} duration={700} onRest={handleRestLoading} />
                 </LoadingContainer>
-            ) : !recipes || recipes.length === 0 ? (
+            ) : data?.trimmedRecipes?.length === 0 ? (
                 <>
                     <MainHeader />
                     <EmptyResult />
