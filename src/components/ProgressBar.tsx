@@ -7,6 +7,7 @@ interface IProgressBar {
     percent?: number;
     duration?: number;
     onRest?: (ds: Partial<{ width: string }>) => void;
+    onStart?: () => void;
 }
 
 const Wrapper = styled.div`
@@ -23,12 +24,13 @@ const Bar = styled(animated.div)`
 `;
 
 const ProgressBar: React.FC<IProgressBar> = (props) => {
-    const { className, percent = 0, duration = 300, onRest } = props;
+    const { className, percent = 0, duration = 300, onRest, onStart } = props;
     const animationConfig = useSpring({
         to: { width: `${percent}%` },
         from: { width: '0%' },
         config: { duration },
         onRest: onRest,
+        onStart: onStart,
     });
 
     return (
