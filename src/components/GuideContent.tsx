@@ -23,7 +23,8 @@ const GuideContent: React.FC<Props> = ({ description, children }) => {
     const props = useSpring({
         to: { opacity: 1 },
         from: { opacity: 0 },
-        config: { duration: 500 }
+        delay: 300,
+        config: { duration: 1500 },
     });
     return (
         <Container>

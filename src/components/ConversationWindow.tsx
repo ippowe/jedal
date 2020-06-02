@@ -70,7 +70,7 @@ const NextButton = styled.button<{ content: string }>`
     color: #333740;
     background: none;
     animation: ${blinker} 1.3s linear infinite;
-    animation-delay: ${(props) => `${props.content.length * 50 + 1500}ms`};
+    animation-delay: ${(props) => `${props.content.length * 50 + 2500}ms`};
 `;
 
 const ContentWrapper = styled.div``;
@@ -91,7 +91,7 @@ const ConversationWindow: React.FC<Props> = ({ name, description, content, stage
                 setTimeout(typeWriter, 50);
             }
         };
-        setTimeout(typeWriter, 1500);
+        setTimeout(typeWriter, 2500);
     }, []);
 
     return (
