@@ -60,7 +60,6 @@ const ONE = 'one';
 const MANY = 'many';
 const ALL = 'all';
 const FISH = '어류/패류';
-const feedbackKeys = Object.keys(FEEDBACKS);
 
 const getFeedback = (step: string, answer: string | string[]): string => {
     switch (step) {
@@ -82,16 +81,16 @@ const getFeedback = (step: string, answer: string | string[]): string => {
                 throw new Error(`Invalid answer: ${answer}`);
             }
         }
-        case 'excludes': {
+        case 'hateIngredients': {
             const numberOfValues = (answer as string[]).length;
             if (numberOfValues === 1) {
                 return answer[0] === FISH
-                    ? FEEDBACKS['excludes'][FISH]
-                    : formatString(FEEDBACKS['excludes'][ONE], answer[0]);
+                    ? FEEDBACKS['hateIngredients'][FISH]
+                    : formatString(FEEDBACKS['hateIngredients'][ONE], answer[0]);
             } else if (numberOfValues < 4 && numberOfValues > 1) {
-                return FEEDBACKS['excludes'][MANY];
+                return FEEDBACKS['hateIngredients'][MANY];
             } else if (numberOfValues === 4) {
-                return FEEDBACKS['excludes'][ALL];
+                return FEEDBACKS['hateIngredients'][ALL];
             } else {
                 throw new Error(`Invalid answer: ${answer}`);
             }
