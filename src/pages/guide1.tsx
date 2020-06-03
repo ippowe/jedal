@@ -52,7 +52,7 @@ const Guide1: React.FC<{}> = () => {
 
     return (
         <>
-            <MainHeader />
+            <MainHeader isVisibleSkip={true} />
             <GuideContent description={'어느 주말 오후\n 배가 고픈 당신은 저잣거리에 나왔습니다.'}>
                 <StyledTreeLeftFront />
                 <StyledTreeLeftBack />

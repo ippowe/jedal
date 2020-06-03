@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import Ink from 'react-ink';
 
+interface Props {
+    isVisibleSkip?: boolean;
+}
 const Container = styled.div`
     height: 45px;
     display: flex;
+    justify-content: space-between;
     align-items: flex-end;
     padding: 0 27px;
 `;
@@ -14,14 +19,33 @@ const Logo = styled.img`
     height: 24px;
 `;
 
-const MainHeader: React.FC<{}> = () => {
+const SkipButton = styled.span`
+    position: relative;
+    color: #bbbbbb;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.75;
+    letter-spacing: 0.12px;
+`;
+
+const MainHeader: React.FC<Props> = ({ isVisibleSkip = false }) => {
     const router = useRouter();
     const onClickLogo = () => {
         router.push('/');
     };
+
+    const onClickSkip = () => {
+        router.push('/guide4');
+    };
     return (
         <Container>
             <Logo src="/images/logo.png" onClick={onClickLogo} />
+            {isVisibleSkip && (
+                <SkipButton onClick={onClickSkip}>
+                    건너뛰기
+                    <Ink />
+                </SkipButton>
+            )}
         </Container>
     );
 };
