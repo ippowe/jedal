@@ -8,6 +8,7 @@ import { useQuery } from '@apollo/react-hooks';
 import MainHeader from '../components/MainHeader';
 import ProgressBar from '../components/ProgressBar';
 import EmptyResult from '../components/EmptyResult';
+import SuccessInform from '../components/SuccessInform';
 
 import { RootState } from '../modules/index';
 import { setSuggestion } from '../modules/suggestion';
@@ -111,7 +112,9 @@ const result: React.FC<Iresult> = (props) => {
                     <MainHeader />
                     <EmptyResult />
                 </>
-            ) : null}
+            ) : (
+                <SuccessInform />
+            )}
         </Wrapper>
     );
 };
