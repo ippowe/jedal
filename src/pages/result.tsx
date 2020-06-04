@@ -80,7 +80,7 @@ const result: React.FC<Iresult> = (props) => {
         },
         onCompleted: (data) => dispatch(setSuggestion(data.trimmedRecipes)),
     });
-    const [percent, setPercent] = useState(100);
+    const [hasRecommands, setHasRecommands] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -96,6 +96,11 @@ const result: React.FC<Iresult> = (props) => {
         }
     }, [loading, data]);
 
+    useEffect(() => {
+        const hasRecommands = data?.trimmedRecipes?.length === 0;
+        setHasRecommands(hasRecommands);
+    }, [data]);
+
     const handleRestLoading = (): void => {
         if (loading) return;
         setIsAnimationProgress(false);
@@ -105,9 +110,9 @@ const result: React.FC<Iresult> = (props) => {
         <Wrapper className={className}>
             {isAnimationProgress ? (
                 <LoadingContainer>
-                    <LoadingBar percent={percent} duration={700} onRest={handleRestLoading} />
+                    <LoadingBar percent={100} duration={700} onRest={handleRestLoading} />
                 </LoadingContainer>
-            ) : data?.trimmedRecipes?.length === 0 ? (
+            ) : hasRecommands ? (
                 <>
                     <MainHeader />
                     <EmptyResult />

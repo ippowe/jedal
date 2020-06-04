@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 import BackgroundPattern from './BackgroundPattern';
 import DescriptionWindow from '../../public/images/default_window.svg';
@@ -56,9 +57,13 @@ const Inform = styled.div`
 
 const SuccessInform: React.FC<ISuccessInform> = (props) => {
     const { className } = props;
+    const router = useRouter();
     const numberOfBackgrounds = Math.round(window.outerHeight / 300);
+    const handleClick = (): void => {
+        router.push('/suggestion');
+    };
     return (
-        <Wrapper className={className}>
+        <Wrapper className={className} onClick={handleClick}>
             <InformWrapper>
                 <Inform>맞춤 요리가 준비되었습니다.</Inform>
                 <StyledWindow />
