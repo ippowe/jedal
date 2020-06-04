@@ -8,6 +8,7 @@ import TreeLeftBack from '../../public/images/tree_leftback2.svg';
 import Man from '../../public/images/man.svg';
 import TreeRightFront from '../../public/images/tree_rightfront.svg';
 import TreeRightBack2 from '../../public/images/tree_rightback2.svg';
+import { useSpring, animated } from 'react-spring';
 
 const StyledTreeLeftFront = styled(TreeLeftFront)`
     position: absolute;
@@ -22,7 +23,7 @@ const StyledTreeLeftBack = styled(TreeLeftBack)`
     bottom: 0;
 `;
 
-const StyledMan = styled(Man)`
+const StyledManWrapper = styled(animated.div)`
     position: absolute;
     bottom: 10px;
     left: 50%;
@@ -42,13 +43,22 @@ const StyledTreeRightBack2 = styled(TreeRightBack2)`
 `;
 
 const Guide1: React.FC<{}> = () => {
+    const props = useSpring({
+        to: { opacity: 1 },
+        from: { opacity: 0 },
+        delay: 300,
+        config: { duration: 1500 },
+    });
+
     return (
         <>
-            <MainHeader />
+            <MainHeader isVisibleSkip={true} />
             <GuideContent description={'어느 주말 오후\n 배가 고픈 당신은 저잣거리에 나왔습니다.'}>
                 <StyledTreeLeftFront />
                 <StyledTreeLeftBack />
-                <StyledMan />
+                <StyledManWrapper style={props}>
+                    <Man />
+                </StyledManWrapper>
                 <StyledTreeRightFront />
                 <StyledTreeRightBack2 />
             </GuideContent>
