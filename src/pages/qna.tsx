@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import QnAHeader from '../components/QnAHeader';
 import QnAFeedback from '../components/QnAFeedback';
@@ -8,7 +10,10 @@ import SelectButton, { OptionType } from '../components/SelectButton';
 import SelectContainer from '../components/SelectContainer';
 import ProgressBar from '../components/ProgressBar';
 
-import Questions from '../assets/questions.json';
+import QUESTIONS from '../assets/questions.json';
+
+import { RootState } from '../modules';
+import { setAnswer } from '../modules/answer';
 
 interface QnAProps {
     className?: string;
@@ -67,6 +72,7 @@ const Bar = styled(ProgressBar)`
 `;
 
 const SELECT_ALL = '모두 선택';
+const questionKeys = Object.keys(QUESTIONS);
 
 const getValueFromOption = (option: OptionType): string => {
     if (typeof option === 'string') {
@@ -78,16 +84,38 @@ const getValueFromOption = (option: OptionType): string => {
     }
 };
 
+const getCurrentStepIndex = (currentStep: string): number => {
+    const index = questionKeys.findIndex((key) => key === currentStep);
+    if (index === -1) {
+        throw new Error(`Invalid Step: ${currentStep}`);
+    } else {
+        return index;
+    }
+};
+
+const checkFillBar = (index: number, currentStep: string, isShowFeedback: boolean): boolean => {
+    const currentIndex = questionKeys.findIndex((key) => key === currentStep);
+    if (index === currentIndex) {
+        return isShowFeedback;
+    } else if (index < currentIndex) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 const qna: React.FC<QnAProps> = (props) => {
     const { className } = props;
-    const [answer, setAnswer] = useState<string | string[]>('');
-    const [currentStep, setCurrentStep] = useState(0);
+    const [currentStep, setCurrentStep] = useState(questionKeys[0]);
     const [values, setValues] = useState<string[]>([]);
     const [isShowFeedback, setIsShowFeedback] = useState(false);
-    const [question, setQuestion] = useState(Questions[currentStep]);
+    const [question, setQuestion] = useState(QUESTIONS[currentStep]);
+    const answer = useSelector(({ answer }: RootState) => answer[currentStep]);
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     useEffect(() => {
-        setQuestion(Questions[currentStep]);
+        setQuestion(QUESTIONS[currentStep]);
     }, [currentStep]);
 
     useEffect(() => {
@@ -100,7 +128,7 @@ const qna: React.FC<QnAProps> = (props) => {
         const { isMultiple, options } = question;
         const isAnswerList = Array.isArray(answer);
         const isSelectAll = isAnswerList && answer.length === options.length;
-        let newAnswer;
+        let newAnswer: string | string[];
         if (isMultiple) {
             if (value === SELECT_ALL) {
                 newAnswer = isSelectAll ? [] : [...values];
@@ -112,9 +140,9 @@ const qna: React.FC<QnAProps> = (props) => {
                     : [value];
             }
         } else {
-            newAnswer = value === answer ? '' : value;
+            newAnswer = value === answer ? null : value;
         }
-        setAnswer(newAnswer);
+        dispatch(setAnswer({ [currentStep]: newAnswer }));
     };
 
     const handleClickNext = (): void => {
@@ -122,10 +150,14 @@ const qna: React.FC<QnAProps> = (props) => {
     };
 
     const handleClickPrev = (): void => {
+        const currentStepIndex = getCurrentStepIndex(currentStep);
         const startIndex = 0;
-        const prev = currentStep - 1;
-        if (prev >= startIndex) {
-            setCurrentStep(prev);
+        const prevIndex = currentStepIndex - 1;
+
+        if (currentStepIndex === -1) {
+            throw new Error(`Invalid Step: ${currentStep}`);
+        } else if (prevIndex >= startIndex) {
+            setCurrentStep(questionKeys[prevIndex]);
         } else {
             return;
         }
@@ -133,13 +165,13 @@ const qna: React.FC<QnAProps> = (props) => {
 
     const forwardToNextStep = (): void => {
         setAnswer('');
-        const endIndex = Questions.length - 1;
-        const next = currentStep + 1;
+        const currentStepIndex = getCurrentStepIndex(currentStep);
+        const endIndex = questionKeys.length - 1;
+        const next = currentStepIndex + 1;
         if (next <= endIndex) {
-            setCurrentStep(next);
+            setCurrentStep(questionKeys[next]);
         } else {
-            //Todo 상세 페이지로 라우팅
-            setCurrentStep(0);
+            router.push('/result');
         }
     };
 
@@ -151,8 +183,8 @@ const qna: React.FC<QnAProps> = (props) => {
     return (
         <Wrapper className={className}>
             <QnAHeader
-                canGoPrev={currentStep > 0}
-                canGoNext={answer && answer.length >= 1}
+                canGoPrev={getCurrentStepIndex(currentStep) > 0}
+                canGoNext={answer && Object.keys(answer).length >= 1}
                 onClickNext={handleClickNext}
                 onClickPrev={handleClickPrev}
             />
@@ -161,7 +193,7 @@ const qna: React.FC<QnAProps> = (props) => {
             <ButtonsContainer>
                 {(question.options as OptionType[]).map((option, index) => {
                     const value = values[index];
-                    const isSelect = question.isMultiple ? answer.includes(values[index]) : answer === values[index];
+                    const isSelect = question.isMultiple ? !!answer?.includes(values[index]) : answer === values[index];
                     return (
                         <SelectButton
                             option={option}
@@ -184,8 +216,12 @@ const qna: React.FC<QnAProps> = (props) => {
                 ) : null}
             </ButtonsContainer>
             <BarContainer>
-                {new Array(Questions.length).fill(1).map((el, index) => (
-                    <Bar key={`bar_key_${index}`} percent={index < currentStep ? 100 : 0} />
+                {questionKeys.map((el, index) => (
+                    <Bar
+                        key={`bar_key_${index}`}
+                        percent={checkFillBar(index, currentStep, isShowFeedback) ? 100 : 0}
+                        duration={0}
+                    />
                 ))}
             </BarContainer>
             {isShowFeedback ? (
