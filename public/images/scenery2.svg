@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="337.457" height="150.707" viewBox="0 0 337.457 150.707">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ffbfb2;
+        isolation: isolate;
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-3 {
+        fill: #fff;
+        stroke: #a2bcce;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#a2b38b" stop-opacity="0"/>
+      <stop offset="1" stop-color="#a2b38b"/>
+    </linearGradient>
+  </defs>
+  <g id="Scenery" transform="translate(0 1)">
+    <circle id="타원_9" class="cls-1" cx="42.466" cy="42.466" r="42.466" transform="translate(0 7.573)"/>
+    <path id="패스_54" class="cls-2" d="M1503.056,256.362l15.883-15.883a14.281,14.281,0,0,1,20.2,0l15.883,15.883Z" transform="translate(-1494.843 -106.655)"/>
+    <path id="패스_55" class="cls-2" d="M1753.3,305.942l34.564-34.564a31.079,31.079,0,0,1,43.951,0l34.565,34.564Z" transform="translate(-1550.746 -176.386)"/>
+    <path id="패스_56" class="cls-2" d="M1889.95,270.8a7.71,7.71,0,0,0-10.9,0l-2.709,2.71a3.715,3.715,0,0,1-5.255,0l-2.709-2.71a7.71,7.71,0,0,0-10.9,0l-8.575,8.575h49.631Z" transform="translate(-1561.068 -178.491)"/>
+  </g>
+</svg>
