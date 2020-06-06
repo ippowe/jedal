@@ -15,7 +15,7 @@ interface Props {
 const Container = styled.button<{ variant: Variant; css: CSSProp; width?: string; size?: 'big' }>`
     position: relative;
     width: ${({ width }) => (width ? width : '100%')};
-    height: ${({ size }) => (size === 'big' ? '48px' : '40px')};
+    height: ${({ size }) => (size === 'big' ? '50px' : '45px')};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,7 +28,6 @@ const Container = styled.button<{ variant: Variant; css: CSSProp; width?: string
     &:focus {
         outline: none;
     }
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
 `;
 
 const Button: React.FC<Props & React.HTMLAttributes<HTMLButtonElement>> = ({

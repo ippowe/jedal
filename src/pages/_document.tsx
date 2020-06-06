@@ -38,6 +38,7 @@ export default class MyDocument extends Document<any> {
                 <body>
                     <Main />
                     <NextScript />
+                    <script src="/kakaoSDK.js" />
                 </body>
             </html>
         );

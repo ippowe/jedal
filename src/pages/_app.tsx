@@ -11,20 +11,21 @@ import rootReducer from '../modules';
 import { configureStore } from '@reduxjs/toolkit';
 
 export interface ITheme {
-  primary: string;
-  secondary: string;
+    primary: string;
+    secondary: string;
 }
 
 export interface IThemeWrapper {
-  theme: ITheme;
+    theme: ITheme;
 }
 
 export const theme: ITheme = {
-  primary: '#ff3737',
-  secondary: '#303b57',
+    primary: '#ff3737',
+    secondary: '#303b57',
 };
 
 const GlobalStyle = createGlobalStyle<IThemeWrapper>`
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
   @font-face {
     font-family: 'GmarketSans';
     font-style: normal;
@@ -53,32 +54,36 @@ const GlobalStyle = createGlobalStyle<IThemeWrapper>`
 `;
 
 interface IPops {
-  apollo: ApolloClient<NormalizedCacheObject>;
+    apollo: ApolloClient<NormalizedCacheObject>;
 }
 
 const store = configureStore({ reducer: rootReducer });
 
 class MyApp extends App<IPops> {
-  render() {
-    const { Component, pageProps, apollo } = this.props;
+    componentDidMount() {
+        Kakao.init('a597101fc243c041483c3471d0e087dd');
+        Kakao.isInitialized();
+    }
+    render() {
+        const { Component, pageProps, apollo } = this.props;
 
-    return (
-      <React.Fragment>
-        <Head>
-          <title>오늘의수라</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
-        <Provider store={store}>
-          <ApolloProvider client={apollo}>
-            <ThemeProvider theme={theme}>
-              <GlobalStyle />
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </ApolloProvider>
-        </Provider>
-      </React.Fragment>
-    );
-  }
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>GraphQL Job Board</title>
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                </Head>
+                <Provider store={store}>
+                    <ApolloProvider client={apollo}>
+                        <ThemeProvider theme={theme}>
+                            <GlobalStyle />
+                            <Component {...pageProps} />
+                        </ThemeProvider>
+                    </ApolloProvider>
+                </Provider>
+            </React.Fragment>
+        );
+    }
 }
 
 export default withApollo(MyApp);
