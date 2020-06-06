@@ -9,7 +9,7 @@ interface IQnAFeedback {
     className?: string;
     onCloseFeedback?: () => void;
     answer: string | string[];
-    step: number;
+    step: string;
 }
 
 const Wrapper = styled.div`
@@ -61,34 +61,36 @@ const MANY = 'many';
 const ALL = 'all';
 const FISH = '어류/패류';
 
-const getFeedback = (step: number, answer: string | string[]): string => {
+const getFeedback = (step: string, answer: string | string[]): string => {
     switch (step) {
-        case 0: {
-            return formatString(FEEDBACKS[0] as string, answer as string);
+        case 'season': {
+            return formatString(FEEDBACKS[step], answer as string);
         }
-        case 1: {
-            return FEEDBACKS[1][answer as string];
+        case 'level': {
+            return FEEDBACKS[step][answer as string];
         }
-        case 2: {
+        case 'categories': {
             const numberOfValues = (answer as string[]).length;
             if (numberOfValues === 1) {
-                return FEEDBACKS[2][ONE];
+                return FEEDBACKS['categories'][ONE];
             } else if (numberOfValues < 7 && numberOfValues > 1) {
-                return FEEDBACKS[2][MANY];
+                return FEEDBACKS['categories'][MANY];
             } else if (numberOfValues === 7) {
-                return FEEDBACKS[2][ALL];
+                return FEEDBACKS['categories'][ALL];
             } else {
                 throw new Error(`Invalid answer: ${answer}`);
             }
         }
-        case 3: {
+        case 'hateIngredients': {
             const numberOfValues = (answer as string[]).length;
             if (numberOfValues === 1) {
-                return answer[0] === FISH ? FEEDBACKS[3][FISH] : formatString(FEEDBACKS[3][ONE], answer[0]);
+                return answer[0] === FISH
+                    ? FEEDBACKS['hateIngredients'][FISH]
+                    : formatString(FEEDBACKS['hateIngredients'][ONE], answer[0]);
             } else if (numberOfValues < 4 && numberOfValues > 1) {
-                return FEEDBACKS[3][MANY];
+                return FEEDBACKS['hateIngredients'][MANY];
             } else if (numberOfValues === 4) {
-                return FEEDBACKS[3][ALL];
+                return FEEDBACKS['hateIngredients'][ALL];
             } else {
                 throw new Error(`Invalid answer: ${answer}`);
             }

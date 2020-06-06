@@ -1,5 +1,5 @@
-[
-  {
+{
+  "season": {
     "question": "어떤 <계절>의 음식을 찾고 계십니까?",
     "isMultiple": false,
     "options": [
@@ -21,7 +21,7 @@
       }
     ]
   },
-  {
+  "level": {
     "question": "그럼 나리의 <요리실력>을 소인이 어느정도로 알면 되겠습니까?",
     "isMultiple": false,
     "options": [
@@ -35,7 +35,7 @@
       }
     ]
   },
-  {
+  "categories": {
     "question": "특별히 좋아하는 <음식 종류>나 <드시고 싶은 것>이 있으십니까?",
     "isMultiple": true,
     "options": [
@@ -54,7 +54,7 @@
       "간식"
     ]
   },
-  {
+  "hateIngredients": {
     "question": "<싫어하거나 먹을 수 없는> 재료가 있다면 제게 알려주시지요.",
     "isMultiple": true,
     "options": [
@@ -64,4 +64,4 @@
       "닭고기류"
     ]
   }
-]
+}

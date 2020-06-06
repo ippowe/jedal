@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 import MainHeader from '../components/MainHeader';
 import Scenery from '../../public/images/scenery.svg';
 import WomanBig from '../../public/images/womanBig.svg';
@@ -49,6 +50,10 @@ const ButtonWrapper = styled.div`
 `;
 
 const Guide2: React.FC<{}> = () => {
+    const router = useRouter();
+    const handleClickStart = (): void => {
+        router.push('/qna');
+    };
     return (
         <>
             <MainHeader />
@@ -63,7 +68,7 @@ const Guide2: React.FC<{}> = () => {
                 <StyledWomanBig />
             </ImageWrapper>
             <ButtonWrapper>
-                <Button variant="primary" size="big" width="320px">
+                <Button variant="primary" size="big" width="320px" onClick={handleClickStart}>
                     시작하기
                 </Button>
             </ButtonWrapper>
