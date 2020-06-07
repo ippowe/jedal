@@ -11,7 +11,11 @@ interface IIngredients {
     cookingTips: { name: string; tip: string }[];
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    margin-bottom: 10px;
+    background-color: #f4f5f8;
+    padding: 30px 26px;
+`;
 
 const Header = styled.div`
     display: flex;

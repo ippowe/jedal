@@ -11,8 +11,7 @@ interface ITab {
 const Wrapper = styled.div``;
 
 const Contents = styled.div`
-    padding: 30px 26px;
-    background-color: #f4f5f8;
+    background-color: #e4e8ef;
 `;
 
 const TabButtonsWrapper = styled.div`

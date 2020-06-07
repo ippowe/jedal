@@ -5,8 +5,9 @@ import moment from 'moment';
 
 import MainHeader from '../components/MainHeader';
 import Tab from '../components/Tab';
-import { RootState } from '../modules';
 import Ingredients from '../components/Ingredients';
+
+import { RootState } from '../modules';
 
 interface Isuggestion {
     className?: string;
@@ -102,7 +103,11 @@ const suggestion: React.FC<Isuggestion> = (props) => {
         }));
         switch (tab) {
             case TABS[0]: {
-                return <Ingredients amount={recipe.amount} ingredients={ingredients} cookingTips={cookingTips} />;
+                return (
+                    <div>
+                        <Ingredients amount={recipe.amount} ingredients={ingredients} cookingTips={cookingTips} />
+                    </div>
+                );
             }
             case TABS[1]: {
                 return null;
