@@ -6,6 +6,7 @@ import moment from 'moment';
 import MainHeader from '../components/MainHeader';
 import Tab from '../components/Tab';
 import Ingredients from '../components/Ingredients';
+import CookingTips from '../components/CookingTips';
 
 import { RootState } from '../modules';
 
@@ -97,15 +98,17 @@ const suggestion: React.FC<Isuggestion> = (props) => {
     };
 
     const renderTabContents = (tab: string): JSX.Element => {
-        const cookingTips = seasonIngredients.map((ingredient) => ({
+        const tips = seasonIngredients.map((ingredient) => ({
             name: ingredient.name,
             tip: ingredient.cookingTip,
         }));
+
         switch (tab) {
             case TABS[0]: {
                 return (
                     <div>
-                        <Ingredients amount={recipe.amount} ingredients={ingredients} cookingTips={cookingTips} />
+                        <Ingredients amount={recipe.amount} ingredients={ingredients} />
+                        <CookingTips cookingTips={tips} />
                     </div>
                 );
             }

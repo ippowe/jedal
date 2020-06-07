@@ -8,7 +8,6 @@ interface IIngredients {
     className?: string;
     amount?: string;
     ingredients: { name: string; amount: string }[];
-    cookingTips: { name: string; tip: string }[];
 }
 
 const Wrapper = styled.div`
