@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 import MainHeader from '../components/MainHeader';
+import Tab from '../components/Tab';
 import { RootState } from '../modules';
 
 interface Isuggestion {
@@ -78,12 +79,33 @@ const getToday = (): string => {
     return moment().format('M[월] D[일]');
 };
 
+const TABS = ['상세정보', '조리방법'];
+
+const renderTabContents = (tab: string): JSX.Element => {
+    switch (tab) {
+        case TABS[0]: {
+            return null;
+        }
+        case TABS[1]: {
+            return null;
+        }
+        default: {
+            throw new Error(`Inavlid Tab: ${tab}`);
+        }
+    }
+};
+
 const suggestion: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
     const { recipeName, seasonIngredients, recipe } = useSelector(({ suggestion }: RootState) => suggestion[0]);
-
+    const [selectedTab, setSelectedTab] = useState(TABS[0]);
     const today = getToday();
+
+    const handleClickTab = (tab: string): void => {
+        setSelectedTab(tab);
+    };
+
     return (
         <Wrapper className={className}>
             <MainHeader />
@@ -94,6 +116,9 @@ const suggestion: React.FC<Isuggestion> = (props) => {
             <Name>{recipeName}</Name>
             <SeasonIngredient>제철재료 | {seasonIngredients[0].name}</SeasonIngredient>
             <Summary>{recipe.summary}</Summary>
+            <Tab tabs={TABS} onClickTab={handleClickTab} selectedTab={selectedTab}>
+                {renderTabContents(selectedTab)}
+            </Tab>
         </Wrapper>
     );
 };
