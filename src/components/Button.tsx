@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { CSSProp } from 'styled-components';
+import styled, { CSSProp, css } from 'styled-components';
 import Ink from 'react-ink';
 
 type Variant = 'primary' | 'standard';
@@ -7,12 +7,14 @@ type Variant = 'primary' | 'standard';
 interface Props {
     variant?: Variant;
     children: React.ReactNode;
-    buttonCss?: CSSProp;
+    css?: CSSProp;
     width?: string;
+    href?: string;
     size?: 'big';
+    onClick?: () => void;
 }
 
-const Container = styled.button<{ variant: Variant; css: CSSProp; width?: string; size?: 'big' }>`
+const Container = styled.button<Props>`
     position: relative;
     width: ${({ width }) => (width ? width : '100%')};
     height: ${({ size }) => (size === 'big' ? '50px' : '45px')};
@@ -30,16 +32,9 @@ const Container = styled.button<{ variant: Variant; css: CSSProp; width?: string
     }
 `;
 
-const Button: React.FC<Props & React.HTMLAttributes<HTMLButtonElement>> = ({
-    children,
-    variant = 'standard',
-    buttonCss,
-    width,
-    size,
-    ...otherProps
-}) => {
+const Button: React.FC<Props> = ({ children, ...props }) => {
     return (
-        <Container variant={variant} css={buttonCss} width={width} size={size} {...otherProps}>
+        <Container as={props.href ? 'a' : 'button'} {...props}>
             {children}
             <Ink background={true} opacity={0.25} />
         </Container>

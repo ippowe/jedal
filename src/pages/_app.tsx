@@ -50,6 +50,8 @@ const GlobalStyle = createGlobalStyle<IThemeWrapper>`
       outline: 0;
     }
   }
+  
+  a {text-decoration: none;}
 `;
 
 interface IPops {

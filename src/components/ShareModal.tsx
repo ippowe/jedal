@@ -1,10 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Modal from './Modal';
-import { css } from 'styled-components';
 import Button from './Button';
-import Close from '/public/images/close.png';
 import Ink from 'react-ink';
+import { useRouter } from 'next/router';
+import checkMobile from '../utils/checkMobile';
 
 interface Props {
     isVisible: boolean;
@@ -109,10 +109,12 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
             function (response) {},
         );
     };
+
+    const onClickUrlCopy = () => {};
     return (
         <Modal isVisible={isVisible} onClose={onClose} modalCss={ModalCss}>
             <Title>오늘의 수라 알리기</Title>
-            <CloseButtonWrapper>
+            <CloseButtonWrapper onClick={onClose}>
                 <CloseButton src="/images/close.png" alt="닫기" />
                 <Ink />
             </CloseButtonWrapper>
@@ -127,10 +129,14 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
                 <Button buttonCss={FacebookButtonCss} size="big" onClick={onClickFacebook}>
                     페이스북
                 </Button>
-                <Button buttonCss={SmsButtonCss} size="big">
+                <Button
+                    buttonCss={SmsButtonCss}
+                    size="big"
+                    href={`sms:${checkMobile() === 'ios' ? '&' : '?'}body=hello`}
+                >
                     문자 메세지
                 </Button>
-                <Button buttonCss={LinkButtonCss} size="big">
+                <Button buttonCss={LinkButtonCss} size="big" onClick={onClickUrlCopy}>
                     링크 복사
                 </Button>
             </ShareButtons>
