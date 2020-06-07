@@ -99,6 +99,16 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
             },
         });
     };
+
+    const onClickFacebook = () => {
+        FB.ui(
+            {
+                method: 'share',
+                href: 'https://todaysura.com',
+            },
+            function (response) {},
+        );
+    };
     return (
         <Modal isVisible={isVisible} onClose={onClose} modalCss={ModalCss}>
             <Title>오늘의 수라 알리기</Title>
@@ -114,7 +124,7 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
                 <Button buttonCss={KakaoButtonCss} size="big" onClick={onClickShareKaKao}>
                     카카오톡
                 </Button>
-                <Button buttonCss={FacebookButtonCss} size="big">
+                <Button buttonCss={FacebookButtonCss} size="big" onClick={onClickFacebook}>
                     페이스북
                 </Button>
                 <Button buttonCss={SmsButtonCss} size="big">

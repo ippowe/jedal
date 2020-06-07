@@ -25,7 +25,6 @@ export const theme: ITheme = {
 };
 
 const GlobalStyle = createGlobalStyle<IThemeWrapper>`
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
   @font-face {
     font-family: 'GmarketSans';
     font-style: normal;
@@ -63,6 +62,14 @@ class MyApp extends App<IPops> {
     componentDidMount() {
         Kakao.init('a597101fc243c041483c3471d0e087dd');
         Kakao.isInitialized();
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '711175776366808',
+                xfbml: true,
+                version: 'v7.0',
+            });
+        };
     }
     render() {
         const { Component, pageProps, apollo } = this.props;

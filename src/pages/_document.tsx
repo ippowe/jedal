@@ -35,10 +35,15 @@ export default class MyDocument extends Document<any> {
         return (
             <html>
                 <Head>{this.props.styleTags}</Head>
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap"
+                    rel="stylesheet"
+                />
                 <body>
+                    <script src="/kakaoSDK.js" />
+                    <script async defer src="https://connect.facebook.net/en_US/sdk.js" />
                     <Main />
                     <NextScript />
-                    <script src="/kakaoSDK.js" />
                 </body>
             </html>
         );

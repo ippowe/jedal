@@ -6,3 +6,5 @@ declare module '*.gif';
 declare module '*.ttf';
 
 declare var Kakao: any;
+declare var FB: any;
+declare var fbAsyncInit: any;
