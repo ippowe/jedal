@@ -46,6 +46,7 @@ const GET_SUGGESTIONS = gql`
             cookingLevel
             ingredientCategory
             recipe {
+                summary
                 detailRecipes {
                     recipeId
                     tip
