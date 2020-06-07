@@ -6,6 +6,7 @@ import moment from 'moment';
 import MainHeader from '../components/MainHeader';
 import Tab from '../components/Tab';
 import { RootState } from '../modules';
+import Ingredients from '../components/Ingredients';
 
 interface Isuggestion {
     className?: string;
@@ -81,29 +82,35 @@ const getToday = (): string => {
 
 const TABS = ['상세정보', '조리방법'];
 
-const renderTabContents = (tab: string): JSX.Element => {
-    switch (tab) {
-        case TABS[0]: {
-            return null;
-        }
-        case TABS[1]: {
-            return null;
-        }
-        default: {
-            throw new Error(`Inavlid Tab: ${tab}`);
-        }
-    }
-};
-
 const suggestion: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
-    const { recipeName, seasonIngredients, recipe } = useSelector(({ suggestion }: RootState) => suggestion[0]);
+    const { recipeName, seasonIngredients, recipe, ingredients } = useSelector(
+        ({ suggestion }: RootState) => suggestion[0],
+    );
     const [selectedTab, setSelectedTab] = useState(TABS[0]);
     const today = getToday();
 
     const handleClickTab = (tab: string): void => {
         setSelectedTab(tab);
+    };
+
+    const renderTabContents = (tab: string): JSX.Element => {
+        const cookingTips = seasonIngredients.map((ingredient) => ({
+            name: ingredient.name,
+            tip: ingredient.cookingTip,
+        }));
+        switch (tab) {
+            case TABS[0]: {
+                return <Ingredients amount={recipe.amount} ingredients={ingredients} cookingTips={cookingTips} />;
+            }
+            case TABS[1]: {
+                return null;
+            }
+            default: {
+                throw new Error(`Inavlid Tab: ${tab}`);
+            }
+        }
     };
 
     return (

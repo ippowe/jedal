@@ -47,6 +47,7 @@ const GET_SUGGESTIONS = gql`
             ingredientCategory
             recipe {
                 summary
+                amount
                 detailRecipes {
                     recipeId
                     tip

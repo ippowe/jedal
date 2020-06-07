@@ -12,6 +12,7 @@ const Wrapper = styled.div``;
 
 const Contents = styled.div`
     padding: 30px 26px;
+    background-color: #f4f5f8;
 `;
 
 const TabButtonsWrapper = styled.div`

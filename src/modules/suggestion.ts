@@ -7,6 +7,7 @@ export interface ISuggestionState {
     ingredientCategory: string;
     recipe: {
         summary: string;
+        amount: string;
         detailRecipes: {
             recipeId: string;
             tip: string;
@@ -21,6 +22,10 @@ export interface ISuggestionState {
         cookingTip: string;
         purchaseTip: string;
     }[];
+    ingredients: {
+        name: string;
+        amount: string;
+    }[];
 }
 
 const initialState: ISuggestionState[] = [
@@ -30,6 +35,7 @@ const initialState: ISuggestionState[] = [
         cookingLevel: '보통어려움',
         ingredientCategory: '해조류',
         recipe: {
+            amount: '4인분',
             summary: '철분과 무기질이 풍부한 다시마로 피부건강을 지켜보세요~',
             detailRecipes: [
                 {
@@ -75,6 +81,44 @@ const initialState: ISuggestionState[] = [
                     '오이는 생으로 먹기도 하고 겉절이로 무쳐 먹기도 합니다. 소금에 절인 오이를 찬물에 헹구어 꼭 짜준 뒤 볶아서도 먹어요. 샐러드나 초무침으로도 조리하고, 오이소박이나 오이지, 오이장아찌, 오이냉국 등등 그 활용성이 매우 많아요. 조림과 볶음 등에도 이용하고 김치류나 피클류 같은 절임음식으로도 사용해요. 흔히 오이는 비타민 C의 파괴를 우려해 다른 채소와 함께 먹지 말아야 한다고 알려졌지만, 실제로 오이의 아스코르비나아제는 활성이 낮아서 다른 채소와 함께 먹어도 상관없습니다. 특히 초절임을 하는 경우에는 산에 의해서 효소의 활성이 모두 사라지기 때문에 무방합니다.',
                 purchaseTip:
                     '싱싱하고 좋은 오이는 위쪽에서 아래까지 굵기가 일정한 것이 좋습니다. 오이의 돌기는 만져봤을 때 아플 정도로 따끔하게 서 있는 것이 좋아요. 신선한 오이는 줄기에서 딴 꼭지부분의 줄기에 하얀 잔가시가 있고, 꼭지에 꽃이 달려 있어요. 수확한지 얼마 되지 않은 싱싱한 오이랍니다. 짓무른 곳도 없어야 하고, 육질은 단단하며, 껍질에 주름이 잡힌 것은 피합니다. 중간이 가늘고 양쪽이 유난히 굵은 것은 쓴맛이 많이 나고, 통통한 부분을 갈라보았을 때 씨가 많은 것은 늙은 오이이므로 피합니다.',
+            },
+        ],
+        ingredients: [
+            {
+                name: '다시마',
+                amount: '2장',
+            },
+            {
+                name: '오이',
+                amount: '1/2개',
+            },
+            {
+                name: '홍고추',
+                amount: '1개',
+            },
+            {
+                name: '다진파',
+                amount: '1/2작은술',
+            },
+            {
+                name: '다진마늘',
+                amount: '1/4작은술',
+            },
+            {
+                name: '소금',
+                amount: '약간',
+            },
+            {
+                name: '고춧가루',
+                amount: '약간',
+            },
+            {
+                name: '깨소금',
+                amount: '약간',
+            },
+            {
+                name: '물',
+                amount: '5컵',
             },
         ],
     },
