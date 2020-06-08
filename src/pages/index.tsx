@@ -78,6 +78,7 @@ const TitleWord = styled.span`
 `;
 
 const SubTitle = styled.div`
+    font-family: 'Noto Sans KR', serif;
     font-size: 16px;
     line-height: 1.25;
     letter-spacing: 0.16px;
