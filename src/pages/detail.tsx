@@ -7,6 +7,7 @@ import MainHeader from '../components/MainHeader';
 import Tab from '../components/Tab';
 import Ingredients from '../components/Ingredients';
 import CookingTips from '../components/CookingTips';
+import Recipes from '../components/Recipes';
 
 import { RootState } from '../modules';
 
@@ -87,10 +88,10 @@ const TABS = ['상세정보', '조리방법'];
 const suggestion: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
-    const { recipeName, seasonIngredients, recipe, ingredients } = useSelector(
+    const { recipeName, seasonIngredients, recipe, ingredients, cookingTime } = useSelector(
         ({ suggestion }: RootState) => suggestion[0],
     );
-    const [selectedTab, setSelectedTab] = useState(TABS[0]);
+    const [selectedTab, setSelectedTab] = useState(TABS[1]);
     const today = getToday();
 
     const handleClickTab = (tab: string): void => {
@@ -113,7 +114,11 @@ const suggestion: React.FC<Isuggestion> = (props) => {
                 );
             }
             case TABS[1]: {
-                return null;
+                return (
+                    <div>
+                        <Recipes recipes={recipe.detailRecipes} cookingTime={cookingTime} />
+                    </div>
+                );
             }
             default: {
                 throw new Error(`Inavlid Tab: ${tab}`);
