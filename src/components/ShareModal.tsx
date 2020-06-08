@@ -5,6 +5,9 @@ import Button from './Button';
 import Ink from 'react-ink';
 import { useRouter } from 'next/router';
 import checkMobile from '../utils/checkMobile';
+import { useDispatch } from 'react-redux';
+import { createToast, displayToast } from '../modules/toast';
+import { uniqueId } from 'lodash';
 
 interface Props {
     isVisible: boolean;
@@ -70,6 +73,7 @@ const CloseButtonWrapper = styled.div`
 const CloseButton = styled.img``;
 
 const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
+    const dispatch = useDispatch();
     const onClickShareKaKao = () => {
         Kakao.Link.sendDefault({
             objectType: 'feed',
@@ -110,7 +114,10 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
         );
     };
 
-    const onClickUrlCopy = () => {};
+    const onClickUrlCopy = () => {
+        dispatch(displayToast(uniqueId(), 'hello'));
+    };
+
     return (
         <Modal isVisible={isVisible} onClose={onClose} modalCss={ModalCss}>
             <Title>오늘의 수라 알리기</Title>
@@ -123,20 +130,16 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
                 <br /> 제철요리 추천서비스를 주변에 알려주세요!
             </Description>
             <ShareButtons>
-                <Button buttonCss={KakaoButtonCss} size="big" onClick={onClickShareKaKao}>
+                <Button css={KakaoButtonCss} size="big" onClick={onClickShareKaKao}>
                     카카오톡
                 </Button>
-                <Button buttonCss={FacebookButtonCss} size="big" onClick={onClickFacebook}>
+                <Button css={FacebookButtonCss} size="big" onClick={onClickFacebook}>
                     페이스북
                 </Button>
-                <Button
-                    buttonCss={SmsButtonCss}
-                    size="big"
-                    href={`sms:${checkMobile() === 'ios' ? '&' : '?'}body=hello`}
-                >
+                <Button css={SmsButtonCss} size="big" href={`sms:${checkMobile() === 'ios' ? '&' : '?'}body=hello`}>
                     문자 메세지
                 </Button>
-                <Button buttonCss={LinkButtonCss} size="big" onClick={onClickUrlCopy}>
+                <Button css={LinkButtonCss} size="big" onClick={onClickUrlCopy}>
                     링크 복사
                 </Button>
             </ShareButtons>

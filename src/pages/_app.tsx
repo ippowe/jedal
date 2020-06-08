@@ -9,6 +9,7 @@ import { ApolloClient, NormalizedCacheObject } from 'apollo-boost';
 import { Provider } from 'react-redux';
 import rootReducer from '../modules';
 import { configureStore } from '@reduxjs/toolkit';
+import Toast from '../components/Toast';
 
 export interface ITheme {
     primary: string;
@@ -87,6 +88,7 @@ class MyApp extends App<IPops> {
                         <ThemeProvider theme={theme}>
                             <GlobalStyle />
                             <Component {...pageProps} />
+                            <Toast />
                         </ThemeProvider>
                     </ApolloProvider>
                 </Provider>
