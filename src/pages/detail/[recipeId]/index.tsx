@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import Router, { useRouter } from 'next/router';
 
-import MainHeader from '../components/MainHeader';
-import Tab from '../components/Tab';
-import Ingredients from '../components/Ingredients';
-import CookingTips from '../components/CookingTips';
-import Recipes from '../components/Recipes';
+import MainHeader from '../../../components/MainHeader';
+import Tab from '../../../components/Tab';
+import Ingredients from '../../../components/Ingredients';
+import CookingTips from '../../../components/CookingTips';
+import Recipes from '../../../components/Recipes';
 
-import { RootState } from '../modules';
-import SearchOnWeb from '../components/SearchOnWeb';
+import { RootState } from '../../../modules';
+import SearchOnWeb from '../../../components/SearchOnWeb';
 
 interface Isuggestion {
     className?: string;
@@ -29,7 +31,7 @@ const SubHeader = styled.div`
 `;
 
 const FoodImageWrapper = styled.div`
-    background-image: url('images/food-image-window.svg');
+    background-image: url('../images/food-image-window.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -89,17 +91,24 @@ const TABS = ['상세정보', '조리방법'];
 const suggestion: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
-    const { recipeName, seasonIngredients, recipe, ingredients, cookingTime } = useSelector(
-        ({ suggestion }: RootState) => suggestion[0],
-    );
+    const { recipeId } = useRouter().query;
+    const suggestion = useSelector(({ suggestion }: RootState) => suggestion[recipeId as string]);
     const [selectedTab, setSelectedTab] = useState(TABS[1]);
     const today = getToday();
+
+    useEffect(() => {
+        if (typeof recipeId !== 'string' || _.isEmpty(suggestion)) {
+            Router.push('/');
+        }
+    }, [recipeId, suggestion]);
 
     const handleClickTab = (tab: string): void => {
         setSelectedTab(tab);
     };
 
     const renderTabContents = (tab: string): JSX.Element => {
+        if (!suggestion) return;
+        const { seasonIngredients, recipe, ingredients, recipeName, cookingTime } = suggestion;
         const tips = seasonIngredients.map((ingredient) => ({
             name: ingredient.name,
             tip: ingredient.cookingTip,
@@ -133,11 +142,11 @@ const suggestion: React.FC<Isuggestion> = (props) => {
             <MainHeader />
             <SubHeader>{`${today} 오늘의 수라 추천 ${season} 요리`}</SubHeader>
             <FoodImageWrapper>
-                <FoodImage src="images/sample-recommend-food-image.png" />
+                <FoodImage src="../images/sample-recommend-food-image.png" />
             </FoodImageWrapper>
-            <Name>{recipeName}</Name>
-            <SeasonIngredient>제철재료 | {seasonIngredients[0].name}</SeasonIngredient>
-            <Summary>{recipe.summary}</Summary>
+            <Name>{suggestion?.recipeName}</Name>
+            <SeasonIngredient>제철재료 | {suggestion?.seasonIngredients[0].name}</SeasonIngredient>
+            <Summary>{suggestion?.recipe?.summary}</Summary>
             <Tab tabs={TABS} onClickTab={handleClickTab} selectedTab={selectedTab}>
                 {renderTabContents(selectedTab)}
             </Tab>
