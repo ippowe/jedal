@@ -73,6 +73,7 @@ const CloseButtonWrapper = styled.div`
 const CloseButton = styled.img``;
 
 const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
+    const sharePageUrl = 'todaysura.com';
     const dispatch = useDispatch();
     const onClickShareKaKao = () => {
         Kakao.Link.sendDefault({
@@ -115,7 +116,20 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
     };
 
     const onClickUrlCopy = () => {
-        dispatch(displayToast(uniqueId(), 'hello'));
+        const input = document.createElement('input');
+        input.value = sharePageUrl;
+        document.body.appendChild(input);
+        const timeout = setTimeout(() => {
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            dispatch(displayToast(uniqueId(), 'URL이 복사되었습니다.'));
+            onClose();
+        });
+
+        return () => {
+            clearTimeout(timeout);
+        };
     };
 
     return (

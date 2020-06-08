@@ -40,6 +40,6 @@ export const displayToast = (id: string, message: string): AppThunk => async (di
     dispatch(createToast({ id, message }));
     setTimeout(() => {
         dispatch(removeToast({ id, message }));
-    }, 2500);
+    }, 2000);
 };
 export default toast;
