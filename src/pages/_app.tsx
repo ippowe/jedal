@@ -9,19 +9,20 @@ import { ApolloClient, NormalizedCacheObject } from 'apollo-boost';
 import { Provider } from 'react-redux';
 import rootReducer from '../modules';
 import { configureStore } from '@reduxjs/toolkit';
+import Toast from '../components/Toast';
 
 export interface ITheme {
-  primary: string;
-  secondary: string;
+    primary: string;
+    secondary: string;
 }
 
 export interface IThemeWrapper {
-  theme: ITheme;
+    theme: ITheme;
 }
 
 export const theme: ITheme = {
-  primary: '#ff3737',
-  secondary: '#303b57',
+    primary: '#ff3737',
+    secondary: '#303b57',
 };
 
 const GlobalStyle = createGlobalStyle<IThemeWrapper>`
@@ -50,35 +51,50 @@ const GlobalStyle = createGlobalStyle<IThemeWrapper>`
       outline: 0;
     }
   }
+  
+  a {text-decoration: none;}
 `;
 
 interface IPops {
-  apollo: ApolloClient<NormalizedCacheObject>;
+    apollo: ApolloClient<NormalizedCacheObject>;
 }
 
 const store = configureStore({ reducer: rootReducer });
 
 class MyApp extends App<IPops> {
-  render() {
-    const { Component, pageProps, apollo } = this.props;
+    componentDidMount() {
+        Kakao.init('a597101fc243c041483c3471d0e087dd');
+        Kakao.isInitialized();
 
-    return (
-      <React.Fragment>
-        <Head>
-          <title>오늘의수라</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
-        <Provider store={store}>
-          <ApolloProvider client={apollo}>
-            <ThemeProvider theme={theme}>
-              <GlobalStyle />
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </ApolloProvider>
-        </Provider>
-      </React.Fragment>
-    );
-  }
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '711175776366808',
+                xfbml: true,
+                version: 'v7.0',
+            });
+        };
+    }
+    render() {
+        const { Component, pageProps, apollo } = this.props;
+
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>GraphQL Job Board</title>
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                </Head>
+                <Provider store={store}>
+                    <ApolloProvider client={apollo}>
+                        <ThemeProvider theme={theme}>
+                            <GlobalStyle />
+                            <Component {...pageProps} />
+                            <Toast />
+                        </ThemeProvider>
+                    </ApolloProvider>
+                </Provider>
+            </React.Fragment>
+        );
+    }
 }
 
 export default withApollo(MyApp);
