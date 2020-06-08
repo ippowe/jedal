@@ -10,6 +10,7 @@ import CookingTips from '../components/CookingTips';
 import Recipes from '../components/Recipes';
 
 import { RootState } from '../modules';
+import SearchOnWeb from '../components/SearchOnWeb';
 
 interface Isuggestion {
     className?: string;
@@ -117,6 +118,7 @@ const suggestion: React.FC<Isuggestion> = (props) => {
                 return (
                     <div>
                         <Recipes recipes={recipe.detailRecipes} cookingTime={cookingTime} />
+                        <SearchOnWeb keyword={recipeName} />
                     </div>
                 );
             }
