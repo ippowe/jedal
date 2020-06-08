@@ -7,14 +7,15 @@ import TreeFront from '../../public/images/mainTreeFront.svg';
 import TreeLeftback from '../../public/images/mainTreeLeftback.svg';
 import Shop from '../../public/images/mainShop.svg';
 import TreeRightback from '../../public/images/mainTreeRightback.svg';
+import Ink from 'react-ink';
 
 const Content = styled.div`
-    height: 450px;
+    height: 435px;
 `;
 
 const Footer = styled.div`
     position: relative;
-    min-height: calc(100vh - 495px);
+    min-height: calc(100vh - 480px);
     background-color: ${(props) => props.theme.secondary};
     display: flex;
     align-items: center;
@@ -23,11 +24,13 @@ const Footer = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-    transform: translateY(-20px);
+    position: relative;
+    transform: translateY(-50px);
 `;
 
 const ButtonCss = css`
     margin-top: 10px;
+    font-weight: 500;
 `;
 
 const MainImageWrapper = styled.div`
@@ -84,13 +87,19 @@ const SubTitle = styled.div`
 `;
 
 const CopyRights = styled.div`
+    font-family: 'Noto Sans KR', serif;
+    position: absolute;
+    right: -30px;
+    bottom: -30px;
     font-size: 10px;
     font-weight: 300;
     line-height: 1.5;
     color: #ffffff;
-    transform: scale(0.8);
     align-self: flex-end;
-    padding-bottom: 61px;
+`;
+
+const Team = styled.span`
+    position: relative;
 `;
 
 const Index: React.FC<{}> = () => {
@@ -100,6 +109,9 @@ const Index: React.FC<{}> = () => {
     };
     const onClickLastRecommend = () => {
         router.push('/last-recommend');
+    };
+    const onClickTeamInfo = () => {
+        router.push('/team');
     };
 
     return (
@@ -124,17 +136,20 @@ const Index: React.FC<{}> = () => {
             </Content>
             <Footer>
                 <ButtonWrapper>
-                    <Button variant="primary" onClick={onClickFoodRecipeRecommend} width="240px">
+                    <Button variant="primary" onClick={onClickFoodRecipeRecommend} width="245px">
                         제철 요리 추천받기
                     </Button>
-                    <Button variant="standard" onClick={onClickLastRecommend} css={ButtonCss} width="240px">
+                    <Button variant="standard" onClick={onClickLastRecommend} css={ButtonCss} width="245px">
                         지난 추천 요리 보기
                     </Button>
-                    <Button variant="standard" css={ButtonCss} width="240px">
-                        장보기 노트 보기
-                    </Button>
+                    <CopyRights>
+                        Copyrightsⓒ All rights. SteelHungry |{' '}
+                        <Team onClick={onClickTeamInfo}>
+                            팀원 소개
+                            <Ink />
+                        </Team>
+                    </CopyRights>
                 </ButtonWrapper>
-                <CopyRights>Copyrightsⓒ All rights. SteelHungry</CopyRights>
             </Footer>
         </>
     );
