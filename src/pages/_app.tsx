@@ -65,7 +65,7 @@ class MyApp extends App<IPops> {
     return (
       <React.Fragment>
         <Head>
-          <title>GraphQL Job Board</title>
+          <title>오늘의수라</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <Provider store={store}>
