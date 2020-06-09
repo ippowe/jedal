@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface ISuggestionState {
+export interface ISuggestion {
     recipeId: number;
     recipeName: string;
     cookingTime: string;
@@ -30,18 +30,24 @@ export interface ISuggestionState {
     }[];
 }
 
-const initialState: ISuggestionState[] = [];
+export interface ISuggestionState {
+    suggestions: ISuggestion[];
+}
+
+const initialState: ISuggestionState = {
+    suggestions: [],
+};
 
 const suggestion = createSlice({
     name: 'suggestion',
     initialState,
     reducers: {
-        setSuggestion: (state, action: PayloadAction<ISuggestionState[]>): void => {
+        setSuggestion: (state, action: PayloadAction<ISuggestion[]>): void => {
             const newSuggestion = action.payload;
-            if (!newSuggestion) {
-                state = newSuggestion;
+            if (newSuggestion) {
+                state.suggestions = newSuggestion;
             } else {
-                state = [];
+                state.suggestions = [];
             }
         },
     },

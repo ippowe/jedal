@@ -12,10 +12,13 @@ interface Isuggestion {
 const Wrapper = styled.div``;
 const suggestion: React.FC<Isuggestion> = (props) => {
     const { className } = props;
-    const { recipeId } = useSelector(({ suggestion }: RootState) => suggestion[0]);
+    const suggestion = useSelector(({ suggestion }: RootState) => suggestion.suggestions[0]);
+
     return (
         <Wrapper className={className}>
-            <Link href={`/detail/${recipeId}`}>제료 상세정보페이지로 이동</Link>
+            <Link href={`/detail/?recipeId=${suggestion?.recipeId}`} as={`detail/${suggestion?.recipeId}`}>
+                재료 상세정보페이지로 이동
+            </Link>
         </Wrapper>
     );
 };

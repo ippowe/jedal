@@ -5,15 +5,15 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Router, { useRouter } from 'next/router';
 
-import MainHeader from '../../../components/MainHeader';
-import Tab from '../../../components/Tab';
-import Ingredients from '../../../components/Ingredients';
-import CookingTips from '../../../components/CookingTips';
-import Recipes from '../../../components/Recipes';
+import MainHeader from '../components/MainHeader';
+import Tab from '../components/Tab';
+import Ingredients from '../components/Ingredients';
+import CookingTips from '../components/CookingTips';
+import Recipes from '../components/Recipes';
+import Button from '../components/Button';
+import SearchOnWeb from '../components/SearchOnWeb';
 
-import { RootState } from '../../../modules';
-import SearchOnWeb from '../../../components/SearchOnWeb';
-import Button from '../../../components/Button';
+import { RootState } from '../modules';
 
 interface Isuggestion {
     className?: string;
@@ -111,7 +111,8 @@ const suggestion: React.FC<Isuggestion> = (props) => {
     const { recipeId } = useRouter().query;
     const suggestion = useSelector(({ suggestion }: RootState) => {
         if (isNaN(+recipeId) || Array.isArray(recipeId)) return null;
-        return suggestion.find((sug) => sug.recipeId === +recipeId);
+        const suggestions = suggestion.suggestions;
+        return suggestions.find((suggestion) => suggestion.recipeId === +recipeId);
     });
     const [selectedTab, setSelectedTab] = useState(TABS[1]);
     const today = getToday();

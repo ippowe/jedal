@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ISuggestionState } from '../modules/suggestion';
+import { ISuggestion } from '../modules/suggestion';
 
 interface IRecipes {
     className?: string;
-    recipes: ISuggestionState['recipe']['detailRecipes'];
+    recipes: ISuggestion['recipe']['detailRecipes'];
     cookingTime: string;
 }
 
