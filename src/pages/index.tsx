@@ -127,10 +127,10 @@ const Index: React.FC<{}> = () => {
                     <Button variant="primary" onClick={onClickFoodRecipeRecommend} width="240px">
                         제철 요리 추천받기
                     </Button>
-                    <Button variant="standard" onClick={onClickLastRecommend} buttonCss={ButtonCss} width="240px">
+                    <Button variant="standard" onClick={onClickLastRecommend} css={ButtonCss} width="240px">
                         지난 추천 요리 보기
                     </Button>
-                    <Button variant="standard" buttonCss={ButtonCss} width="240px">
+                    <Button variant="standard" css={ButtonCss} width="240px">
                         장보기 노트 보기
                     </Button>
                 </ButtonWrapper>

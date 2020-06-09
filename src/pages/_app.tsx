@@ -9,6 +9,7 @@ import { ApolloClient, NormalizedCacheObject } from 'apollo-boost';
 import { Provider } from 'react-redux';
 import rootReducer from '../modules';
 import { configureStore } from '@reduxjs/toolkit';
+import Toast from '../components/Toast';
 
 export interface ITheme {
     primary: string;
@@ -68,6 +69,8 @@ const GlobalStyle = createGlobalStyle<IThemeWrapper>`
       outline: 0;
     }
   }
+  
+  a {text-decoration: none;}
 `;
 
 interface IPops {
@@ -77,6 +80,19 @@ interface IPops {
 const store = configureStore({ reducer: rootReducer });
 
 class MyApp extends App<IPops> {
+    componentDidMount() {
+        Kakao.init('a597101fc243c041483c3471d0e087dd');
+        Kakao.isInitialized();
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '711175776366808',
+                xfbml: true,
+                version: 'v7.0',
+            });
+        };
+    }
+  
     render() {
         const { Component, pageProps, apollo } = this.props;
 
@@ -91,6 +107,7 @@ class MyApp extends App<IPops> {
                         <ThemeProvider theme={theme}>
                             <GlobalStyle />
                             <Component {...pageProps} />
+                            <Toast />
                         </ThemeProvider>
                     </ApolloProvider>
                 </Provider>
