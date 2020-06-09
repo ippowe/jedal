@@ -39,12 +39,17 @@ const LoadingBar = styled(ProgressBar)`
 `;
 
 const GET_SUGGESTIONS = gql`
-    query getSuggestions($season: String, $categories: [String!], $level: String, $hateIngredients: [String!]) {
-        trimmedRecipes(categories: $categories, level: $level, hateIngredients: $hateIngredients) {
+    query getSuggestions($seasons: [String!], $categories: [String!], $level: String, $hateIngredients: [String!]) {
+        trimmedRecipes(seasons: $seasons, categories: $categories, level: $level, hateIngredients: $hateIngredients) {
+            recipeId
             recipeName
             cookingTime
+            cookingLevel
             ingredientCategory
             recipe {
+                summary
+                amount
+                imgUrl
                 detailRecipes {
                     recipeId
                     tip
@@ -52,19 +57,19 @@ const GET_SUGGESTIONS = gql`
                     text
                 }
             }
-            seasonIngredients(season: $season) {
+            seasonIngredients {
                 category
                 name
                 month
                 cookingTip
                 purchaseTip
             }
-            # ingredients {
-            #     step
-            #     name
-            #     amount
-            #     type
-            # }
+            ingredients {
+                step
+                name
+                amount
+                type
+            }
         }
     }
 `;
@@ -74,27 +79,19 @@ const result: React.FC<Iresult> = (props) => {
     const dispatch = useDispatch();
     const [isAnimationProgress, setIsAnimationProgress] = useState(true);
     const answer = useSelector(({ answer }: RootState) => answer);
-    const { loading, error, data } = useQuery(GET_SUGGESTIONS, {
+    const { loading, data } = useQuery(GET_SUGGESTIONS, {
         variables: {
             ...answer,
         },
-        onCompleted: (data) => dispatch(setSuggestion(data.trimmedRecipes)),
+        onCompleted: (data) => {
+            if (data.trimmedRecipes?.length !== 0) {
+                dispatch(setSuggestion(data.trimmedRecipes));
+                router.push('/suggestion');
+            }
+        },
     });
     const [hasRecommands, setHasRecommands] = useState(false);
     const router = useRouter();
-
-    useEffect(() => {
-        if (loading || !data) {
-            return;
-        } else {
-            const { trimmedRecipes: recipes } = data;
-            if (!!recipes && recipes.length > 0) {
-                router.push('/suggestion');
-            } else {
-                return;
-            }
-        }
-    }, [loading, data]);
 
     useEffect(() => {
         const hasRecommands = data?.trimmedRecipes?.length === 0;

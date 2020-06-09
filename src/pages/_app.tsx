@@ -38,6 +38,24 @@ const GlobalStyle = createGlobalStyle<IThemeWrapper>`
     font-weight: bold;
     src: url('/fonts/GmarketSansTTFBold.ttf');
   }
+    @font-face {
+    font-family: 'NotoSansCJKkr';
+    font-style: normal;
+    font-weight: 300;
+    src: url('/fonts/NotoSansKR-Light.otf');
+  }
+  @font-face {
+    font-family: 'NotoSansCJKkr';
+    font-style: normal;
+    font-weight: normal;
+    src: url('/fonts/NotoSansKR-Regular.otf');
+  }
+    @font-face {
+    font-family: 'NotoSansCJKkr';
+    font-style: normal;
+    font-weight: bold;
+    src: url('/fonts/NotoSansKR-Black.otf');
+  }
   body {
     margin: 0 auto;
     max-width: 540px;
@@ -76,13 +94,14 @@ class MyApp extends App<IPops> {
             });
         };
     }
+  
     render() {
         const { Component, pageProps, apollo } = this.props;
 
         return (
             <React.Fragment>
                 <Head>
-                    <title>GraphQL Job Board</title>
+                    <title>오늘의수라</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                 </Head>
                 <Provider store={store}>

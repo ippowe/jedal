@@ -1,22 +1,53 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface ISuggestionState {
-    //Todo Backend에서 데이터 형식 확인해서 수정
-    any;
+export interface ISuggestion {
+    recipeId: number;
+    recipeName: string;
+    cookingTime: string;
+    cookingLevel: '쉬움' | '보통어려움';
+    ingredientCategory: string;
+    recipe: {
+        imgUrl: string;
+        summary: string;
+        amount: string;
+        detailRecipes: {
+            recipeId: string;
+            tip: string;
+            step: string;
+            text: string;
+        }[];
+    };
+    seasonIngredients: {
+        category: string;
+        name: string;
+        month: string;
+        cookingTip: string;
+        purchaseTip: string;
+    }[];
+    ingredients: {
+        name: string;
+        amount: string;
+    }[];
 }
 
-const initialState: ISuggestionState[] = [];
+export interface ISuggestionState {
+    suggestions: ISuggestion[];
+}
+
+const initialState: ISuggestionState = {
+    suggestions: [],
+};
 
 const suggestion = createSlice({
     name: 'suggestion',
     initialState,
     reducers: {
-        setSuggestion: (state, action: PayloadAction<ISuggestionState[]>): void => {
+        setSuggestion: (state, action: PayloadAction<ISuggestion[]>): void => {
             const newSuggestion = action.payload;
-            if (!newSuggestion) {
-                state = newSuggestion;
+            if (newSuggestion) {
+                state.suggestions = newSuggestion;
             } else {
-                state = [];
+                state.suggestions = [];
             }
         },
     },
