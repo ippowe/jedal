@@ -42,7 +42,9 @@ const GlobalStyle = createGlobalStyle<IThemeWrapper>`
     margin: 0 auto;
     max-width: 540px;
     min-height: 100vh;
-    font-family: "GmarketSans", serif
+    font-family: "GmarketSans", serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   button {
     font-family : inherit;
