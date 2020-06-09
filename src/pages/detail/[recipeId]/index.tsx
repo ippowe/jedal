@@ -109,7 +109,10 @@ const suggestion: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
     const { recipeId } = useRouter().query;
-    const suggestion = useSelector(({ suggestion }: RootState) => suggestion[recipeId as string]);
+    const suggestion = useSelector(({ suggestion }: RootState) => {
+        if (isNaN(+recipeId) || Array.isArray(recipeId)) return null;
+        return suggestion.find((sug) => sug.recipeId === +recipeId);
+    });
     const [selectedTab, setSelectedTab] = useState(TABS[1]);
     const today = getToday();
 

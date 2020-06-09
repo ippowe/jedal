@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ISuggestionState {
+    recipeId: number;
     recipeName: string;
     cookingTime: string;
     cookingLevel: '쉬움' | '보통어려움';

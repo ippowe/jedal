@@ -39,8 +39,9 @@ const LoadingBar = styled(ProgressBar)`
 `;
 
 const GET_SUGGESTIONS = gql`
-    query getSuggestions($season: String, $categories: [String!], $level: String, $hateIngredients: [String!]) {
-        trimmedRecipes(categories: $categories, level: $level, hateIngredients: $hateIngredients) {
+    query getSuggestions($seasons: String, $categories: [String!], $level: String, $hateIngredients: [String!]) {
+        trimmedRecipes(seasons: $seasons, categories: $categories, level: $level, hateIngredients: $hateIngredients) {
+            recipeId
             recipeName
             cookingTime
             cookingLevel
@@ -55,7 +56,7 @@ const GET_SUGGESTIONS = gql`
                     text
                 }
             }
-            seasonIngredients(season: $season) {
+            seasonIngredients {
                 category
                 name
                 month
