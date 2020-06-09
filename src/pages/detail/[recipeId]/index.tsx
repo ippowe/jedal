@@ -13,12 +13,15 @@ import Recipes from '../../../components/Recipes';
 
 import { RootState } from '../../../modules';
 import SearchOnWeb from '../../../components/SearchOnWeb';
+import Button from '../../../components/Button';
 
 interface Isuggestion {
     className?: string;
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    margin-bottom: 50px;
+`;
 
 const SubHeader = styled.div`
     margin-top: 32px;
@@ -61,7 +64,7 @@ const Name = styled.div`
 `;
 
 const SeasonIngredient = styled.div`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 500;
     line-height: 1.43;
@@ -71,7 +74,7 @@ const SeasonIngredient = styled.div`
 `;
 
 const Summary = styled.div`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 300;
     line-height: 1.43;
@@ -80,6 +83,20 @@ const Summary = styled.div`
     margin: 0 25px;
     margin-bottom: 30px;
     word-break: keep-all;
+`;
+
+const StyledButton = styled(Button)`
+    box-shadow: none;
+    border-radius: 0;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    max-width: 540px;
+    margin: 0 auto;
+    height: 50px;
+    background-color: #f54131;
+    color: #ffffff;
 `;
 
 const getToday = (): string => {
@@ -150,6 +167,7 @@ const suggestion: React.FC<Isuggestion> = (props) => {
             <Tab tabs={TABS} onClickTab={handleClickTab} selectedTab={selectedTab}>
                 {renderTabContents(selectedTab)}
             </Tab>
+            <StyledButton theme="primary">오늘의 수라 알리기</StyledButton>
         </Wrapper>
     );
 };

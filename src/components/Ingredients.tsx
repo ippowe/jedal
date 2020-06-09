@@ -24,7 +24,7 @@ const Header = styled.div`
 `;
 
 const Title = styled.span`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 900;
     line-height: 1.43;
@@ -32,7 +32,7 @@ const Title = styled.span`
 `;
 
 const Amount = styled.span`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: bold;
     line-height: 1.43;
@@ -61,7 +61,7 @@ const IngredientName = styled.span`
     float: left;
     position: relative;
     padding-right: 6px;
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 300;
     line-height: 1.43;
@@ -72,7 +72,7 @@ const IngredientAmount = styled.span`
     overflow: hidden;
     background: #f4f5f8;
     padding-left: 6px;
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 300;
     line-height: 1.43;
@@ -93,7 +93,7 @@ const ShowAllButton = styled.div`
     align-items: center;
     width: 80px;
     margin: 0 auto;
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 500;
     line-height: 1.43;

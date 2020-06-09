@@ -34,7 +34,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 500;
     line-height: 1.43;
@@ -45,7 +45,7 @@ const Title = styled.div`
 `;
 
 const Description = styled.div`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     padding: 10px;
     font-size: 14px;
     font-weight: 300;

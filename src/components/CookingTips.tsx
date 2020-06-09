@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 900;
     line-height: 1.43;

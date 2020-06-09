@@ -42,7 +42,7 @@ const Recipe = styled.div`
     margin-top: 16px;
 `;
 const Step = styled.span`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: bold;
     line-height: 1.43;
@@ -51,7 +51,7 @@ const Step = styled.span`
     word-break: keep-all;
 `;
 const Text = styled.div`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: 300;
     line-height: 1.57;

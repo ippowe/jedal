@@ -21,7 +21,7 @@ const TabButtonsWrapper = styled.div`
 `;
 
 const TabButton = styled.div`
-    /* font-family: NotoSansCJKkr; */
+    font-family: NotoSansCJKkr;
     font-size: 16px;
     font-weight: 300;
     line-height: 1.5;
