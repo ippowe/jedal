@@ -9,7 +9,7 @@ import { configureStore, Action } from '@reduxjs/toolkit';
 export type RootState = {
     note: INoteState[];
     answer: IAnswerState;
-    suggestion: ISuggestionState[];
+    suggestion: ISuggestionState;
     toast: IToastState;
 };
 
