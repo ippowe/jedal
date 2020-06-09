@@ -163,21 +163,21 @@ const qna: React.FC<QnAProps> = (props) => {
         }
     };
 
-    const forwardToNextStep = (): void => {
-        setAnswer('');
+    const forwardToNextStep = (step: number): void => {
+        setValues([]);
+        setCurrentStep(questionKeys[step]);
+    };
+
+    const handleCloseFeedback = (): void => {
         const currentStepIndex = getCurrentStepIndex(currentStep);
         const endIndex = questionKeys.length - 1;
         const next = currentStepIndex + 1;
         if (next <= endIndex) {
-            setCurrentStep(questionKeys[next]);
+            forwardToNextStep(next);
+            setIsShowFeedback(false);
         } else {
             router.push('/result');
         }
-    };
-
-    const handleCloseFeedback = (): void => {
-        forwardToNextStep();
-        setIsShowFeedback(false);
     };
 
     return (
