@@ -162,7 +162,7 @@ const suggestion: React.FC<Isuggestion> = (props) => {
             <MainHeader />
             <SubHeader>{`${today} 오늘의 수라 추천 ${season} 요리`}</SubHeader>
             <FoodImageWrapper>
-                <FoodImage src="../images/sample-recommend-food-image.png" />
+                <FoodImage src={suggestion?.recipe.imgUrl} />
             </FoodImageWrapper>
             <Name>{suggestion?.recipeName}</Name>
             <SeasonIngredient>제철재료 | {suggestion?.seasonIngredients[0].name}</SeasonIngredient>

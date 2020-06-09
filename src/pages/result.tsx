@@ -39,7 +39,7 @@ const LoadingBar = styled(ProgressBar)`
 `;
 
 const GET_SUGGESTIONS = gql`
-    query getSuggestions($seasons: String, $categories: [String!], $level: String, $hateIngredients: [String!]) {
+    query getSuggestions($seasons: [String!], $categories: [String!], $level: String, $hateIngredients: [String!]) {
         trimmedRecipes(seasons: $seasons, categories: $categories, level: $level, hateIngredients: $hateIngredients) {
             recipeId
             recipeName
@@ -49,6 +49,7 @@ const GET_SUGGESTIONS = gql`
             recipe {
                 summary
                 amount
+                imgUrl
                 detailRecipes {
                     recipeId
                     tip
@@ -83,12 +84,11 @@ const result: React.FC<Iresult> = (props) => {
             ...answer,
         },
         onCompleted: (data) => {
-            if (data.trimmedRecipes?.length === 0) {
+            if (data.trimmedRecipes?.length !== 0) {
                 dispatch(setSuggestion(data.trimmedRecipes));
                 router.push('/suggestion');
             }
         },
-        onError: console.error,
     });
     const [hasRecommands, setHasRecommands] = useState(false);
     const router = useRouter();

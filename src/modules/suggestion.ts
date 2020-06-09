@@ -7,6 +7,7 @@ export interface ISuggestionState {
     cookingLevel: '쉬움' | '보통어려움';
     ingredientCategory: string;
     recipe: {
+        imgUrl: string;
         summary: string;
         amount: string;
         detailRecipes: {
