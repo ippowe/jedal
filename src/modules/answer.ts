@@ -13,17 +13,21 @@ const answer = createSlice({
     name: 'answer',
     initialState,
     reducers: {
-        setAnswer: (state, action: PayloadAction<IAnswerState>): void => {
-            Object.keys(action.payload).map((key) => {
+        setAnswer: (state, action: PayloadAction<IAnswerState>): IAnswerState => {
+            Object.keys(action.payload).forEach((key) => {
                 const answer = action.payload[key];
                 if (answer !== undefined) {
                     state[key] = answer;
                 }
             });
+            return state;
+        },
+        resetAnswer: (): IAnswerState => {
+            return {};
         },
     },
 });
 
-export const { setAnswer } = answer.actions;
+export const { setAnswer, resetAnswer } = answer.actions;
 
 export default answer;

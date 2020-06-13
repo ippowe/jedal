@@ -17,7 +17,7 @@ const suggestion: React.FC<Isuggestion> = (props) => {
     return (
         <Wrapper className={className}>
             <Link href={`/detail/?recipeId=${suggestion?.recipeId}`} as={`detail/${suggestion?.recipeId}`}>
-                재료 상세정보페이지로 이동
+                <a>재료 상세정보페이지로 이동</a>
             </Link>
         </Wrapper>
     );
