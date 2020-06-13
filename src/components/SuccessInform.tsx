@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
@@ -62,6 +62,16 @@ const SuccessInform: React.FC<ISuccessInform> = (props) => {
     const handleClick = (): void => {
         router.push('/suggestion');
     };
+
+    useEffect(() => {
+        const redirectTimeoutId = setTimeout(() => {
+            router.push('/suggestion');
+        }, 1500);
+        return (): void => {
+            clearTimeout(redirectTimeoutId);
+        };
+    }, []);
+
     return (
         <Wrapper className={className} onClick={handleClick}>
             <InformWrapper>

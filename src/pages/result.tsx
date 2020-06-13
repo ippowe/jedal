@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
@@ -12,7 +11,6 @@ import SuccessInform from '../components/SuccessInform';
 
 import { RootState } from '../modules/index';
 import { setSuggestion } from '../modules/suggestion';
-import { clear } from 'console';
 
 interface Iresult {
     className?: string;
@@ -96,7 +94,6 @@ const result: React.FC<Iresult> = (props) => {
         },
     });
     const [hasRecommends, setHasRecommends] = useState(false);
-    const router = useRouter();
 
     useEffect(() => {
         if (loading) {
@@ -118,18 +115,6 @@ const result: React.FC<Iresult> = (props) => {
         const hasRecommends = suggestions.length > 0;
         setHasRecommends(hasRecommends);
     }, [suggestions]);
-
-    useEffect(() => {
-        if (hasRecommends) {
-            redirectTimeoutId = setTimeout(redirectToSuggestion, 1000);
-        } else {
-            return;
-        }
-    }, [hasRecommends]);
-
-    const redirectToSuggestion = (): void => {
-        router.push('/suggestion');
-    };
 
     const handleRestLoading = (ds: { width: string }): void => {
         const { width } = ds;
