@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import DecoratedPhrase from './DecoratedPhrase';
-
+import Button from './Button';
 interface ISelectButton {
     className?: string;
     option: OptionType;
@@ -12,32 +12,29 @@ interface ISelectButton {
 
 export type OptionType = string | string[] | { label: string; value: string };
 
-const Wrapper = styled.button`
-    border-radius: 10px;
-    background-color: #ffffff;
+const Wrapper = styled(Button)`
     border: 1px solid #e1e4eb;
+    box-shadow: none;
+    transition: all 300ms ease-out;
+    height: 82px;
     cursor: pointer;
-    transition: background-color 100ms ease;
 
     &.select-button__selected {
         background-color: #303b57;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+
         > div {
             color: #ffffff;
         }
     }
-
-    &:focus {
-        outline: none;
-    }
 `;
 
 const Label = styled(DecoratedPhrase)`
-    color: #707070;
-    transition: color 100ms ease;
     font-size: 16px;
     line-height: 22px;
     word-break: keep-all;
+    color: #707070;
+    transition: coloor 300ms ease-out;
 
     > b {
         display: block;
