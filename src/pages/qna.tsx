@@ -245,9 +245,7 @@ const qna: React.FC<QnAProps> = (props) => {
                     />
                 ))}
             </BarContainer>
-            {isShowFeedback ? (
-                <QnAFeedback answer={answer} onCloseFeedback={handleCloseFeedback} step={currentStep} />
-            ) : null}
+            {isShowFeedback && <QnAFeedback answer={answer} onCloseFeedback={handleCloseFeedback} step={currentStep} />}
         </Wrapper>
     );
 };

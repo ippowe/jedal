@@ -76,7 +76,7 @@ const getFeedback = (step: string, answer: string | string[]): string => {
                 return FEEDBACKS['categories'][ONE];
             } else if (numberOfValues < 7 && numberOfValues > 1) {
                 return FEEDBACKS['categories'][MANY];
-            } else if (numberOfValues === 7) {
+            } else if (numberOfValues >= 7) {
                 return FEEDBACKS['categories'][ALL];
             } else {
                 throw new Error(`Invalid answer: ${answer}`);
@@ -84,15 +84,15 @@ const getFeedback = (step: string, answer: string | string[]): string => {
         }
         case 'hateIngredients': {
             const numberOfValues = (answer as string[]).length;
-            if (numberOfValues === 0) {
-                return FEEDBACKS['hateIngredients'][NONE];
-            } else if (numberOfValues === 1) {
+            if (numberOfValues === 1) {
                 return answer[0] === FISH
                     ? FEEDBACKS['hateIngredients'][FISH]
+                    : answer[0] === '없음'
+                    ? FEEDBACKS['hateIngredients'][NONE]
                     : formatString(FEEDBACKS['hateIngredients'][ONE], answer[0]);
             } else if (numberOfValues < 4 && numberOfValues > 1) {
                 return FEEDBACKS['hateIngredients'][MANY];
-            } else if (numberOfValues === 4) {
+            } else if (numberOfValues >= 4) {
                 return FEEDBACKS['hateIngredients'][ALL];
             } else {
                 throw new Error(`Invalid answer: ${answer}`);
