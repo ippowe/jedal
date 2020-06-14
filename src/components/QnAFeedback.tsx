@@ -56,6 +56,7 @@ const Description = styled(DecoratedPhrase)`
     box-sizing: border-box;
 `;
 
+const NONE = 'none';
 const ONE = 'one';
 const MANY = 'many';
 const ALL = 'all';
@@ -83,7 +84,9 @@ const getFeedback = (step: string, answer: string | string[]): string => {
         }
         case 'hateIngredients': {
             const numberOfValues = (answer as string[]).length;
-            if (numberOfValues === 1) {
+            if (numberOfValues === 0) {
+                return FEEDBACKS['hateIngredients'][NONE];
+            } else if (numberOfValues === 1) {
                 return answer[0] === FISH
                     ? FEEDBACKS['hateIngredients'][FISH]
                     : formatString(FEEDBACKS['hateIngredients'][ONE], answer[0]);
