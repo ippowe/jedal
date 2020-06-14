@@ -105,7 +105,7 @@ const getToday = (): string => {
 
 const TABS = ['상세정보', '조리방법'];
 
-const suggestion: React.FC<Isuggestion> = (props) => {
+const Detail: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
     const { recipeId } = useRouter().query;
@@ -176,4 +176,4 @@ const suggestion: React.FC<Isuggestion> = (props) => {
     );
 };
 
-export default suggestion;
+export default Detail;
