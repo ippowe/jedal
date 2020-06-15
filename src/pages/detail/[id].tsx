@@ -184,7 +184,6 @@ const Detail: React.FC<Isuggestion> = (props) => {
     };
 
     const renderTabContents = (tab: string): JSX.Element => {
-        if (!suggestion) return;
         const { seasonIngredients, recipe, ingredients, recipeName, cookingTime } = recipeDetail;
         const tips = seasonIngredients.map((ingredient) => ({
             name: ingredient.name,
