@@ -71,12 +71,19 @@ const Bar = styled(ProgressBar)`
     }
 `;
 
-const SELECT_ALL = '모두 선택';
 const questionKeys = Object.keys(QUESTIONS);
+const ALL = ['모두 좋음', '모두'];
+export const SELECT_ALL = '모두';
+const NONE = ['없음'];
+export const SELECT_NONE = '없음';
 
 const getValueFromOption = (option: OptionType): string => {
     if (typeof option === 'string') {
-        return option.replace(/\s/g, '');
+        if (ALL.includes(option)) {
+            return SELECT_ALL;
+        } else if (NONE.includes(option)) {
+            return SELECT_NONE;
+        } else return option.replace(/\s/g, '');
     } else if (option instanceof Array) {
         return option.join('').replace(/\s/g, '');
     } else {
@@ -104,6 +111,34 @@ const checkFillBar = (index: number, currentStep: string, isShowFeedback: boolea
     }
 };
 
+const checkIsSelectAll = (values: string[], answer: string, currentStep: string): boolean => {
+    if (currentStep === 'hateIngredients') {
+        return values.length - 1 === answer.length;
+    } else {
+        return values.length === answer.length;
+    }
+};
+
+const selectAllValues = (values: string[], isSelectAll: boolean, currentStep: string): string[] => {
+    if (currentStep === 'hateIngredients') {
+        return isSelectAll ? [] : [...values.filter((value) => value !== SELECT_NONE)];
+    } else {
+        return isSelectAll ? [] : [...values];
+    }
+};
+
+const getValues = (value: string, answer: string[], isAnswerList: boolean): string[] => {
+    if (value === SELECT_NONE) {
+        return [value];
+    } else {
+        return isAnswerList
+            ? answer.includes(value)
+                ? (answer as string[]).filter((a) => a !== value).filter((a) => a !== SELECT_ALL)
+                : [...(answer as string[]), value].filter((a) => a !== SELECT_NONE)
+            : [value];
+    }
+};
+
 const qna: React.FC<QnAProps> = (props) => {
     const { className } = props;
     const [currentStep, setCurrentStep] = useState(questionKeys[0]);
@@ -125,19 +160,15 @@ const qna: React.FC<QnAProps> = (props) => {
     }, [question]);
 
     const handleClickOption = (value: string): void => {
-        const { isMultiple, options } = question;
+        const { isMultiple } = question;
         const isAnswerList = Array.isArray(answer);
-        const isSelectAll = isAnswerList && answer.length === options.length;
+        const isSelectAll = isAnswerList && checkIsSelectAll(values, answer, currentStep);
         let newAnswer: string | string[];
         if (isMultiple) {
             if (value === SELECT_ALL) {
-                newAnswer = isSelectAll ? [] : [...values];
+                newAnswer = selectAllValues(values, isSelectAll, currentStep);
             } else {
-                newAnswer = isAnswerList
-                    ? answer.includes(value)
-                        ? (answer as string[]).filter((a) => a !== value)
-                        : [...(answer as string[]), value]
-                    : [value];
+                newAnswer = getValues(value, answer, isAnswerList);
             }
         } else {
             newAnswer = value === answer ? null : value;
@@ -163,21 +194,21 @@ const qna: React.FC<QnAProps> = (props) => {
         }
     };
 
-    const forwardToNextStep = (): void => {
-        setAnswer('');
+    const forwardToNextStep = (step: number): void => {
+        setValues([]);
+        setCurrentStep(questionKeys[step]);
+    };
+
+    const handleCloseFeedback = (): void => {
         const currentStepIndex = getCurrentStepIndex(currentStep);
         const endIndex = questionKeys.length - 1;
         const next = currentStepIndex + 1;
         if (next <= endIndex) {
-            setCurrentStep(questionKeys[next]);
+            forwardToNextStep(next);
+            setIsShowFeedback(false);
         } else {
             router.push('/result');
         }
-    };
-
-    const handleCloseFeedback = (): void => {
-        forwardToNextStep();
-        setIsShowFeedback(false);
     };
 
     return (
@@ -204,16 +235,6 @@ const qna: React.FC<QnAProps> = (props) => {
                         />
                     );
                 })}
-                {question.isMultiple ? (
-                    <SelectButton
-                        value={SELECT_ALL}
-                        option={SELECT_ALL}
-                        onClick={handleClickOption}
-                        isSelect={Array.isArray(answer) && answer.length === question.options.length}
-                    >
-                        모두 선택
-                    </SelectButton>
-                ) : null}
             </ButtonsContainer>
             <BarContainer>
                 {questionKeys.map((el, index) => (
@@ -224,9 +245,7 @@ const qna: React.FC<QnAProps> = (props) => {
                     />
                 ))}
             </BarContainer>
-            {isShowFeedback ? (
-                <QnAFeedback answer={answer} onCloseFeedback={handleCloseFeedback} step={currentStep} />
-            ) : null}
+            {isShowFeedback && <QnAFeedback answer={answer} onCloseFeedback={handleCloseFeedback} step={currentStep} />}
         </Wrapper>
     );
 };

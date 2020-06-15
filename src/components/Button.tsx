@@ -1,10 +1,11 @@
 import React from 'react';
-import styled, { CSSProp, css } from 'styled-components';
+import styled, { CSSProp } from 'styled-components';
 import Ink from 'react-ink';
 
 type Variant = 'primary' | 'standard';
 
 interface Props {
+    className?: string;
     variant?: Variant;
     children: React.ReactNode;
     css?: CSSProp;

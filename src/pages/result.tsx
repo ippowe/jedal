@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
@@ -78,9 +77,12 @@ const result: React.FC<Iresult> = (props) => {
     const { className } = props;
     const dispatch = useDispatch();
     const [isAnimationProgress, setIsAnimationProgress] = useState(true);
+    const [percent, setPercent] = useState(0);
     const answer = useSelector(({ answer }: RootState) => answer);
+    let redirectTimeoutId: number;
     const user = useSelector(({ user }: RootState) => user);
-    const { loading, data } = useQuery(GET_SUGGESTIONS, {
+    const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
+    const { loading } = useQuery(GET_SUGGESTIONS, {
         variables: {
             ...answer,
             userId: user._id,
@@ -88,36 +90,54 @@ const result: React.FC<Iresult> = (props) => {
         onCompleted: (data) => {
             if (data.trimmedRecipes?.length !== 0) {
                 dispatch(setSuggestion(data.trimmedRecipes));
-                router.push('/suggestion');
+            } else {
+                dispatch(setSuggestion([]));
             }
         },
     });
-    const [hasRecommands, setHasRecommands] = useState(false);
-    const router = useRouter();
+    const [hasRecommends, setHasRecommends] = useState(false);
 
     useEffect(() => {
-        const hasRecommands = data?.trimmedRecipes?.length === 0;
-        setHasRecommands(hasRecommands);
-    }, [data]);
+        if (loading) {
+            setPercent(50);
+        } else {
+            setPercent(100);
+        }
+    }, [loading]);
 
-    const handleRestLoading = (): void => {
-        if (loading) return;
-        setIsAnimationProgress(false);
+    useEffect(() => {
+        return (): void => {
+            if (redirectTimeoutId) {
+                clearTimeout(redirectTimeoutId);
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        const hasRecommends = suggestions.length > 0;
+        setHasRecommends(hasRecommends);
+    }, [suggestions]);
+
+    const handleRestLoading = (ds: { width: string }): void => {
+        const { width } = ds;
+        if (width === '100%') {
+            setIsAnimationProgress(false);
+        }
     };
 
     return (
         <Wrapper className={className}>
             {isAnimationProgress ? (
                 <LoadingContainer>
-                    <LoadingBar percent={100} duration={700} onRest={handleRestLoading} />
+                    <LoadingBar percent={percent} duration={500} onRest={handleRestLoading} />
                 </LoadingContainer>
-            ) : hasRecommands ? (
+            ) : hasRecommends ? (
+                <SuccessInform />
+            ) : (
                 <>
                     <MainHeader />
                     <EmptyResult />
                 </>
-            ) : (
-                <SuccessInform />
             )}
         </Wrapper>
     );

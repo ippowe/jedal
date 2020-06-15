@@ -94,7 +94,6 @@ const suggestion: React.FC<Isuggestion> = (props) => {
   const router = useRouter();
   const { className } = props;
   const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
-
   const handleClickRestart = (): void => {
     router.push("/qna");
   };

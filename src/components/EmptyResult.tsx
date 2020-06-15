@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+
 import Button from './Button';
+
+import { resetAnswer } from '../modules/answer';
+
 import womanBigSweat from '../../public/images/womanBigSweat.svg';
 
 interface IEmptyResult {
@@ -50,8 +55,10 @@ const RestartButton = styled(Button)`
 const EmptyResult: React.FC<IEmptyResult> = (props) => {
     const { className } = props;
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const handleClickRestart = (): void => {
+        dispatch(resetAnswer());
         router.push('/qna');
     };
 

@@ -42,12 +42,14 @@ const suggestion = createSlice({
     name: 'suggestion',
     initialState,
     reducers: {
-        setSuggestion: (state, action: PayloadAction<ISuggestion[]>): void => {
+        setSuggestion: (state, action: PayloadAction<ISuggestion[]>): ISuggestionState => {
             const newSuggestion = action.payload;
             if (newSuggestion) {
                 state.suggestions = newSuggestion;
+                return state;
             } else {
                 state.suggestions = [];
+                return state;
             }
         },
     },

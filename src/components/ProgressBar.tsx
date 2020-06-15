@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { animated, useSpring } from 'react-spring';
 
@@ -25,17 +25,20 @@ const Bar = styled(animated.div)`
 
 const ProgressBar: React.FC<IProgressBar> = (props) => {
     const { className, percent = 0, duration = 300, onRest, onStart } = props;
-    const animationConfig = useSpring({
-        to: { width: `${percent}%` },
-        from: { width: '0%' },
+    const [animationProps, set] = useSpring(() => ({
+        width: '0%',
         config: { duration },
         onRest: onRest,
         onStart: onStart,
-    });
+    }));
+
+    useEffect(() => {
+        set({ width: `${percent}%` });
+    }, [percent]);
 
     return (
         <Wrapper className={className}>
-            <Bar style={animationConfig} />
+            <Bar style={animationProps} />
         </Wrapper>
     );
 };
