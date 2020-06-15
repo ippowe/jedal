@@ -102,7 +102,6 @@ const suggestion: React.FC<Isuggestion> = (props) => {
   return (
     <Wrapper className={className}>
       <MainHeader/>
-
       <ResultTitle>{`총 ${suggestions.length}개의 추천결과`}</ResultTitle>
       <ResultSubTitle>{`나의 수라상에\n올릴 요리`}</ResultSubTitle>
       <SuggestionContent>

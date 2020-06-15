@@ -2,14 +2,14 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
 import withApollo from '../hooks/withApollo';
 import { ApolloClient, NormalizedCacheObject } from 'apollo-boost';
 import { Provider } from 'react-redux';
 import rootReducer from '../modules';
 import { configureStore } from '@reduxjs/toolkit';
-import Toast from '../components/Toast';
+import Core from "../components/core/core";
 
 export interface ITheme {
     primary: string;
@@ -24,56 +24,6 @@ export const theme: ITheme = {
     primary: '#ff3737',
     secondary: '#303b57',
 };
-
-const GlobalStyle = createGlobalStyle<IThemeWrapper>`
-  @font-face {
-    font-family: 'GmarketSans';
-    font-style: normal;
-    font-weight: normal;
-    src: url('/fonts/GmarketSansTTFMedium.ttf');
-  }
-  @font-face {
-    font-family: 'GmarketSans';
-    font-style: normal;
-    font-weight: bold;
-    src: url('/fonts/GmarketSansTTFBold.ttf');
-  }
-    @font-face {
-    font-family: 'NotoSansCJKkr';
-    font-style: normal;
-    font-weight: 300;
-    src: url('/fonts/NotoSansKR-Light.otf');
-  }
-  @font-face {
-    font-family: 'NotoSansCJKkr';
-    font-style: normal;
-    font-weight: normal;
-    src: url('/fonts/NotoSansKR-Regular.otf');
-  }
-    @font-face {
-    font-family: 'NotoSansCJKkr';
-    font-style: normal;
-    font-weight: bold;
-    src: url('/fonts/NotoSansKR-Black.otf');
-  }
-  body {
-    margin: 0 auto;
-    max-width: 540px;
-    min-height: 100vh;
-    font-family: "GmarketSans", serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  button {
-    font-family : inherit;
-    border: none;
-    &:focus {
-      outline: 0;
-    }
-  }
-  
-  a {text-decoration: none;}
-`;
 
 interface IPops {
     apollo: ApolloClient<NormalizedCacheObject>;
@@ -94,7 +44,7 @@ class MyApp extends App<IPops> {
             });
         };
     }
-  
+
     render() {
         const { Component, pageProps, apollo } = this.props;
 
@@ -107,9 +57,8 @@ class MyApp extends App<IPops> {
                 <Provider store={store}>
                     <ApolloProvider client={apollo}>
                         <ThemeProvider theme={theme}>
-                            <GlobalStyle />
+                            <Core/>
                             <Component {...pageProps} />
-                            <Toast />
                         </ThemeProvider>
                     </ApolloProvider>
                 </Provider>

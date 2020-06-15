@@ -79,9 +79,11 @@ const result: React.FC<Iresult> = (props) => {
     const dispatch = useDispatch();
     const [isAnimationProgress, setIsAnimationProgress] = useState(true);
     const answer = useSelector(({ answer }: RootState) => answer);
+    const user = useSelector(({ user }: RootState) => user);
     const { loading, data } = useQuery(GET_SUGGESTIONS, {
         variables: {
             ...answer,
+            userId: user._id,
         },
         onCompleted: (data) => {
             if (data.trimmedRecipes?.length !== 0) {

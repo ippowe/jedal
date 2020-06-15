@@ -118,6 +118,7 @@ const Detail: React.FC<Isuggestion> = (props) => {
     const today = getToday();
 
     useEffect(() => {
+        //TODO 이 부분을 detail 정보가 없으면 불러오는 것으로 변경해야 할 듯..?
         if (typeof recipeId !== 'string' || _.isEmpty(suggestion)) {
             Router.push('/');
         }
