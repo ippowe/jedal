@@ -14,6 +14,9 @@ import QUESTIONS from '../assets/questions.json';
 
 import { RootState } from '../modules';
 import { setAnswer } from '../modules/answer';
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { setSuggestion } from "../modules/suggestion";
+import { gql } from "apollo-boost";
 
 interface QnAProps {
     className?: string;
@@ -139,15 +142,68 @@ const getValues = (value: string, answer: string[], isAnswerList: boolean): stri
     }
 };
 
+const GET_SUGGESTIONS = gql`
+    query getSuggestions($seasons: [String!], $categories: [String!], $level: String, $hateIngredients: [String!], $userId: String!) {
+        trimmedRecipes(seasons: $seasons, categories: $categories, level: $level, hateIngredients: $hateIngredients, userId: $userId) {
+            recipeId
+            recipeName
+            cookingTime
+            cookingLevel
+            ingredientCategory
+            recipe {
+                summary
+                amount
+                imgUrl
+                detailRecipes {
+                    recipeId
+                    tip
+                    step
+                    text
+                }
+            }
+            seasonIngredients {
+                category
+                name
+                month
+                cookingTip
+                purchaseTip
+            }
+            ingredients {
+                step
+                name
+                amount
+                type
+            }
+        }
+    }
+`;
+
 const qna: React.FC<QnAProps> = (props) => {
     const { className } = props;
     const [currentStep, setCurrentStep] = useState(questionKeys[0]);
     const [values, setValues] = useState<string[]>([]);
     const [isShowFeedback, setIsShowFeedback] = useState(false);
     const [question, setQuestion] = useState(QUESTIONS[currentStep]);
+    const allAnswer = useSelector(({ answer }: RootState) => answer);
     const answer = useSelector(({ answer }: RootState) => answer[currentStep]);
     const dispatch = useDispatch();
     const router = useRouter();
+    const user = useSelector(({ user }: RootState) => user);
+    const [getSuggestions, { loading }] = useLazyQuery(GET_SUGGESTIONS, {
+        variables: {
+            ...allAnswer,
+            userId: user._id,
+        },
+        onCompleted: (data) => {
+            if (data.trimmedRecipes?.length !== 0) {
+                dispatch(setSuggestion(data.trimmedRecipes));
+            } else {
+                dispatch(setSuggestion([]));
+            }
+            router.push('/result');
+        },
+    });
+
 
     useEffect(() => {
         setQuestion(QUESTIONS[currentStep]);
@@ -207,7 +263,7 @@ const qna: React.FC<QnAProps> = (props) => {
             forwardToNextStep(next);
             setIsShowFeedback(false);
         } else {
-            router.push('/result');
+            getSuggestions();
         }
     };
 

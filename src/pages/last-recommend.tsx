@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import MainHeader from "../components/MainHeader";
 import LastRecommendContent from "../components/LastRecommendContent";
@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import EmptyImage from "../../public/images/빈그릇.svg";
 import Button from "../components/Button";
 import moment from "moment";
-import { get, isEmpty, map } from "lodash";
+import { get, isEmpty, map, isNil } from "lodash";
 import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../modules";
 import Link from "next/link";
@@ -120,7 +120,7 @@ const GET_HISTORIES = gql`
 const LastRecommend: React.FC<{}> = () => {
   const router = useRouter();
   const user = useSelector(({ user }: RootState) => user);
-  const { loading, data } = useQuery(GET_HISTORIES, {
+  const [getHistories, { loading, data }] = useLazyQuery(GET_HISTORIES, {
     variables: {
       userId: user._id
     },
@@ -128,16 +128,21 @@ const LastRecommend: React.FC<{}> = () => {
     }
   });
 
+  useEffect(() => {
+    if (isNil(user) === false) {
+      getHistories();
+    }
+  }, [user])
+
   const onClickFoodRecipeRecommend = () => {
     router.push("/guide1");
   };
-  console.log(">> last222", loading, data);
 
   return (
     <>
       <MainHeader/>
       <LastRecommendContent>
-        {isEmpty(data?.user?.histories) === true ? <EmptyContent>
+        {isEmpty(data?.user?.histories) === true && loading === false ? <EmptyContent>
             <EmptyIcon/>
             <EmptyRecommendDescription>
               추천 받은 제철 요리가 없습니다.
@@ -164,7 +169,7 @@ const LastRecommend: React.FC<{}> = () => {
                     {
                       map(searchedRecipes, (item, itemIndex) => {
                         return (
-                          <Link href={`/detail/?recipeId=${item?.recipeId}`} as={`detail/${item?.recipeId}`}
+                          <Link href={`detail/${item?.recipeId}`}
                                 key={item.recipeId}>
                             <LastRecommendItem>
                               <ItemImage src={item.recipe.imgUrl}></ItemImage>

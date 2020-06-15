@@ -37,42 +37,6 @@ const LoadingBar = styled(ProgressBar)`
     }
 `;
 
-const GET_SUGGESTIONS = gql`
-    query getSuggestions($seasons: [String!], $categories: [String!], $level: String, $hateIngredients: [String!]) {
-        trimmedRecipes(seasons: $seasons, categories: $categories, level: $level, hateIngredients: $hateIngredients) {
-            recipeId
-            recipeName
-            cookingTime
-            cookingLevel
-            ingredientCategory
-            recipe {
-                summary
-                amount
-                imgUrl
-                detailRecipes {
-                    recipeId
-                    tip
-                    step
-                    text
-                }
-            }
-            seasonIngredients {
-                category
-                name
-                month
-                cookingTip
-                purchaseTip
-            }
-            ingredients {
-                step
-                name
-                amount
-                type
-            }
-        }
-    }
-`;
-
 const result: React.FC<Iresult> = (props) => {
     const { className } = props;
     const dispatch = useDispatch();
@@ -80,30 +44,13 @@ const result: React.FC<Iresult> = (props) => {
     const [percent, setPercent] = useState(0);
     const answer = useSelector(({ answer }: RootState) => answer);
     let redirectTimeoutId: number;
-    const user = useSelector(({ user }: RootState) => user);
     const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
-    const { loading } = useQuery(GET_SUGGESTIONS, {
-        variables: {
-            ...answer,
-            userId: user._id,
-        },
-        onCompleted: (data) => {
-            if (data.trimmedRecipes?.length !== 0) {
-                dispatch(setSuggestion(data.trimmedRecipes));
-            } else {
-                dispatch(setSuggestion([]));
-            }
-        },
-    });
+
     const [hasRecommends, setHasRecommends] = useState(false);
 
     useEffect(() => {
-        if (loading) {
-            setPercent(50);
-        } else {
-            setPercent(100);
-        }
-    }, [loading]);
+        setPercent(100)
+    }, []);
 
     useEffect(() => {
         return (): void => {
