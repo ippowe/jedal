@@ -4,7 +4,7 @@ import ApolloClient, { InMemoryCache } from 'apollo-boost';
 export default withApollo(
     ({ initialState }) =>
         new ApolloClient({
-            uri: 'http://test.api.jurtle.net:5000/graphql',
+            uri: `${process.env.NEXT_PUBLIC_HOST}/graphql`,
             cache: new InMemoryCache().restore(initialState || {}),
         }),
 );
