@@ -32,10 +32,12 @@ export interface ISuggestion {
 
 export interface ISuggestionState {
     suggestions: ISuggestion[];
+    recipe: ISuggestion;
 }
 
 const initialState: ISuggestionState = {
     suggestions: [],
+    recipe: null,
 };
 
 const suggestion = createSlice({
@@ -52,9 +54,12 @@ const suggestion = createSlice({
                 return state;
             }
         },
+        setRecipe: (state, action: PayloadAction<ISuggestion>): void => {
+            state.recipe = action.payload;
+        },
     },
 });
 
-export const { setSuggestion } = suggestion.actions;
+export const { setSuggestion, setRecipe } = suggestion.actions;
 
 export default suggestion;
