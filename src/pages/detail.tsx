@@ -105,7 +105,7 @@ const getToday = (): string => {
 
 const TABS = ['상세정보', '조리방법'];
 
-const suggestion: React.FC<Isuggestion> = (props) => {
+const Detail: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
     const { recipeId } = useRouter().query;
@@ -118,6 +118,7 @@ const suggestion: React.FC<Isuggestion> = (props) => {
     const today = getToday();
 
     useEffect(() => {
+        //TODO 이 부분을 detail 정보가 없으면 불러오는 것으로 변경해야 할 듯..?
         if (typeof recipeId !== 'string' || _.isEmpty(suggestion)) {
             Router.push('/');
         }
@@ -176,4 +177,4 @@ const suggestion: React.FC<Isuggestion> = (props) => {
     );
 };
 
-export default suggestion;
+export default Detail;

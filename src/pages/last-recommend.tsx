@@ -5,9 +5,13 @@ import LastRecommendContent from "../components/LastRecommendContent";
 import { useRouter } from "next/router";
 import EmptyImage from "../../public/images/빈그릇.svg";
 import Button from "../components/Button";
-import storage from "../utils/storage";
 import moment from "moment";
-import { get, isEmpty, keys, map } from "lodash";
+import { get, isEmpty, map } from "lodash";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
+import { useSelector } from "react-redux";
+import { RootState } from "../modules";
+import Link from "next/link";
 
 const EmptyContent = styled.div`
   display: flex;
@@ -81,6 +85,7 @@ const ItemImage = styled.img`
   height: 95px;
   border-radius: 10px;
   background-color: #7b818f;
+  object-fit: cover;  
 `;
 const ItemTitle = styled.div`
   width: 95px;
@@ -95,57 +100,44 @@ const Divider = styled.div`
   border: 0.5px solid #6f6f6f;
 `;
 
-//TODO: 테스트 데이터. 실제 스토리지 데이터로 변경 해야 함
-storage.setItem("LAST_RECOMMEND_ITEMS", {
-  "2020.05.20": [{
-    image: "/images/sample-recommend-food-image.png",
-    title: "정말맛있는해물순두부찌개"
-  }, {
-    image: "/images/sample-recommend-food-image.png",
-    title: "콩비지동그랑땡"
-  }, {
-    image: "/images/sample-recommend-food-image.png",
-    title: "누드김밥"
-  }, {
-    image: "/images/sample-recommend-food-image.png",
-    title: "미소된장국"
-  }],
-  "2020.05.12": [{
-    image: "/images/sample-recommend-food-image.png",
-    title: "누드김밥"
-  }, {
-    image: "/images/sample-recommend-food-image.png",
-    title: "해물순두부찌개"
-  }],
-  "2020.05.02": [{
-    image: "/images/sample-recommend-food-image.png",
-    title: "5월 누드김밥 #1"
-  }, {
-    image: "/images/sample-recommend-food-image.png",
-    title: "5월 누드김밥 #2"
-  }],
-  "2020.06.02": [{
-    image: "/images/sample-recommend-food-image.png",
-    title: "6월 누드김밥 #1"
-  }, {
-    image: "/images/sample-recommend-food-image.png",
-    title: "6월 누드김밥 #2"
-  }]
-});
+const GET_HISTORIES = gql`
+    query getHistories($userId: String!) {
+        user(userId: $userId) {
+            histories {
+                createdAt
+                searchedRecipes {
+                    recipeId
+                    recipeName
+                    recipe {
+                        imgUrl
+                    }
+                }
+            }
+        }
+    }
+`;
 
 const LastRecommend: React.FC<{}> = () => {
   const router = useRouter();
+  const user = useSelector(({ user }: RootState) => user);
+  const { loading, data } = useQuery(GET_HISTORIES, {
+    variables: {
+      userId: user._id
+    },
+    onCompleted: (data) => {
+    }
+  });
+
   const onClickFoodRecipeRecommend = () => {
     router.push("/guide1");
   };
-  const lastRecommendItems = storage.getItem("LAST_RECOMMEND_ITEMS");
-  const sortKeys = map(keys(lastRecommendItems), date => moment(date, "YYYY.MM.DD")).sort((p, c) => c.diff(p));
+  console.log(">> last222", loading, data);
 
   return (
     <>
       <MainHeader/>
       <LastRecommendContent>
-        {isEmpty(lastRecommendItems) === true ? <EmptyContent>
+        {isEmpty(data?.user?.histories) === true ? <EmptyContent>
             <EmptyIcon/>
             <EmptyRecommendDescription>
               추천 받은 제철 요리가 없습니다.
@@ -157,25 +149,28 @@ const LastRecommend: React.FC<{}> = () => {
             </Button>
           </EmptyContent> :
           <>
-            {map(sortKeys, key => {
-              const formattedKey = key.format("YYYY.MM.DD");
-              const sortingItems = get(lastRecommendItems, key.format("YYYY.MM.DD"));
+            {map(data?.user?.histories, (history, historyIndex) => {
+              const formattedKey = moment(history.createdAt).format("YYYY.MM.DD");
+              const searchedRecipes = get(history, "searchedRecipes");
 
               return (
-                <LastRecommendList>
+                <LastRecommendList key={historyIndex}>
                   <DateWrapper>
                     <div className="title">추천일</div>
                     <div className="date">{formattedKey}</div>
                   </DateWrapper>
-                  <LastRecommendResultTitle>총 <span>{sortingItems.length}</span>개의 추천결과</LastRecommendResultTitle>
+                  <LastRecommendResultTitle>총 <span>{searchedRecipes.length}</span>개의 추천결과</LastRecommendResultTitle>
                   <LastRecommendItemWrapper>
                     {
-                      map(sortingItems, (item, itemIndex) => {
+                      map(searchedRecipes, (item, itemIndex) => {
                         return (
-                          <LastRecommendItem key={itemIndex}>
-                            <ItemImage src={item.image}></ItemImage>
-                            <ItemTitle>{item.title}</ItemTitle>
-                          </LastRecommendItem>
+                          <Link href={`/detail/?recipeId=${item?.recipeId}`} as={`detail/${item?.recipeId}`}
+                                key={item.recipeId}>
+                            <LastRecommendItem>
+                              <ItemImage src={item.recipe.imgUrl}></ItemImage>
+                              <ItemTitle>{item.recipeName}</ItemTitle>
+                            </LastRecommendItem>
+                          </Link>
                         );
                       })
                     }

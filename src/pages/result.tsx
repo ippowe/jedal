@@ -79,11 +79,13 @@ const result: React.FC<Iresult> = (props) => {
     const [isAnimationProgress, setIsAnimationProgress] = useState(true);
     const [percent, setPercent] = useState(0);
     const answer = useSelector(({ answer }: RootState) => answer);
-    const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
     let redirectTimeoutId: number;
+    const user = useSelector(({ user }: RootState) => user);
+    const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
     const { loading } = useQuery(GET_SUGGESTIONS, {
         variables: {
             ...answer,
+            userId: user._id,
         },
         onCompleted: (data) => {
             if (data.trimmedRecipes?.length !== 0) {
@@ -105,7 +107,7 @@ const result: React.FC<Iresult> = (props) => {
 
     useEffect(() => {
         return (): void => {
-            if (!redirectTimeoutId) {
+            if (redirectTimeoutId) {
                 clearTimeout(redirectTimeoutId);
             }
         };
