@@ -17,6 +17,7 @@ import { RootState } from '../../modules';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import { ISuggestion, setRecipe } from '../../modules/suggestion';
+import ShareModal from '../../components/ShareModal';
 
 interface Isuggestion {
     className?: string;
@@ -148,6 +149,7 @@ const Detail: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
     const { recipeId } = useRouter().query;
+    const [isVisibleShareModal, setVisibleShareModal] = useState(false);
     const dispatch = useDispatch();
     // const suggestion = useSelector(({ suggestion }: RootState) => {
     //     if (isNaN(+recipeId) || Array.isArray(recipeId)) return null;
@@ -225,7 +227,16 @@ const Detail: React.FC<Isuggestion> = (props) => {
             <Tab tabs={TABS} onClickTab={handleClickTab} selectedTab={selectedTab}>
                 {recipeDetail && renderTabContents(selectedTab)}
             </Tab>
-            <StyledButton theme="primary">오늘의 수라 알리기</StyledButton>
+            <StyledButton theme="primary" onClick={() => setVisibleShareModal(true)}>
+                오늘의 수라 알리기
+            </StyledButton>
+            {recipeDetail && (
+                <ShareModal
+                    isVisible={isVisibleShareModal}
+                    onClose={() => setVisibleShareModal(false)}
+                    recipeDetail={recipeDetail}
+                />
+            )}
         </Wrapper>
     );
 };

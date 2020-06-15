@@ -8,10 +8,12 @@ import checkMobile from '../utils/checkMobile';
 import { useDispatch } from 'react-redux';
 import { createToast, displayToast } from '../modules/toast';
 import { uniqueId } from 'lodash';
+import { ISuggestion } from '../modules/suggestion';
 
 interface Props {
     isVisible: boolean;
     onClose: () => void;
+    recipeDetail: ISuggestion;
 }
 
 const ModalCss = css`
@@ -72,20 +74,23 @@ const CloseButtonWrapper = styled.div`
 
 const CloseButton = styled.img``;
 
-const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
-    const sharePageUrl = 'todaysura.com';
+const ShareModal: React.FC<Props> = ({ isVisible, onClose, recipeDetail }) => {
+    const {
+        recipeId,
+        recipeName,
+        recipe: { summary, imgUrl },
+    } = recipeDetail;
+    const sharePageUrl = `https://todaysura.com/detail/${recipeId}`;
     const dispatch = useDispatch();
     const onClickShareKaKao = () => {
         Kakao.Link.sendDefault({
             objectType: 'feed',
             content: {
-                title: '디저트 사진',
-                description: '아메리카노, 빵, 케익',
-                imageUrl:
-                    'http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
+                title: recipeName,
+                description: summary,
+                imageUrl: imgUrl,
                 link: {
-                    mobileWebUrl: 'https://developers.kakao.com',
-                    androidExecParams: 'test',
+                    mobileWebUrl: sharePageUrl,
                 },
             },
             buttons: [
@@ -150,7 +155,11 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose }) => {
                 <Button css={FacebookButtonCss} size="big" onClick={onClickFacebook}>
                     페이스북
                 </Button>
-                <Button css={SmsButtonCss} size="big" href={`sms:${checkMobile() === 'ios' ? '&' : '?'}body=hello`}>
+                <Button
+                    css={SmsButtonCss}
+                    size="big"
+                    href={`sms:${checkMobile() === 'ios' ? '&' : '?'}body=${sharePageUrl}`}
+                >
                     문자 메세지
                 </Button>
                 <Button css={LinkButtonCss} size="big" onClick={onClickUrlCopy}>
