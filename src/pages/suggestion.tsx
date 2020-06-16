@@ -107,7 +107,7 @@ const suggestion: React.FC<Isuggestion> = (props) => {
         <SuggestionList>
           {map(suggestions, (suggestion: ISuggestion) => {
             return (
-              <Link href={`/detail/?recipeId=${suggestion?.recipeId}`} as={`detail/${suggestion?.recipeId}`}
+              <Link href={`detail/${suggestion?.recipeId}`}
                     key={suggestion.recipeId}>
                 <SuggestionItem>
                   <FoodWrapper>

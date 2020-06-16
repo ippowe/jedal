@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Router, { useRouter } from 'next/router';
-
 import MainHeader from '../../components/MainHeader';
 import Tab from '../../components/Tab';
 import Ingredients from '../../components/Ingredients';
@@ -110,8 +109,8 @@ const getToday = (): string => {
 const TABS = ['상세정보', '조리방법'];
 //Todo recipe Id query로 변경
 const GET_RECIPE = gql`
-    query getRecipe($name: String) {
-        trimmedRecipes(name: $name) {
+    query getRecipe($id: String) {
+        trimmedRecipes(id: $id) {
             recipeId
             recipeName
             cookingTime
@@ -148,20 +147,16 @@ const GET_RECIPE = gql`
 const Detail: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
-    const { recipeId } = useRouter().query;
+    const { id } = useRouter().query;
     const [isVisibleShareModal, setVisibleShareModal] = useState(false);
     const dispatch = useDispatch();
-    // const suggestion = useSelector(({ suggestion }: RootState) => {
-    //     if (isNaN(+recipeId) || Array.isArray(recipeId)) return null;
-    //     const suggestions = suggestion.suggestions;
-    //     return suggestions.find((suggestion) => suggestion.recipeId === +recipeId);
-    // });
-
     const recipeDetail: ISuggestion = useSelector(({ suggestion }: RootState) => suggestion.recipe);
+    const [selectedTab, setSelectedTab] = useState(TABS[1]);
+    const today = getToday();
 
     useQuery(GET_RECIPE, {
         variables: {
-            name: '동치미',
+            id: id,
         },
         onCompleted: (data) => {
             if (data.trimmedRecipes?.length !== 0) {
@@ -169,15 +164,6 @@ const Detail: React.FC<Isuggestion> = (props) => {
             }
         },
     });
-
-    const [selectedTab, setSelectedTab] = useState(TABS[1]);
-    const today = getToday();
-    // useEffect(() => {
-    // TODO 이 부분을 detail 정보가 없으면 불러오는 것으로 변경해야 할 듯..?
-    //     if (typeof recipeId !== 'string' || _.isEmpty(suggestion)) {
-    //         Router.push('/');
-    //     }
-    // }, [recipeId, suggestion]);
 
     const handleClickTab = (tab: string): void => {
         setSelectedTab(tab);

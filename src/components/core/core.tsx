@@ -75,7 +75,6 @@ const Core: React.FC<{}> = () => {
   const [firstJoin, { loading }] = useMutation(FIRST_JOIN, {
     onCompleted: (data) => {
       dispatch(setUserId(data.firstJoin?._id));
-
     }
   });
 
