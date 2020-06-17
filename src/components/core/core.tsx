@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import storage from "../../utils/storage";
-import { useMutation } from "@apollo/react-hooks";
-import { isEmpty, isNil } from "lodash";
-import { gql } from "apollo-boost";
-import { createGlobalStyle } from "styled-components";
-import { IThemeWrapper } from "../../pages/_app";
-import Toast from "../Toast";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../modules";
-import { setUserId } from "../../modules/user";
+import React, { useEffect } from 'react';
+import storage from '../../utils/storage';
+import { useMutation } from '@apollo/react-hooks';
+import { isEmpty, isNil } from 'lodash';
+import { gql } from 'apollo-boost';
+import { createGlobalStyle } from 'styled-components';
+import { IThemeWrapper } from '../../pages/_app';
+import Toast from '../Toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../modules';
+import { setUserId } from '../../modules/user';
 
 const GlobalStyle = createGlobalStyle<IThemeWrapper>`
   @font-face {
@@ -70,33 +70,32 @@ const FIRST_JOIN = gql`
     }
 `;
 const Core: React.FC<{}> = () => {
-  const dispatch = useDispatch();
-  const user = useSelector(({ user }: RootState) => user);
-  const [firstJoin, { loading }] = useMutation(FIRST_JOIN, {
-    onCompleted: (data) => {
-      dispatch(setUserId(data.firstJoin?._id));
-    }
-  });
+    const dispatch = useDispatch();
+    const user = useSelector(({ user }: RootState) => user);
+    const [firstJoin, { loading }] = useMutation(FIRST_JOIN, {
+        onCompleted: (data) => {
+            dispatch(setUserId(data.firstJoin?._id));
+        },
+    });
 
-  useEffect(() => {
-    if (isEmpty(user) === true) {
-      const userId = storage.getItem("USER_ID");
+    useEffect(() => {
+        if (isEmpty(user) === true) {
+            const userId = storage.getItem('USER_ID');
 
-      if (isNil(userId) === true) {
-        firstJoin();
-      } else {
-        dispatch(setUserId(userId));
-      }
-    }
+            if (isNil(userId) === true) {
+                firstJoin();
+            } else {
+                dispatch(setUserId(userId));
+            }
+        }
+    }, []);
 
-  }, []);
-
-  return (
-    <>
-      <GlobalStyle/>
-      <Toast/>
-    </>
-  );
+    return (
+        <>
+            <GlobalStyle />
+            <Toast />
+        </>
+    );
 };
 
 export default Core;
