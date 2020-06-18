@@ -4,28 +4,28 @@
         "position": "기획자",
         "email": "p_dmstjs227@naver.com",
         "photo": "ensun.png",
-        "link": "#"
+        "link": "linkedin.com/in/eunseon-park-profile"
     },
     {
         "name": "박청명",
         "position": "기획자",
         "email": "crusoe1004@gmail.com",
         "photo": "chungmyung.png",
-        "link": "#"
+        "link": "https://open.kakao.com/o/sepDLfhc"
     },
     {
         "name": "박정은",
         "position": "디자이너",
         "email": "euny2772@gmail.com",
         "photo": "jungen.png",
-        "link": "#"
+        "link": "https://www.behance.net/euny2772a3f9"
     },
     {
         "name": "여지아",
         "position": "디자이너",
         "email": "jjiyomi@naver.com",
         "photo": "jia.png",
-        "link": "#"
+        "link": "https://www.instagram.com/dotoryfilm/"
     },
     {
         "name": "문용필",
@@ -39,7 +39,7 @@
         "position": "개발자",
         "email": "jae7415@gmail.com",
         "photo": "jemin.png",
-        "link": "#"
+        "link": "https://github.com/ippowe"
     },
     {
         "name": "이유성",
@@ -53,6 +53,6 @@
         "position": "PM/개발자",
         "email": "leekorea09@gmail.com",
         "photo": "hanguk.png",
-        "link": "#"
+        "link": "https://github.com/hans-hk"
     }
 ]
