@@ -50,14 +50,16 @@ const Memeber: React.FC<IMemeber> = (props) => {
     const { className, member } = props;
     const { photo, name, email, position, link } = member;
     return (
-        <Wrapper className={className}>
-            <Memoji src={`/images/${photo}`} />
-            <Row>
-                <Name>{name}</Name>
-                <Position>{position}</Position>
-            </Row>
-            <Email>{email}</Email>
-        </Wrapper>
+        <a href={link} target="_blank" rel="noreferrer">
+            <Wrapper className={className}>
+                <Memoji src={`/images/${photo}`} />
+                <Row>
+                    <Name>{name}</Name>
+                    <Position>{position}</Position>
+                </Row>
+                <Email>{email}</Email>
+            </Wrapper>
+        </a>
     );
 };
 
