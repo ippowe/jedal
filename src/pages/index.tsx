@@ -24,8 +24,8 @@ const Footer = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-    position: relative;
-    transform: translateY(-50px);
+    position: absolute;
+    top: -22.5px;
 `;
 
 const ButtonCss = css`
