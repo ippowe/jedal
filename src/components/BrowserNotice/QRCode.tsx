@@ -55,7 +55,7 @@ const QRCode: React.FC<IQRCode> = (props) => {
                 오늘의 수라는 <strong>모바일웹 환경에 최적화</strong>되어 있습니다. 지금 스마트폰으로 우측 QR코드를
                 인식하시면 원활한 이용이 가능합니다.
             </Description>
-            <QRCodeImage />
+            <QRCodeImage src="/images/QRcodeImg.png" />
         </Wrapper>
     );
 };
