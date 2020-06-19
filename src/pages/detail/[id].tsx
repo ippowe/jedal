@@ -151,7 +151,7 @@ const Detail: React.FC<Isuggestion> = (props) => {
     const [isVisibleShareModal, setVisibleShareModal] = useState(false);
     const dispatch = useDispatch();
     const recipeDetail: ISuggestion = useSelector(({ suggestion }: RootState) => suggestion.recipe);
-    const [selectedTab, setSelectedTab] = useState(TABS[1]);
+    const [selectedTab, setSelectedTab] = useState(TABS[0]);
     const today = getToday();
 
     useQuery(GET_RECIPE, {
