@@ -24,8 +24,8 @@ const Footer = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-    position: relative;
-    transform: translateY(-50px);
+    position: absolute;
+    top: -22.5px;
 `;
 
 const ButtonCss = css`
@@ -103,6 +103,7 @@ const Team = styled.span`
     position: relative;
 `;
 
+let count = 0;
 const Index: React.FC<{}> = () => {
     const router = useRouter();
     const onClickFoodRecipeRecommend = () => {
@@ -115,6 +116,17 @@ const Index: React.FC<{}> = () => {
         router.push('/team');
     };
 
+    const onClickShop = () => {
+        if (count >= 1) {
+            if (window.confirm('더 나은 오늘의 수라를 위해 도와 주세요!')) {
+                window.open(
+                    'https://docs.google.com/forms/d/1bgbBQwu0oPBJjbYme5r3tfLNFG3cjt0Qognb9xEWOeQ/edit?ts=5ee6fa0c',
+                );
+                count = 0;
+            }
+        }
+        count++;
+    };
     return (
         <>
             <MainHeader />
@@ -123,7 +135,7 @@ const Index: React.FC<{}> = () => {
                     <StyledTreeFront />
                     <StyledTreeLeftback />
                     <StyledTreeRightback />
-                    <StyledShop />
+                    <StyledShop onClick={onClickShop} />
                 </MainImageWrapper>
                 <Title>
                     추천하는 <TitleWord>제철 요리</TitleWord>를<br />

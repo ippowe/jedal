@@ -147,12 +147,14 @@ const GET_RECIPE = gql`
 const Detail: React.FC<Isuggestion> = (props) => {
     const { className } = props;
     const { season = '봄' } = useSelector(({ answer }: RootState) => answer);
-    const { id } = useRouter().query;
+    const router = useRouter();
+    const { id, share } = router.query;
     const [isVisibleShareModal, setVisibleShareModal] = useState(false);
     const dispatch = useDispatch();
     const recipeDetail: ISuggestion = useSelector(({ suggestion }: RootState) => suggestion.recipe);
     const [selectedTab, setSelectedTab] = useState(TABS[0]);
     const today = getToday();
+    const isSharedUrl = share === 'true';
 
     useQuery(GET_RECIPE, {
         variables: {
@@ -199,6 +201,10 @@ const Detail: React.FC<Isuggestion> = (props) => {
         }
     };
 
+    const onClickRecommendButton = () => {
+        router.push('/');
+    };
+
     return (
         <Wrapper className={className}>
             <MainHeader />
@@ -212,9 +218,15 @@ const Detail: React.FC<Isuggestion> = (props) => {
             <Tab tabs={TABS} onClickTab={handleClickTab} selectedTab={selectedTab}>
                 {recipeDetail && renderTabContents(selectedTab)}
             </Tab>
-            <StyledButton theme="primary" onClick={() => setVisibleShareModal(true)}>
-                오늘의 수라 알리기
-            </StyledButton>
+            {isSharedUrl ? (
+                <StyledButton theme="primary" onClick={onClickRecommendButton}>
+                    나도 제철요리 추천받기
+                </StyledButton>
+            ) : (
+                <StyledButton theme="primary" onClick={() => setVisibleShareModal(true)}>
+                    오늘의 수라 알리기
+                </StyledButton>
+            )}
             {recipeDetail && (
                 <ShareModal
                     isVisible={isVisibleShareModal}
