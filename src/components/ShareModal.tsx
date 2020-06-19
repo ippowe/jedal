@@ -80,7 +80,7 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose, recipeDetail }) => {
         recipeName,
         recipe: { summary, imgUrl },
     } = recipeDetail;
-    const sharePageUrl = `https://todaysura.com/detail/${recipeId}`;
+    const sharePageUrl = `https://todaysura.com/detail/${recipeId}?share=true`;
     const dispatch = useDispatch();
     const onClickShareKaKao = () => {
         Kakao.Link.sendDefault({
@@ -114,7 +114,7 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose, recipeDetail }) => {
         FB.ui(
             {
                 method: 'share',
-                href: 'https://todaysura.com',
+                href: sharePageUrl,
             },
             function (response) {},
         );
