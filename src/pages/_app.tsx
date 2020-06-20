@@ -4,12 +4,13 @@ import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
-import withApollo from '../hooks/withApollo';
 import { ApolloClient, NormalizedCacheObject } from 'apollo-boost';
 import { Provider } from 'react-redux';
-import rootReducer from '../modules';
 import { configureStore } from '@reduxjs/toolkit';
-import Core from "../components/core/core";
+import rootReducer from '../modules';
+import Core from '../components/core/core';
+import BrowserNotice from '../components/BrowserNotice';
+import withApollo from '../hooks/withApollo';
 
 export interface ITheme {
     primary: string;
@@ -57,8 +58,9 @@ class MyApp extends App<IPops> {
                 <Provider store={store}>
                     <ApolloProvider client={apollo}>
                         <ThemeProvider theme={theme}>
-                            <Core/>
+                            <Core />
                             <Component {...pageProps} />
+                            <BrowserNotice />
                         </ThemeProvider>
                     </ApolloProvider>
                 </Provider>
