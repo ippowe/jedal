@@ -8,7 +8,7 @@ interface ICookingTips {
 }
 
 const Wrapper = styled.div`
-    padding: 30px 26px;
+    padding: 30px 16px;
     background-color: #f4f5f8;
 `;
 
@@ -19,6 +19,7 @@ const Title = styled.div`
     line-height: 1.43;
     color: #333740;
     margin-bottom: 10px;
+    padding: 0px 10px;
 `;
 
 const StyledToggle = styled(Toggle)`
