@@ -19,20 +19,9 @@ const Time = styled.span`
     font-size: 16px;
     font-weight: bold;
     line-height: 1.19;
-    letter-spacing: normal;
     color: #535966;
-    position: relative;
-
-    &:after {
-        content: ' ';
-        height: 5px;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        background-color: #f54131;
-        opacity: 0.4;
-    }
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, rgba(245, 65, 49, 0.4) 50%);
 `;
 
 const Recipe = styled.div`
@@ -62,7 +51,10 @@ const Recipes: React.FC<IRecipes> = (props) => {
     const { className, recipes, cookingTime } = props;
     return (
         <Wrapper className={className}>
-            <Time>예상 조리시간: {cookingTime}</Time>
+            <Time>
+                <span>예상 조리시간: {cookingTime}</span>
+                <div />
+            </Time>
             {recipes.map((recipe) => (
                 <Recipe key={recipe.recipeId + recipe.step}>
                     <Step>{recipe.step}단계</Step>
