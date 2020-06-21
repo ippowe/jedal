@@ -51,7 +51,7 @@ const FoodImageWrapper = styled.div`
 const FoodImage = styled.img`
     display: block;
     margin: 0 auto;
-    padding: 27px;
+    padding: 28px 27px;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
