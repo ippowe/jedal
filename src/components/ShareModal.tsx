@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { createToast, displayToast } from '../modules/toast';
 import { uniqueId } from 'lodash';
 import { ISuggestion } from '../modules/suggestion';
+import Close from '../../public/images/close.svg';
 
 interface Props {
     isVisible: boolean;
@@ -69,10 +70,10 @@ const CloseButtonWrapper = styled.div`
     position: absolute;
     top: 17.5px;
     right: 17.5px;
-    padding: 5px;
+    padding: 2.5px;
 `;
 
-const CloseButton = styled.img``;
+const CloseButton = styled(Close)``;
 
 const ShareModal: React.FC<Props> = ({ isVisible, onClose, recipeDetail }) => {
     const {
@@ -141,7 +142,7 @@ const ShareModal: React.FC<Props> = ({ isVisible, onClose, recipeDetail }) => {
         <Modal isVisible={isVisible} onClose={onClose} modalCss={ModalCss}>
             <Title>오늘의 수라 알리기</Title>
             <CloseButtonWrapper onClick={onClose}>
-                <CloseButton src="/images/close.png" alt="닫기" />
+                <CloseButton />
                 <Ink />
             </CloseButtonWrapper>
             <Description>
