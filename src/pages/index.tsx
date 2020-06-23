@@ -8,6 +8,7 @@ import TreeLeftback from '../../public/images/mainTreeLeftback.svg';
 import Shop from '../../public/images/mainShop.svg';
 import TreeRightback from '../../public/images/mainTreeRightback.svg';
 import Ink from 'react-ink';
+import Emoji from '../components/Emoji';
 
 const Content = styled.div`
     height: 435px;
@@ -91,16 +92,33 @@ const CopyRights = styled.div`
     font-family: 'Noto Sans KR', serif;
     position: absolute;
     right: -30px;
-    bottom: -30px;
+    bottom: -55px;
     font-size: 10px;
     font-weight: 300;
     line-height: 1.5;
     color: #ffffff;
-    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 `;
 
-const Team = styled.span`
+const Team = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 0 3px;
     position: relative;
+    font-weight: bold;
+    margin-top: 4px;
+    border: solid 0.5px #ffffff;
+`;
+
+const TeamName = styled.span`
+    font-weight: bold;
+`;
+
+const EmojiCss = css`
+    width: 12px;
+    height: 12px;
 `;
 
 let count = 0;
@@ -156,9 +174,12 @@ const Index: React.FC<{}> = () => {
                         지난 추천 요리 보기
                     </Button>
                     <CopyRights>
-                        Copyrightsⓒ All rights. SteelHungry |{' '}
+                        <div>
+                            Copyrightsⓒ All rights. <TeamName>SteelHungry</TeamName>
+                        </div>
                         <Team onClick={onClickTeamInfo}>
                             팀원 소개
+                            <Emoji name="white-right-pointing" emojiCss={EmojiCss} />
                             <Ink />
                         </Team>
                     </CopyRights>
