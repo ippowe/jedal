@@ -9,6 +9,7 @@ import Shop from '../../public/images/mainShop.svg';
 import TreeRightback from '../../public/images/mainTreeRightback.svg';
 import Ink from 'react-ink';
 import Emoji from '../components/Emoji';
+import useSurvey from '../hooks/useSurvey';
 
 const Content = styled.div`
     height: 435px;
@@ -121,8 +122,8 @@ const EmojiCss = css`
     height: 12px;
 `;
 
-let count = 0;
 const Index: React.FC<{}> = () => {
+    const onClickSurvey = useSurvey();
     const router = useRouter();
     const onClickFoodRecipeRecommend = () => {
         router.push('/guide1');
@@ -135,15 +136,7 @@ const Index: React.FC<{}> = () => {
     };
 
     const onClickShop = () => {
-        if (count >= 1) {
-            if (window.confirm('더 나은 오늘의 수라를 위해 도와 주세요!')) {
-                window.open(
-                    'https://docs.google.com/forms/d/1bgbBQwu0oPBJjbYme5r3tfLNFG3cjt0Qognb9xEWOeQ/edit?ts=5ee6fa0c',
-                );
-                count = 0;
-            }
-        }
-        count++;
+        onClickSurvey();
     };
     return (
         <>

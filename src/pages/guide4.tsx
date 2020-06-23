@@ -6,6 +6,7 @@ import WomanBig from '../../public/images/womanBig.svg';
 import Button from '../components/Button';
 import Cloud from '../components/Cloud';
 import { useRouter } from 'next/router';
+import useSurvey from '../hooks/useSurvey';
 
 const Container = styled.div`
     background: no-repeat center url('../../public/images/back_pattern@2x.png');
@@ -79,9 +80,14 @@ const StyledSvg = styled.svg`
 `;
 
 const Guide4: React.FC<{}> = () => {
+    const onClickSurvey = useSurvey();
     const router = useRouter();
     const onClickStart = () => {
         router.push('/qna');
+    };
+
+    const onClickWoman = () => {
+        onClickSurvey();
     };
 
     return (
@@ -108,7 +114,7 @@ const Guide4: React.FC<{}> = () => {
                     />
                 </StyledSvg>
                 <StyledScenery />
-                <StyledWomanBig />
+                <StyledWomanBig onClick={onClickWoman} />
             </ImageWrapper>
             <ButtonWrapper>
                 <Button variant="primary" size="big" width="320px" onClick={onClickStart}>
