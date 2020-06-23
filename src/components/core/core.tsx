@@ -81,7 +81,7 @@ const Core: React.FC<{}> = () => {
 
     const [audio, state, controls, ref] = useAudio({
       src: 'https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileMediaPlay.do?fileTp=audio/wav&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC85OC9DTFMyL2RpZ2lfMTEyMTc1MzVfMDEyMDE0MTIwMzAx',
-      autoPlay: true,
+      autoPlay: true, loop: true,
     });
 
     useEffect(() => {
