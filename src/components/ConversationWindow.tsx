@@ -18,7 +18,8 @@ const Container = styled.div`
     z-index: 1;
     padding: 35px 27px 22px 35px;
     background-color: #f4f5f8;
-    min-height: calc(100vh - 408px);
+    min-height: 230px;
+    height: calc(100vh - 408px);
     box-sizing: border-box;
 `;
 
