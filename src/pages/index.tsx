@@ -17,7 +17,8 @@ const Content = styled.div`
 
 const Footer = styled.div`
     position: relative;
-    min-height: calc(100vh - 480px);
+    min-height: 180px;
+    height: calc(100vh - 480px);
     background-color: ${(props) => props.theme.secondary};
     display: flex;
     align-items: center;
