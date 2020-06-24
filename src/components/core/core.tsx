@@ -9,6 +9,7 @@ import Toast from '../Toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { setUserId } from '../../modules/user';
+import { useAudio } from "react-use";
 
 const GlobalStyle = createGlobalStyle<IThemeWrapper>`
   @font-face {
@@ -78,6 +79,11 @@ const Core: React.FC<{}> = () => {
         },
     });
 
+    const [audio, state, controls, ref] = useAudio({
+      src: 'https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileMediaPlay.do?fileTp=audio/wav&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC85OC9DTFMyL2RpZ2lfMTEyMTc1MzVfMDEyMDE0MTIwMzAx',
+      autoPlay: true, loop: true,
+    });
+
     useEffect(() => {
         if (isEmpty(user) === true) {
             const userId = storage.getItem('USER_ID');
@@ -92,6 +98,7 @@ const Core: React.FC<{}> = () => {
 
     return (
         <>
+            {audio}
             <GlobalStyle />
             <Toast />
         </>

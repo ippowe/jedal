@@ -42,10 +42,10 @@ const SearchOnWeb: React.FC<ISearchOnWeb> = (props) => {
     const { className, keyword } = props;
     return (
         <Wrapper className={className}>
-            <SearchLink href={NAVER_BASE_URL + keyword}>
+            <SearchLink href={NAVER_BASE_URL + keyword} target="_blank">
                 <StyledButton>네이버로 검색하기</StyledButton>
             </SearchLink>
-            <SearchLink href={YOUTUBE_BASE_URL + keyword}>
+            <SearchLink href={YOUTUBE_BASE_URL + keyword} target="_blank">
                 <StyledButton>유튜브로 검색하기</StyledButton>
             </SearchLink>
         </Wrapper>
