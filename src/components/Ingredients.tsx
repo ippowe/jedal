@@ -141,7 +141,7 @@ const Ingredients: React.FC<IIngredients> = (props) => {
             })}
             {ingredients.length > 8 && (
                 <ShowAllButton onClick={(): void => setIsShowAll(!isShowAll)}>
-                    전체보기
+                    {isShowAll ? '접기' : '전체보기'}
                     <Toogle className={isShowAll ? 'toggle__opened' : ''} />
                 </ShowAllButton>
             )}
