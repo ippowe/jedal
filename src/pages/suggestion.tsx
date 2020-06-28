@@ -1,16 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { RootState } from "../modules";
-import Button from "../components/Button";
-import MainHeader from "../components/MainHeader";
-import { get, map } from "lodash";
-import { ISuggestion } from "../modules/suggestion";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React from 'react';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { get, map } from 'lodash';
+import Button from '../components/Button';
+import MainHeader from '../components/MainHeader';
+import { RootState } from '../modules';
+import { ISuggestion } from '../modules/suggestion';
+import { resetAnswer } from '../modules/answer';
 
 interface Isuggestion {
-  className?: string;
+    className?: string;
 }
 
 const ResultTitle = styled.div`
@@ -32,18 +33,18 @@ const ResultSubTitle = styled.div`
     white-space: pre;
 `;
 const SuggestionContent = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding-bottom: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-bottom: 78px;
 `;
 const SuggestionList = styled.div``;
 const SuggestionItem = styled.div`
     width: 320px;
     margin-bottom: 30px;
     box-shadow: 10px 10px 26px 0 rgba(0, 0, 0, 0.08);
-    border: solid 2px #c5cbde;  
+    border: solid 2px #c5cbde;
     margin-top: 86px;
     border-radius: 10px;
 `;
@@ -91,44 +92,47 @@ const FoodSummary = styled.div`
 `;
 const Wrapper = styled.div``;
 const suggestion: React.FC<Isuggestion> = (props) => {
-  const router = useRouter();
-  const { className } = props;
-  const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
-  const handleClickRestart = (): void => {
-    router.push("/guide4");
-  };
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { className } = props;
+    const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
 
-  return (
-    <Wrapper className={className}>
-      <MainHeader/>
-      <ResultTitle>{`총 ${suggestions.length}개의 추천결과`}</ResultTitle>
-      <ResultSubTitle>{`나의 수라상에\n올릴 요리`}</ResultSubTitle>
-      <SuggestionContent>
-        <SuggestionList>
-          {map(suggestions, (suggestion: ISuggestion) => {
-            return (
-              <Link href={`detail/${suggestion?.recipeId}`}
-                    key={suggestion.recipeId}>
-                <SuggestionItem>
-                  <FoodWrapper>
-                    <FoodImage src={get(suggestion, 'recipe.imgUrl', '')}/>
-                    <FoodTitle>{get(suggestion, 'recipeName')}</FoodTitle>
-                    <FoodSeasonIngredient>제철재료
-                      | {get(suggestion, "seasonIngredients.0.name", "")}</FoodSeasonIngredient>
-                    <FoodSummary>{get(suggestion, 'recipe.summary')}</FoodSummary>
-                  </FoodWrapper>
-                </SuggestionItem>
-              </Link>
-            );
-          })}
-        </SuggestionList>
+    const handleClickRestart = (): void => {
+        router.push('/guide4');
+        dispatch(resetAnswer());
+    };
 
-        <Button variant="primary" width="320px" onClick={handleClickRestart}>
-          다시 추천 받기
-        </Button>
-      </SuggestionContent>
-    </Wrapper>
-  );
+    return (
+        <Wrapper className={className}>
+            <MainHeader />
+            <ResultTitle>{`총 ${suggestions.length}개의 추천결과`}</ResultTitle>
+            <ResultSubTitle>{`나의 수라상에\n올릴 요리`}</ResultSubTitle>
+            <SuggestionContent>
+                <SuggestionList>
+                    {map(suggestions, (suggestion: ISuggestion) => {
+                        return (
+                            <Link href="detail/[id]" as={`detail/${suggestion?.recipeId}`} key={suggestion.recipeId}>
+                                <SuggestionItem>
+                                    <FoodWrapper>
+                                        <FoodImage src={get(suggestion, 'recipe.imgUrl', '')} />
+                                        <FoodTitle>{get(suggestion, 'recipeName')}</FoodTitle>
+                                        <FoodSeasonIngredient>
+                                            제철재료 | {get(suggestion, 'seasonIngredients.0.name', '')}
+                                        </FoodSeasonIngredient>
+                                        <FoodSummary>{get(suggestion, 'recipe.summary')}</FoodSummary>
+                                    </FoodWrapper>
+                                </SuggestionItem>
+                            </Link>
+                        );
+                    })}
+                </SuggestionList>
+
+                <Button variant="primary" width="320px" onClick={handleClickRestart}>
+                    다시 추천 받기
+                </Button>
+            </SuggestionContent>
+        </Wrapper>
+    );
 };
 
 export default suggestion;

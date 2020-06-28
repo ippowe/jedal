@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import Div100vh from 'react-div-100vh';
 
 import QnAHeader from '../components/QnAHeader';
 import QnAFeedback from '../components/QnAFeedback';
@@ -14,20 +15,19 @@ import QUESTIONS from '../assets/questions.json';
 
 import { RootState } from '../modules';
 import { setAnswer } from '../modules/answer';
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { setSuggestion } from "../modules/suggestion";
-import { gql } from "apollo-boost";
+import { useLazyQuery } from '@apollo/react-hooks';
+import { setSuggestion } from '../modules/suggestion';
+import { gql } from 'apollo-boost';
 
 interface QnAProps {
     className?: string;
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(Div100vh)`
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh;
 `;
 
 const Question = styled(DecoratedPhrase)`
@@ -143,8 +143,20 @@ const getValues = (value: string, answer: string[], isAnswerList: boolean): stri
 };
 
 const GET_SUGGESTIONS = gql`
-    query getSuggestions($seasons: [String!], $categories: [String!], $level: String, $hateIngredients: [String!], $userId: String!) {
-        trimmedRecipes(seasons: $seasons, categories: $categories, level: $level, hateIngredients: $hateIngredients, userId: $userId) {
+    query getSuggestions(
+        $seasons: [String!]
+        $categories: [String!]
+        $level: String
+        $hateIngredients: [String!]
+        $userId: String!
+    ) {
+        trimmedRecipes(
+            seasons: $seasons
+            categories: $categories
+            level: $level
+            hateIngredients: $hateIngredients
+            userId: $userId
+        ) {
             recipeId
             recipeName
             cookingTime
@@ -203,7 +215,6 @@ const qna: React.FC<QnAProps> = (props) => {
             router.push('/result');
         },
     });
-
 
     useEffect(() => {
         setQuestion(QUESTIONS[currentStep]);

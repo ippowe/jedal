@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 import Ink from 'react-ink';
+
+import { resetAnswer } from '../modules/answer';
 
 interface Props {
     isVisibleSkip?: boolean;
@@ -30,8 +33,11 @@ const SkipButton = styled.span`
 
 const MainHeader: React.FC<Props> = ({ isVisibleSkip = false }) => {
     const router = useRouter();
+    const dispatch = useDispatch();
+
     const onClickLogo = () => {
         router.push('/');
+        dispatch(resetAnswer());
     };
 
     const onClickSkip = () => {
