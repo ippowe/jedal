@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import MainHeader from '../../components/MainHeader';
 import Tab from '../../components/Tab';
 import Ingredients from '../../components/Ingredients';
@@ -155,6 +155,10 @@ const Detail: React.FC<Isuggestion> = (props) => {
     const [selectedTab, setSelectedTab] = useState(TABS[0]);
     const today = getToday();
     const isSharedUrl = share === 'true';
+
+    useEffect(() => {
+        console.log(router.query);
+    }, [router]);
 
     useQuery(GET_RECIPE, {
         variables: {

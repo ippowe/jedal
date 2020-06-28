@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { gql } from 'apollo-boost';
-import { useQuery } from '@apollo/react-hooks';
+import { useSelector } from 'react-redux';
 
 import MainHeader from '../components/MainHeader';
 import ProgressBar from '../components/ProgressBar';
@@ -10,7 +8,6 @@ import EmptyResult from '../components/EmptyResult';
 import SuccessInform from '../components/SuccessInform';
 
 import { RootState } from '../modules/index';
-import { setSuggestion } from '../modules/suggestion';
 
 interface Iresult {
     className?: string;
@@ -39,17 +36,15 @@ const LoadingBar = styled(ProgressBar)`
 
 const result: React.FC<Iresult> = (props) => {
     const { className } = props;
-    const dispatch = useDispatch();
     const [isAnimationProgress, setIsAnimationProgress] = useState(true);
     const [percent, setPercent] = useState(0);
-    const answer = useSelector(({ answer }: RootState) => answer);
     let redirectTimeoutId: number;
     const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
 
     const [hasRecommends, setHasRecommends] = useState(false);
 
     useEffect(() => {
-        setPercent(100)
+        setPercent(100);
     }, []);
 
     useEffect(() => {
