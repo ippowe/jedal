@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import Div100vh from 'react-div-100vh';
 
 import QnAHeader from '../components/QnAHeader';
 import QnAFeedback from '../components/QnAFeedback';
@@ -22,12 +23,11 @@ interface QnAProps {
     className?: string;
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(Div100vh)`
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh;
 `;
 
 const Question = styled(DecoratedPhrase)`
