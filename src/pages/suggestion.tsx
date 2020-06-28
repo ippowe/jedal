@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { RootState } from '../modules';
-import Button from '../components/Button';
-import MainHeader from '../components/MainHeader';
-import { get, map } from 'lodash';
-import { ISuggestion } from '../modules/suggestion';
+import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { get, map } from 'lodash';
+import Button from '../components/Button';
+import MainHeader from '../components/MainHeader';
+import { RootState } from '../modules';
+import { ISuggestion } from '../modules/suggestion';
+import { resetAnswer } from '../modules/answer';
 
 interface Isuggestion {
     className?: string;
@@ -92,11 +93,13 @@ const FoodSummary = styled.div`
 const Wrapper = styled.div``;
 const suggestion: React.FC<Isuggestion> = (props) => {
     const router = useRouter();
+    const dispatch = useDispatch();
     const { className } = props;
     const suggestions = useSelector(({ suggestion }: RootState) => suggestion.suggestions);
-    const { season } = useSelector(({ answer }: RootState) => answer);
+
     const handleClickRestart = (): void => {
         router.push('/guide4');
+        dispatch(resetAnswer());
     };
 
     return (
