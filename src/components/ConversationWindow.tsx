@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRouter } from 'next/router';
 import Ink from 'react-ink';
@@ -13,7 +13,6 @@ interface Props {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     position: relative;
     z-index: 1;
     padding: 35px 27px 22px 35px;
@@ -77,6 +76,7 @@ const NextButton = styled.button<{ content: string }>`
 const ContentWrapper = styled.div``;
 
 const ConversationWindow: React.FC<Props> = ({ name, description, content, stage }) => {
+    const [isVisibleNextButton, setVisibleNextButton] = useState(false);
     const router = useRouter();
     const contentRef = useRef<HTMLDivElement>();
     const onClickNextButton = () => {
@@ -87,6 +87,9 @@ const ConversationWindow: React.FC<Props> = ({ name, description, content, stage
         let i = 0;
         const typeWriter = () => {
             if (i < content.length && contentRef.current) {
+                if (i === content.length - 1) {
+                    setVisibleNextButton(true);
+                }
                 contentRef.current.innerHTML += content.charAt(i);
                 i++;
                 setTimeout(typeWriter, 50);
@@ -105,7 +108,15 @@ const ConversationWindow: React.FC<Props> = ({ name, description, content, stage
                 <Content ref={contentRef} />
             </ContentWrapper>
             <Footer>
-                <NextButton onClick={onClickNextButton} content={content}>
+                <NextButton
+                    onClick={onClickNextButton}
+                    content={content}
+                    style={
+                        isVisibleNextButton
+                            ? { opacity: 1, visibility: 'visible' }
+                            : { opacity: 0, visibility: 'hidden' }
+                    }
+                >
                     {'다음으로 >'}
                     <Ink />
                 </NextButton>
