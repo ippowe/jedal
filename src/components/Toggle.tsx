@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { replace } from 'lodash';
 
 import PlusIcon from '../../public/images/Plus-icon.svg';
 import MinusIcon from '../../public/images/Minus-icon.svg';
@@ -83,7 +84,7 @@ const Toggle: React.FC<IToggle> = (props) => {
                 <Title className={isOpen ? 'title__opened' : ''}>{title}</Title>
                 {isOpen ? <Minus /> : <Plus />}
             </TitleWrapper>
-            {isOpen && <Description>{description}</Description>}
+            {isOpen && <Description>{replace(description, /？/g, '')}</Description>}
         </Wrapper>
     );
 };
