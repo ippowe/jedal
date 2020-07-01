@@ -10,6 +10,7 @@ import TreeRightback from '../../public/images/mainTreeRightback.svg';
 import Ink from 'react-ink';
 import Emoji from '../components/Emoji';
 import useSurvey from '../hooks/useSurvey';
+import storage from '../utils/storage';
 
 const Content = styled.div`
     height: 435px;
@@ -127,7 +128,12 @@ const Index: React.FC<{}> = () => {
     const onClickSurvey = useSurvey();
     const router = useRouter();
     const onClickFoodRecipeRecommend = () => {
-        router.push('/guide1');
+        const userId = storage.getItem('USER_ID');
+        if (userId) {
+            router.push('/guide4');
+        } else {
+            router.push('/guide1');
+        }
     };
     const onClickLastRecommend = () => {
         router.push('/last-recommend');
