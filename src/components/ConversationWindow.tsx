@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRouter } from 'next/router';
 import Ink from 'react-ink';
+import { forEach } from 'lodash';
 
 interface Props {
     name: string;
@@ -57,20 +58,14 @@ const Footer = styled.div`
     justify-content: flex-end;
 `;
 
-const blinker = keyframes`
-  50% {
-    opacity: 0;
-  }
-`;
-const NextButton = styled.button<{ content: string }>`
+const NextButton = styled.button<{ content: string; isVisibleNextButton: boolean }>`
     position: relative;
     font-size: 12px;
     font-weight: bold;
     line-height: 1.75;
     color: #333740;
     background: none;
-    animation: ${blinker} 1.3s linear infinite;
-    animation-delay: ${(props) => `${props.content.length * 50 + 2500}ms`};
+    display: ${(props) => (props.isVisibleNextButton ? 'block' : 'none')};
 `;
 
 const ContentWrapper = styled.div``;
@@ -85,6 +80,7 @@ const ConversationWindow: React.FC<Props> = ({ name, description, content, stage
 
     useEffect(() => {
         let i = 0;
+        const timers = [];
         const typeWriter = () => {
             if (i < content.length && contentRef.current) {
                 if (i === content.length - 1) {
@@ -92,10 +88,15 @@ const ConversationWindow: React.FC<Props> = ({ name, description, content, stage
                 }
                 contentRef.current.innerHTML += content.charAt(i);
                 i++;
-                setTimeout(typeWriter, 50);
+                timers.push(setTimeout(typeWriter, 50));
             }
         };
-        setTimeout(typeWriter, 2500);
+        timers.push(setTimeout(typeWriter, 2500));
+        return () => {
+            forEach(timers, (timer) => {
+                clearTimeout(timer);
+            });
+        };
     }, []);
 
     return (
@@ -108,15 +109,7 @@ const ConversationWindow: React.FC<Props> = ({ name, description, content, stage
                 <Content ref={contentRef} />
             </ContentWrapper>
             <Footer>
-                <NextButton
-                    onClick={onClickNextButton}
-                    content={content}
-                    style={
-                        isVisibleNextButton
-                            ? { opacity: 1, visibility: 'visible' }
-                            : { opacity: 0, visibility: 'hidden' }
-                    }
-                >
+                <NextButton onClick={onClickNextButton} content={content} isVisibleNextButton={isVisibleNextButton}>
                     {'다음으로 >'}
                     <Ink />
                 </NextButton>
