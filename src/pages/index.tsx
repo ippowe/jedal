@@ -128,8 +128,8 @@ const Index: React.FC<{}> = () => {
     const onClickSurvey = useSurvey();
     const router = useRouter();
     const onClickFoodRecipeRecommend = () => {
-        const userId = storage.getItem('USER_ID');
-        if (userId) {
+        const isSkipTutorial = storage.getItem('IS_SKIP_TUTORIAL');
+        if (isSkipTutorial) {
             router.push('/guide4');
         } else {
             router.push('/guide1');

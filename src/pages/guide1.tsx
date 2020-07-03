@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MainHeader from '../components/MainHeader';
 import GuideContent from '../components/GuideContent';
@@ -9,6 +9,7 @@ import Man from '../../public/images/man.svg';
 import TreeRightFront from '../../public/images/tree_rightfront.svg';
 import TreeRightBack2 from '../../public/images/tree_rightback2.svg';
 import { useSpring, animated } from 'react-spring';
+import storage from '../utils/storage';
 
 const StyledTreeLeftFront = styled(TreeLeftFront)`
     position: absolute;
@@ -43,6 +44,9 @@ const StyledTreeRightBack2 = styled(TreeRightBack2)`
 `;
 
 const Guide1: React.FC<{}> = () => {
+    useEffect(() => {
+        storage.setItem('IS_SKIP_TUTORIAL', 'true');
+    }, []);
     const props = useSpring({
         to: { opacity: 1 },
         from: { opacity: 0 },
